@@ -1,0 +1,196 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Include other packages here, before hyperref.
+
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+\usepackage[breaklinks=true,bookmarks=false]{hyperref}
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+%\ifcvprfinal\pagestyle{empty}\fi
+\setcounter{page}{4321}
+\begin{document}
+
+%%%%%%%%% TITLE
+\title{\LaTeX\ Author Guidelines for CVPR Proceedings}
+
+\author{First Author\\
+Institution1\\
+Institution1 address\\
+{\tt\small firstauthor@i1.org}
+% For a paper whose authors are all at the same institution,
+% omit the following lines up until the closing ``}''.
+% Additional authors and addresses can be added with ``\and'',
+% just like the second author.
+% To save space, use either the email address or home page, not both
+\and
+Second Author\\
+Institution2\\
+First line of institution2 address\\
+{\tt\small secondauthor@i2.org}
+}
+
+\maketitle
+%\thispagestyle{empty}
+
+%%%%%%%%% ABSTRACT
+\begin{abstract}
+Deep convolutional neural networks have been proven to be a very powerful method in computer vision. In this paper, we will briefly introduce the background of feedbacks in the human visual cortex, which motivates us to develop a computational feedback mechanism in the deep neural networks in the past several weeks. The feedback philosophy helps us to visualize the neural network and understand deeper on how deep neural network works, especially for the deep convolutional neural networks. The feedback framework is also extended to re-train the neural networks to better explore the properties of the natural images to avoid overfitting as well as improve the image recognition accuracy. We show will discuss the plans on future improving the feedback neural network architectures.  
+\end{abstract}
+
+%%%%%%%%% BODY TEXT
+%-------------------------------------------------------------------------
+\section{Introduction}
+\begin{itemize}
+  \item Deep Convolutional Neural Networks
+  \item Feedback Neural Networks
+  \item Benefit of Feedbacks
+  \item Main Contribution
+  \item Paper organization
+\end{itemize}
+
+%-------------------------------------------------------------------------
+\section{Related Work}
+\begin{itemize}
+  \item Visualizing and Understanding Neural Network
+  \item An Intriguing Property of Neural Networks
+  \item Neural Networks for Localization
+  \item Neural Networks for Multi-task Learning
+  \item Deep Boltzman Machine (DBM)
+  \item Deformable Part Based Models (DPM)
+\end{itemize}
+
+%-------------------------------------------------------------------------
+\section{Feedback Neural Network} 
+
+\subsection{Deconvolutional Neural Networks}
+\begin{itemize}
+\item Fully Connected Layer
+\item Max Pooling Layer
+\item Convolutional Layer
+\item Rectified Linear Layer
+\item General Layer
+\end{itemize}
+
+\subsection{The feedback model}
+
+\subsection{Inference with Feedback}
+\begin{itemize}
+  \item Discrete activiation hidden variables
+  \item Continuous acitivation hidden variables
+  \item Iterativ Method for Inference
+\end{itemize}
+
+\subsection{Training with Feedback}
+\begin{itemize}
+  \item EM for discrete activiation hidden variables
+  \item EM for continuous acitviation hidden variables
+\end{itemize}
+
+%-------------------------------------------------------------------------
+\section{Experiments}
+
+\subsection{Dataset}
+
+\subsection{Experiment Details}
+\begin{itemize}
+  \item Only set feedback on RELU layer 
+  \item Train multi-class feedback model with hidden variable sharing
+\end{itemize}
+
+\subsection{Visualization of feedbacks}
+A figure shows Feedback vs No-Feedback visualization on fc8
+
+Key story: Feedback surpress noise and extract salient part region and contexts
+
+\subsection{Where to Add Feedback}
+A figure shows Feedback vs No-Feedback visualization on conv5 etc. \\
+
+Key story: 1. Not all layers need feedback 2. Feedback surpress noisefor high level layers
+
+\subsection{Are the Activation Similar for different classes}
+A figure shows Feedback visualization on fc8 for different classes \\
+
+Key story: 1. Feedbacks are different for different classes in the same image. 2. Some similar classes share similar feedbacks
+
+\subsection{Are feedback helpful for recognition?}
+
+\subsection{Are feedback useful for localization}
+A figure shows Feedback visualization for different object classes for the same image (a little similar to above)
+
+\subsection{Are feedback robust to noise}
+A figure shows Feedback visualization for an image producing a different class label than ground truth (similar as the \"intriguing property\" paper)
+
+\subsection{How iterative update changes visualization}
+A figure shows the visualization with update iteration
+
+\subsection{Are feedback helpful for multi-task learning?}
+
+%-------------------------------------------------------------------------
+
+\begin{figure}[t]
+\begin{center}
+\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
+\end{center}
+   \caption{Example of caption.  It is set in Roman so that mathematics
+   (always set in Roman: $B \sin A = A \sin B$) may be included without an
+   ugly clash.}
+\label{fig:long}
+\label{fig:onecol}
+\end{figure}
+
+Finally, you may feel you need to tell the reader that more details can be
+found elsewhere, and refer them to a technical report.  For conference
+submissions, the paper must stand on its own, and not {\em require} the
+reviewer to go to a techreport for further details.  Thus, you may say in
+the body of the paper ``further details may be found
+in~\cite{Authors14b}''.  Then submit the techreport as additional material.
+Again, you may not assume the reviewers will read this material.
+
+\begin{figure}[t]
+\begin{center}
+\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
+\end{center}
+   \caption{Example of caption.  It is set in Roman so that mathematics
+   (always set in Roman: $B \sin A = A \sin B$) may be included without an
+   ugly clash.}
+\label{fig:long}
+\label{fig:onecol}
+\end{figure}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+Method & Frobnability \\
+\hline\hline
+Theirs & Frumpy \\
+Yours & Frobbly \\
+Ours & Makes one's heart Frob\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Results.   Ours is better.}
+\end{table}
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{egbib}
+}
+
+\end{document}
