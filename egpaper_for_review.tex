@@ -12,16 +12,15 @@
 % If you comment hyperref and then uncomment it, you should delete
 % egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
 % run, let it finish, and you should be clear).
-\usepackage[breaklinks=true,bookmarks=false]{hyperref}
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
 
-\cvprfinalcopy % *** Uncomment this line for the final submission
+% \cvprfinalcopy % *** Uncomment this line for the final submission
 
 \def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
 \def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
 
 % Pages are numbered in submission mode, and unnumbered in camera-ready
-%\ifcvprfinal\pagestyle{empty}\fi
-\setcounter{page}{4321}
+\ifcvprfinal\pagestyle{empty}\fi
 \begin{document}
 
 %%%%%%%%% TITLE
@@ -48,7 +47,7 @@ First line of institution2 address\\
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-Deep convolutional neural networks have been proven to be a very powerful method in computer vision. In this paper, we will briefly introduce the background of feedbacks in the human visual cortex, which motivates us to develop a computational feedback mechanism in the deep neural networks in the past several weeks. The feedback philosophy helps us to visualize the neural network and understand deeper on how deep neural network works, especially for the deep convolutional neural networks. The feedback framework is also extended to re-train the neural networks to better explore the properties of the natural images to avoid overfitting as well as improve the image recognition accuracy. We show will discuss the plans on future improving the feedback neural network architectures.  
+Deep convolutional neural networks have been proven to be a very powerful method in computer vision. In this paper, we will briefly introduce the background of feedbacks in the human visual cortex, which motivates us to develop a computational feedback mechanism in the deep neural networks in the past several weeks. The feedback philosophy helps us to visualize the neural network and understand deeper on how deep neural network works, especially for the deep convolutional neural networks. The feedback framework is also extended to re-train the neural networks to better explore the properties of the natural images to avoid overfitting as well as improve the image recognition accuracy. We show will discuss the plans on future improving the feedback neural network architectures.
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
@@ -74,7 +73,7 @@ Deep convolutional neural networks have been proven to be a very powerful method
 \end{itemize}
 
 %-------------------------------------------------------------------------
-\section{Feedback Neural Network} 
+\section{Feedback Neural Network}
 
 \subsection{Deconvolutional Neural Networks}
 \begin{itemize}
@@ -107,7 +106,7 @@ Deep convolutional neural networks have been proven to be a very powerful method
 
 \subsection{Experiment Details}
 \begin{itemize}
-  \item Only set feedback on RELU layer 
+  \item Only set feedback on RELU layer
   \item Train multi-class feedback model with hidden variable sharing
 \end{itemize}
 
@@ -152,41 +151,6 @@ A figure shows the visualization with update iteration
 \label{fig:long}
 \label{fig:onecol}
 \end{figure}
-
-Finally, you may feel you need to tell the reader that more details can be
-found elsewhere, and refer them to a technical report.  For conference
-submissions, the paper must stand on its own, and not {\em require} the
-reviewer to go to a techreport for further details.  Thus, you may say in
-the body of the paper ``further details may be found
-in~\cite{Authors14b}''.  Then submit the techreport as additional material.
-Again, you may not assume the reviewers will read this material.
-
-\begin{figure}[t]
-\begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-\end{center}
-   \caption{Example of caption.  It is set in Roman so that mathematics
-   (always set in Roman: $B \sin A = A \sin B$) may be included without an
-   ugly clash.}
-\label{fig:long}
-\label{fig:onecol}
-\end{figure}
-
-\begin{table}
-\begin{center}
-\begin{tabular}{|l|c|}
-\hline
-Method & Frobnability \\
-\hline\hline
-Theirs & Frumpy \\
-Yours & Frobbly \\
-Ours & Makes one's heart Frob\\
-\hline
-\end{tabular}
-\end{center}
-\caption{Results.   Ours is better.}
-\end{table}
 
 {\small
 \bibliographystyle{ieee}
