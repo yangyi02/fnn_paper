@@ -1,4 +1,4 @@
-TARGET=egpaper_final
+TARGET=paper
 
 all: 
 	pdflatex $(TARGET).tex
