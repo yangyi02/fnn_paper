@@ -6,6 +6,7 @@ all:
 	bibtex $(TARGET)
 	pdflatex $(TARGET).tex
 	pdflatex $(TARGET).tex
+	rm -f $(TARGET).synctex $(TARGET).aux $(TARGET).log $(TARGET).bbl $(TARGET).blg $(TARGET).brf $(TARGET).txt
 
 clean:
 	rm -f $(TARGET).synctex $(TARGET).aux $(TARGET).pdf $(TARGET).log $(TARGET).bbl $(TARGET).blg $(TARGET).brf $(TARGET).txt
