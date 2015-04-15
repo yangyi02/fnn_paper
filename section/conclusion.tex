@@ -1,5 +1,12 @@
-\section{Conclusions}
+\section{Conclusion \& Discussion}
 
 We proposes a Feedback Convolusional Neural Networks for class model visualization and object localization. 
 Our Feedback Neural Networks can infer the hidden neuron status given the bottom level input image and top level class labels.
-Experiments on ImageNet localization challengeindicates that our model is superior in weakly supervised object localization, and further experiments demonstrate its powerfulness in distinguishing objects, even under cluttered backgrounds with multiple objects. 
+Experiments on ImageNet localization challengeindicates that our model is superior in weakly supervised object localization, and further experiments demonstrate its powerfulness in distinguishing objects, even under cluttered backgrounds with multiple objects.
+
+(1) Robust 
+(2) Multi-task
+(3)
+
+Figure 1: We show the powerfulness of feedback neural networks on class model visualization and object localizations, even when an image contains very cluttered background and lots of salient objects. Note that we simply use a pertained feedforward multi-class convnets (GoogleNet) model [] trained with ImageNet dataset where each training image only contains one object and no further training is involved. The feedback neural nets are able to adapt its middle-level hidden layers (usually represents object parts) by combining the bottom-up feedforward image features as well as top-down feedback semantic information. (a) input image (b) class model visualization given the class label: panda, elephant, gorilla, tiger, lion, (c) final object localization results based on the class model visualization.
+
