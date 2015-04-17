@@ -100,7 +100,7 @@ GooglNet-Weakl Feedback & & \\
 {\small (g) Saliency}
 \end{tabular}
 % \vspace{-10pt}
-\caption{We show more qualitative results of our feedback neural network on natual images. For each image, we show the original image gradient w.r.t. the class labels and the updated image gradients w.r.t. class labels after feedback. We select a few images for comparing bike v.s. car, zebra v.s. elephant, dog v.s. cat, indicating that our approach can find the targeted objects given only a trained feedforward convnets and class labels.} 
+\caption{We illustrate the effectiveness of feedback neural networks (built on a pre-trained GoogleNet) for class-specific feature extraction. Column (d) shows the selected input images containing two different objects (i.e. dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (c) and (e) show the orignal image gradients of the two different classes. Column (b) and (f) show the image gradients after feedback net finishes adjusting hidden neuron activiations w.r.t. the two different classes. Column (a) and (g) show the salience map computed from the gradients after feedback. Comparing against the orignal image gradients in (c) and (e) which usually spread over the entire image, feedbacked gradients in (b) and (f) focus more on the corresponding object area. Better viewed in color.}
 \label{fig:examples}
 % \vspace{-30pt}
 \end{center}
@@ -143,6 +143,38 @@ GooglNet-Weakl Feedback & & \\
 \includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/zeb-ele2_sali_387} &
 \includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/zeb-ele2_sali_387} &
 \includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_sali_387} \\
+\rotatebox{90}{\hspace{5mm}Gradient} &
+\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_diff_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_diff_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1} &
+\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_diff_672} &
+\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_diff_672} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_672} \\
+\rotatebox{90}{\hspace{5mm}Saliency} &
+\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_sali_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_sali_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_sali_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1} &
+\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_sali_672} &
+\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_sali_672} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_sali_672} \\
+\rotatebox{90}{\hspace{5mm}Gradient} &
+\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_diff_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_diff_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2} &
+\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_diff_672} &
+\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_diff_672} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_672} \\
+\rotatebox{90}{\hspace{5mm}Saliency} &
+\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_sali_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_sali_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_sali_818} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2} &
+\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_sali_672} &
+\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_sali_672} &
+\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_sali_672} \\
 &
 {\small (a) AlexNet} &
 {\small (b) VggNet} &
@@ -153,7 +185,7 @@ GooglNet-Weakl Feedback & & \\
 {\small (g) GoogleNet}
 \end{tabular}
 % \vspace{-10pt}
-\caption{We show more qualitative results of our feedback neural network on natual images. For each image, we show the original image gradient w.r.t. the class labels and the updated image gradients w.r.t. class labels after feedback. We select a few images for comparing bike v.s. car, zebra v.s. elephant, dog v.s. cat, indicating that our approach can find the targeted objects given only a trained feedforward convnets and class labels.} 
+\caption{We visualize the feedback ability of three most popular pre-trained ConvNets: AlexNet, VggNet and GoogleNet. We show the input images in column (d). We show the feedbacked image gradients and salience maps for each image. On the left 3 columns, we compute the results w.r.t. zebra or car, on the right 3 columns we compute the results w.r.t. elephant or bike. In the visualization results, VggNet performs quite better than AlexNet, especially in capturing the most salient object details, suggesting the benefit of usage of small convolutional filters and deeper structures. Although both VggNet and GogoleNet produce similar classification accruacy, we find GoogleNet provides the better class specific feature separations. We suspect the two 4096 fully connected layers in VggNet (which GoogleNetdoes not have) could harm the spatial distinctiveness of image features.}  
 \label{fig:model_compare}
 % \vspace{-30pt}
 \end{center}
@@ -200,7 +232,7 @@ GooglNet-Weakl Feedback & & \\
 \includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_10} \\
 \end{tabular}
 % \vspace{-10pt}
-\caption{We show more qualitative results of our feedback neural network on natual images. For each image, we show the original image gradient w.r.t. the class labels and the updated image gradients w.r.t. class labels after feedback. We select a few images for comparing bike v.s. car, zebra v.s. elephant, dog v.s. cat, indicating that our approach can find the targeted objects given only a trained feedforward convnets and class labels.} 
+\caption{We show some interesting visualizations for the understanding of fine-grained classification by comparsing against the feedback gradients of ground truth labels and other classes. The top row shows the class labels and a representative image for each class for the ease of understanding. Column (a) shows the three examplar input images, their ground truth labels are great pyrenees, beagle and yorkshire terrier respectively. We can see that although (b), (c) and (d) are all dogs, their salient area for distinction are quite different. Noses are one of the most important feature for classifying dogs, but ears are specific feature for beagles, while fluffy is more importatnt to yorkshire terrier. When the top down is from (e) kit fox, features on the cat in the last row is more fox-specific: nose and ears. When top down is from (f) tiger, features on the same at is more tiger-specific: textures. And when it's (g) ostrich, nothing special come out.}
 \label{fig:class_compare}
 % \vspace{-30pt}
 \end{center}
