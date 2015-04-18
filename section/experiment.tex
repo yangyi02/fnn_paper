@@ -1,16 +1,43 @@
 \section{Experiments}
 
+\subsection{Image Specific Class Model Visualization and Saliency Extraction}
+Given an image $I_0$, a class $c$ and the hidden neuron activation states $h_0$, we approximate the neural net class score $S_c$ with the first-order taylor expansion in the neighborhood of $I_0$:
+\begin{equation}
+  S_c(I_0, h_0) \approx  T(h_0)^T I_0 + b
+\end{equation}
+where $T(h_0)$ is the derivative of $S_c$ w.r.t. the image at the point of $I_0$ and hidden neuron status $h_0$. 
 
+$T(h_0)$ can be also viewed as the linear template applied on image $I_0$ for the understanding of how like the image belongs to class $c$. We can visualize $T$ since it's the same size as the image $I$. We use this technique to visualize our model and feature computations through the paper. 
 
-\subsection{Datasets}
+As pointed in~\cite{xxx}, the magnitude of the elements in template $T$ defines the class specific salience map for image $I$, indicating the importance of the pixels to the class $c$. One could expect that pixels with large magnitude locate around the corresponding object in the image. We adopt the same saliency extraction strategy as~\cite{xxx}, a single class saliency value $M$ at pixel (i,j) is computed across all color channels: $M_{ij} = \max_{c \in rgb} | T(i,j,c) |$.
 
-\subsection{Single Model Visualization on ImageNet}
+We visualise the templates and salience maps for the  on a set of selected images in Fig. \ref{fig:examples}. Each of the image contains two objects (i.e. dog-cat, bike-car, zebra-elephant). We show the original image gradients when all the feedback hidden neurons are open (corresponding to the original feedforward net) and the image gradients after feedback is taken.  
 
-\subsection{Class Model Visualization on Multiple Object Images}
+\subsection{Weakly Supervised Object Localization}
+Once we extract the salience map, we could use it for weakly supervised object localization, where we are only utilizing a pre-trained classification ConvNet and an image label. We follow~\cite{xxx} 
 
-\subsection{Construction Visualization}
+Given an image and the corresponding class saliency map, we compute the object segmentation mask
+using the GraphCut colour segmentation [3]. The use of the colour segmentation is motivated by the
+fact that the saliency map might capture only the most discriminative part of an object, so saliency
+thresholding might not be able to highlight the whole object. Therefore, it is important to be able
+to propagate the thresholded map to other parts of the object, which we aim to achieve here using
+the colour continuity cues. Foreground and background colour models were set to be the Gaussian
+Mixture Models. The foreground model was estimated from the pixels with the saliency higher than
+a threshold, set to the 95% quantile of the saliency distribution in the image; the background model
+was estimated from the pixels with the saliency smaller than the 30% quantile (Fig. 3, right-middle).
+The GraphCut segmentation [3] was then performed using the publicly available implementation2 .
+Once the image pixel labelling into foreground and background is computed, the object segmentation
+mask is set to the largest connected component of the foreground pixels (Fig. 3, right).
 
-\subsection{Localization}
+We entered our object localisation method into the ILSVRC-2013 localisation challenge. Consid-
+ering that the challenge requires the object bounding boxes to be reported, we computed them as
+the bounding boxes of the object segmentation masks. The procedure was repeated for each of the
+top-5 predicted classes. The method achieved 46.4% top-5 error on the test set of ILSVRC-2013.
+It should be noted that the method is weakly supervised (unlike the challenge winner with 29.9%
+error), and the object localisation task was not taken into account during training. In spite of its
+simplicity, the method still outperformed our submission to ILSVRC-2012 challenge (which used
+the same dataset), which achieved 50.0% localisation error using a fully-supervised algorithm based
+on the part-based models [6] and Fisher vector feature encoding [11].
 
 \begin{table}
 \centering
