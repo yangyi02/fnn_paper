@@ -1,20 +1,27 @@
 \section{Experiment Results}
 \label{sec:experiment}
 
-\subsection{Image Specific Class Model Visualization and Saliency Extraction}
-Given an image $I_0$, a class $c$ and the hidden neuron activation states $h_0$, we approximate the neural net class score $S_c$ with the first-order taylor expansion in the neighborhood of $I_0$:
+\subsection{Image Specific Class Model Visualization and Visual Saliency Extraction}
+Given an image $I$, a class label $k$ and the hidden neuron activation states $h$, we approximate the neural net class score $S_k$ with the first-order taylor expansion in the neighborhood of $I$:
 \begin{equation}
-  S_c(I_0, h_0) \approx  T(h_0)^T I_0 + b
+  S_k(I, h) \approx  T_k(h)^T I + b
 \end{equation}
-where $T(h_0)$ is the derivative of $S_c$ w.r.t. the image at the point of $I_0$ and hidden neuron status $h_0$.
+where $T_k(h)$ is the derivative of $S_k$ with respect to the image at the point of $I$ and hidden neuron status $h$.
 
-$T(h_0)$ can be also viewed as the linear template applied on image $I_0$ for the understanding of how like the image belongs to class $c$. We can visualize $T$ since it's the same size as the image $I$. We use this technique to visualize our model and feature computations through the paper.
+$T_k(h)$ can be also viewed as the linear template applied on image $I$ for the understanding of how like the image belongs to class $k$. We can visualize $T$ since it's the same size as the image $I$. We use this technique to visualize the model through the paper.
 
-As pointed in~\cite{xxx}, the magnitude of the elements in template $T$ defines the class specific salience map for image $I$, indicating the importance of the pixels to the class $c$. One could expect that pixels with large magnitude locate around the corresponding object in the image. We adopt the same saliency extraction strategy as~\cite{xxx}, a single class saliency value $M$ at pixel (i,j) is computed across all color channels: $M_{ij} = \max_{c \in rgb} | T(i,j,c) |$.
+Specifically, for a VggNet~\cite{Simonyan2014Very} which uses only a stack of piece-wise linear layers (i.e.\ convolution, relu, max-pooling) to compute the class scores, once the hidden states of these layers are given, the final score is an linear operation on the image.
 
-We visualise the templates and salience maps for the  on a set of selected images in Fig. \ref{fig:examples}. Each of the image contains two objects (i.e. dog-cat, bike-car, zebra-elephant). We show the original image gradients when all the feedback hidden neurons are open (corresponding to the original feedforward net) and the image gradients after feedback is taken.
+As pointed in~\cite{simonyan2013deep}, the magnitude of the elements in the model template $T$ defines the class specific salience map for image $I$. A pixel with large magnitude indicates that it is more important to the class $k$. We adopt the same saliency extraction strategy as~\cite{simonyan2013deep} that a single class saliency value $M$ at pixel $(i,j)$ is computed across all color channels: $M_{ij} = \max_{c \in rgb} | T(i,j,c) |$.
+
+\textbf{Comparison of Visualization Methods:} We compare the visualization and saliency extraction of the feedbacked results against~\cite{simonyan2013deep} (Oxford) and~\cite{zeiler2014visualizing} (Deconv) on a set of complex images containing multiple objects from different classes. We show the qualititative results in Fig.~\ref{fig:examples}. All techniques use the same pre-trained VggNet\cite{Simonyan2014Very} and ground truth class labels for each image are given. The visualization results before feedback is the same as Oxford, where all the hidden neurons states are determined by bottom-up computation. The visualization results after the feedback process are similar to Deconv, except that our model captures the most salient visual regions for each specific class. 
+
+\textbf{Comparison of ConvNet Models:} We compare the three most popluar ConvNets: AlexNet~\cite{Krizhevsky2012ImageNet}, VggNet~\cite{Simonyan2014Very} and Googlenet~\cite{Szegedy2014Going} by visualizing their feedback templates in Fig.~\ref{fig:model_compare}. All models are pre-trained on Caffe with the same classificatino accuracy reported. Ground truth class labels are given for each image before feedback. From the visualization results, we find that VggNet and GoogleNet produce more accurate visual attention than AlexNet, suggesting the benefit of using smaller convolution filters and deeper architectures to further distinguish similar and closeby objects. We also observe that, although both VggNet and GoogleNet produce very smilar image classification accuracies, GoogleNet better captures the salient object areas for each class than VggNet. We hypothesize that the two 4096 dimensional fully connected layers (i.e.\ fc6, fc7) in VggNet (which GoogleNet does not contain) could harm the spatial distinctiveness of the final image features,  
+
+\textbf{Feedback Attention for Fine-Grained Classification:} We show some interesting feedback visualization results for understanding the fine-grained classifcation ability of VggNet~\cite{Simonyan2014Very}. The VggNet is trained on ImageNet dataset~\cite{deng2009imagenet} with 1000 object classes which contains $\sim$100 fine-graiend dog categories and $\sim$500 animal categories. We visualize the feedback templates of a few dog-cat images with respect to some dog classes and animal classes in Fig.~\ref{fig:class_compare}. We observe that each class has its own special salient image features for distinction. Some features correpsond to parts (i.e.\ nose and ears) while some others correpsond to attributes (i.e.\ furry and tabby).
 
 \subsection{Weakly Supervised Object Localization}
+One could expect that pixels with large magnitude locate around the corresponding object in the image. 
 Once we extract the salience map, we could use it for weakly supervised object localization, where we are only utilizing a pre-trained classification ConvNet and an image label. We follow~\cite{xxx}
 
 Given an image and the corresponding class saliency map, we compute the object segmentation mask
@@ -128,7 +135,7 @@ GooglNet-Weakl Feedback & & \\
 {\small (g) Saliency}
 \end{tabular}
 % \vspace{-10pt}
-\caption{We illustrate the effectiveness of feedback neural networks (built on a pre-trained GoogleNet) for class-specific feature extraction. Column (d) shows the selected input images containing two different objects (i.e. dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (c) and (e) show the orignal image gradients of the two different classes. Column (b) and (f) show the image gradients after feedback net finishes adjusting hidden neuron activiations w.r.t. the two different classes. Column (a) and (g) show the salience map computed from the gradients after feedback. Comparing against the orignal image gradients in (c) and (e) which usually spread over the entire image, feedbacked gradients in (b) and (f) focus more on the corresponding object area. Better viewed in color.}
+\caption{We illustrate the effectiveness of feedback neural networks (built on a pre-trained GoogleNet) for class-specific feature extraction. Column (d) shows the selected input images containing two different objects (i.e.\ dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (c) and (e) show the orignal image gradients of the two different classes. Column (b) and (f) show the image gradients after feedback net finishes adjusting hidden neuron activiations w.r.t. the two different classes. Column (a) and (g) show the salience map computed from the gradients after feedback. Comparing against the orignal image gradients in (c) and (e) which usually spread over the entire image, feedbacked gradients in (b) and (f) focus more on the corresponding object area. Better viewed in color.}
 \label{fig:examples}
 % \vspace{-30pt}
 \end{center}
