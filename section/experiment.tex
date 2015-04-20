@@ -1,7 +1,8 @@
 \section{Experiment Results}
 \label{sec:experiment}
 
-\subsection{Image Specific Class Model Visualization and Visual Saliency Extraction}
+\subsection{Image Specific Class Model Visualization}
+\label{subsec:visualization}
 Given an image $I$, a class label $k$ and the hidden neuron activation states $h$, we approximate the neural net class score $S_k$ with the first-order taylor expansion in the neighborhood of $I$:
 \begin{equation}
   S_k(I, h) \approx  T_k(h)^T I + b
@@ -10,60 +11,91 @@ where $T_k(h)$ is the derivative of $S_k$ with respect to the image at the point
 
 $T_k(h)$ can be also viewed as the linear template applied on image $I$ for the understanding of how like the image belongs to class $k$. We can visualize $T$ since it's the same size as the image $I$. We use this technique to visualize the model through the paper.
 
-Specifically, for a VggNet~\cite{Simonyan2014Very} which uses only a stack of piece-wise linear layers (i.e.\ convolution, relu, max-pooling) to compute the class scores, once the hidden states of these layers are given, the final score is an linear operation on the image.
-
-As pointed in~\cite{simonyan2013deep}, the magnitude of the elements in the model template $T$ defines the class specific salience map for image $I$. A pixel with large magnitude indicates that it is more important to the class $k$. We adopt the same saliency extraction strategy as~\cite{simonyan2013deep} that a single class saliency value $M$ at pixel $(i,j)$ is computed across all color channels: $M_{ij} = \max_{c \in rgb} | T(i,j,c) |$.
+Specifically, for a VggNet~\cite{Simonyan2014Very} which uses only a stack of piece-wise linear layers (i.e.\ convolution, relu, max-pooling) to compute the class scores, once the hidden states $h$ encodes the selection of linear functions for each piece-wise linear operator, the final score is an linear operation on the image, equivalent to the inner product between the template and the image.
 
 \textbf{Comparison of Visualization Methods:} We compare the visualization and saliency extraction of the feedbacked results against~\cite{simonyan2013deep} (Oxford) and~\cite{zeiler2014visualizing} (Deconv) on a set of complex images containing multiple objects from different classes. We show the qualititative results in Fig.~\ref{fig:examples}. All techniques use the same pre-trained VggNet\cite{Simonyan2014Very} and ground truth class labels for each image are given. The visualization results before feedback is the same as Oxford, where all the hidden neurons states are determined by bottom-up computation. The visualization results after the feedback process are similar to Deconv, except that our model captures the most salient visual regions for each specific class. 
 
 \textbf{Comparison of ConvNet Models:} We compare the three most popluar ConvNets: AlexNet~\cite{Krizhevsky2012ImageNet}, VggNet~\cite{Simonyan2014Very} and Googlenet~\cite{Szegedy2014Going} by visualizing their feedback templates in Fig.~\ref{fig:model_compare}. All models are pre-trained on Caffe with the same classificatino accuracy reported. Ground truth class labels are given for each image before feedback. From the visualization results, we find that VggNet and GoogleNet produce more accurate visual attention than AlexNet, suggesting the benefit of using smaller convolution filters and deeper architectures to further distinguish similar and closeby objects. We also observe that, although both VggNet and GoogleNet produce very smilar image classification accuracies, GoogleNet better captures the salient object areas for each class than VggNet. We hypothesize that the two 4096 dimensional fully connected layers (i.e.\ fc6, fc7) in VggNet (which GoogleNet does not contain) could harm the spatial distinctiveness of the final image features,  
 
-\textbf{Feedback Attention for Fine-Grained Classification:} We show some interesting feedback visualization results for understanding the fine-grained classifcation ability of VggNet~\cite{Simonyan2014Very}. The VggNet is trained on ImageNet dataset~\cite{deng2009imagenet} with 1000 object classes which contains $\sim$100 fine-graiend dog categories and $\sim$500 animal categories. We visualize the feedback templates of a few dog-cat images with respect to some dog classes and animal classes in Fig.~\ref{fig:class_compare}. We observe that each class has its own special salient image features for distinction. Some features correpsond to parts (i.e.\ nose and ears) while some others correpsond to attributes (i.e.\ furry and tabby).
+\textbf{Feedback Attention for Fine-Grained Classification:} We show some interesting feedback visualization results for understanding the fine-grained classifcation ability of VggNet~\cite{Simonyan2014Very}. The VggNet is trained on ImageNet dataset~\cite{deng2009imagenet} with 1000 object classes which contains $\sim$100 fine-graiend dog categories and $\sim$500 animal categories. We visualize the feedback templates of a few dog-cat images with respect to some dog classes and animal classes in Fig.~\ref{fig:class_compare}. We observe that each object class has its own special salient image features for distinction. Given the fixed images, some classes tend to emphasize on local region features such as parts (i.e.\ nose and ears), while others focus on global attributes (i.e.\ furry and tabby).
 
 \subsection{Weakly Supervised Object Localization}
-One could expect that pixels with large magnitude locate around the corresponding object in the image. 
-Once we extract the salience map, we could use it for weakly supervised object localization, where we are only utilizing a pre-trained classification ConvNet and an image label. We follow~\cite{xxx}
+\label{subsec:localization}
+As pointed in~\cite{simonyan2013deep}, the magnitude of the elements in the model template $T_k$ in section~\ref{subsec:visualization} defines the class specific salience map for image $I$. A pixel with larger magnitude indicates that it is more important to the class $k$. We adopt the same saliency extraction strategy as~\cite{simonyan2013deep} that a single class saliency value $M$ at pixel $(i,j)$ is computed across all color channels: $M_{ij} = \max_{c \in rgb} | T(i,j,c) |$.
+
+Although the ConvNet is pre-trained for image classification, we could use the feedbacked salience map for weakly supervised object localization.
 
 Given an image and the corresponding class saliency map, we compute the object segmentation mask
-using the GraphCut colour segmentation [3]. The use of the colour segmentation is motivated by the
+using the GraphCut colour segmentation [3]. 
+
+The use of the colour segmentation is motivated by the
 fact that the saliency map might capture only the most discriminative part of an object, so saliency
-thresholding might not be able to highlight the whole object. Therefore, it is important to be able
+thresholding might not be able to highlight the whole object. 
+
+Therefore, it is important to be able
 to propagate the thresholded map to other parts of the object, which we aim to achieve here using
-the colour continuity cues. Foreground and background colour models were set to be the Gaussian
-Mixture Models. The foreground model was estimated from the pixels with the saliency higher than
+the colour continuity cues. 
+
+Foreground and background colour models were set to be the Gaussian
+Mixture Models. 
+
+The foreground model was estimated from the pixels with the saliency higher than
 a threshold, set to the 95% quantile of the saliency distribution in the image; the background model
 was estimated from the pixels with the saliency smaller than the 30% quantile (Fig. 3, right-middle).
+
 The GraphCut segmentation [3] was then performed using the publicly available implementation2 .
+
 Once the image pixel labelling into foreground and background is computed, the object segmentation
 mask is set to the largest connected component of the foreground pixels (Fig. 3, right).
 
-We entered our object localisation method into the ILSVRC-2013 localisation challenge. Consid-
+We entered our object localisation method into the ILSVRC-2013 localisation challenge. 
+
+Consid-
 ering that the challenge requires the object bounding boxes to be reported, we computed them as
-the bounding boxes of the object segmentation masks. The procedure was repeated for each of the
-top-5 predicted classes. The method achieved 46.4% top-5 error on the test set of ILSVRC-2013.
+the bounding boxes of the object segmentation masks. 
+
+The procedure was repeated for each of the
+top-5 predicted classes. 
+
+The method achieved 46.4% top-5 error on the test set of ILSVRC-2013.
 It should be noted that the method is weakly supervised (unlike the challenge winner with 29.9%
-error), and the object localisation task was not taken into account during training. In spite of its
+error), and the object localisation task was not taken into account during training. 
+
+In spite of its
 simplicity, the method still outperformed our submission to ILSVRC-2012 challenge (which used
 the same dataset), which achieved 50.0% localisation error using a fully-supervised algorithm based
 on the part-based models [6] and Fisher vector feature encoding [11].
 
+\textbf{Comparison of Localization Methods:} We compare the visualization and saliency extraction of the feedbacked results against~\cite{simonyan2013deep} (Oxford) and~\cite{zeiler2014visualizing} (Deconv) on a set of complex images containing multiple objects from different classes. We show the qualititative results in Fig.~\ref{fig:examples}. All techniques use the same pre-trained VggNet\cite{Simonyan2014Very} and ground truth class labels for each image are given. The visualization results before feedback is the same as Oxford, where all the hidden neurons states are determined by bottom-up computation. The visualization results after the feedback process are similar to Deconv, except that our model captures the most salient visual regions for each specific class. 
+
 \begin{table}
 \centering
-Evaluation on Imagenet 2014 localization test set
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|}
 \hline
-Method & Localization error & Classification error\\
+Method & Localization Accuracy (\%) \\
 \hline
-VggNet-Supervised[] & 25.3 & 7.4 \\
-GoogleNet-Supervised [] & 26.4 & 14.8 \\
-AlexNet-Weakly[] & & \\
-AlexNet-Weakly Feedback & & \\
-VggNet-Weakly Feedback & & \\
-GooglNet-Weakl Feedback & & \\
+Oxford~\cite{simonyan2013deep} & 50.0 \\
+Deconv~\cite{zeiler2014visualizing} & 54.7 \\
+Feedback & \textbf{57.3} \\
 \hline
 \end{tabular}
 \caption{We show the localization evaluation on ImageNet 2014 localization competition. Our model clearly outperforms the weakly supervised approach based on []. Notably, we compare even fairbly well against supervisedly trained localization model, where an extra localization bouding boxes dataset is used. We demonstrate that when learning for classifications objectives, the Deep ConvNet already integrate powerful class specific features for attentioning on the important areas.}
 \label{tab:localization_accuracy}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Method & Localization Accuracy (\%) \\ 
+\hline
+AlexNet~\cite{Krizhevsky2012ImageNet} & \\
+VggNet~\cite{Simonyan2014Very} & 57.3 \\
+GooglNet~\cite{Szegedy2014Going} & \\
+\hline
+\end{tabular}
+\caption{We show the localization evaluation on ImageNet 2014 localization competition. Our model clearly outperforms the weakly supervised approach based on []. Notably, we compare even fairbly well against supervisedly trained localization model, where an extra localization bouding boxes dataset is used. We demonstrate that when learning for classifications objectives, the Deep ConvNet already integrate powerful class specific features for attentioning on the important areas.}
+\label{tab:localization_model_compare}
 \end{table}
 
 \setlength{\tabcolsep}{2pt}
