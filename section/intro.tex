@@ -6,27 +6,27 @@
     \parbox{0.85\linewidth}{
     \noindent
     \emph{``What did you see in this image?''\\
-      ``Panda, Tiger, Elephant, Lions''\\
+      ``Panda, Tiger, Elephant, Lions.''\\
       ``Have you seen the Gorilla?''\\
-      ``Oh! I even didn't notice there is a Gorilla.''}
+      ``Oh! I even didn't notice there is a Gorilla !''}
     }
   }
 \end{center}
-
-Visual attention typically is dominant by \emph{``goals''} from our mind easily in a top-down manner, especially in the case of object detection in images. Cognitive science explains this in the ``Biased Competition Theory''~\cite{beck2009top,desimone1998visual,desimone1995neural}, that human visual cortex is enhanced by top-down stimuli and non-relevant neurons will be suppressed in feedback loops when searching objects. By ``looking and thinking twice'', both human recognition and detection performances increase significantly especially in images with fuzzy background~\cite{Cichy2014Resolving}. It leads to selectivity in neuron activations~\cite{Kruger2013Deep}, which reduces the chance of recognition being interfered with either noises or distractive patterns.
-
-Inspired by above evidences, we present a novel \emph{Feedback Convolutional Neural Network} architecture in this paper. It achieves this selectivity by joint reasoning outputs of class nodes and activations of hidden layer neurons during the feedback loop. As shown in Figure~\ref{fig:splash0}, during the feedforward stage, the proposed network performs inference from image features in a bottom-up manner as traditional Convolutional Networks; while in feedback loops, it sets up semantic labels (\emph{e.g.}, outputs of class nodes) as the ``goal'' in visual search to infer activation status of hidden layer neurons. The network is powerful to be applied on class model visualization~\cite{simonyan2013deep, zeiler2014visualizing} and object localization even in cluttered scenes with multiple objects.
 
 \setlength{\tabcolsep}{2pt}
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=0.95\columnwidth]{figs/splash/splash}
 % \vspace{-10pt}
-\caption{We propose a novel feedback convnet for weakly supervised object localization in complex scenes with cluttered background. The feedback net is able to utilized both bottom-up image features and top-down semantic labels to infer the hidden layer neuron status to match the localize the corresponding salient area in the image. }
+\caption{We propose a novel Feedback Convolutional Net model for captuing visual attention by infering the status of hidden neuron activations. The feedback net is able to utilize both bottom-up image features and top-down semantic labels to infer the hidden neuron activations that maximize the "goal". The salient areas after feedback often match correponding "target" object, even in the image with cluttered background and complex scenes. }
 \label{fig:splash0}
 \vspace{-10pt}
 \end{center}
 \end{figure}
+
+Visual attention typically is dominant by \emph{``goals''} from our mind easily in a top-down manner, especially in the case of object detection in images. Cognitive science explains this in the ``Biased Competition Theory''~\cite{beck2009top,desimone1998visual,desimone1995neural}, that human visual cortex is enhanced by top-down stimuli and non-relevant neurons will be suppressed in feedback loops when searching objects. By ``looking and thinking twice'', both human recognition and detection performances increase significantly especially in images with cluttered background~\cite{Cichy2014Resolving}. This leads to the selectivity in neuron activations~\cite{Kruger2013Deep}, which reduces the chance of recognition being interfered with either noises or distractive patterns.
+
+Inspired by the above evidences, we present a novel \emph{Feedback Convolutional Neural Network} architecture in this paper. It achieves this selectivity by jointly reasoning outputs of class nodes and activations of hidden layer neurons during the feedback loop. As shown in Figure~\ref{fig:splash0}, during the feedforward stage, the proposed network performs inference from image features in a bottom-up manner as traditional Convolutional Networks; while in feedback loops, it sets up high-level semantic labels (\emph{e.g.}, outputs of class nodes) as the ``goal'' in visual search to infer the activation status of hidden layer neurons. The network is powerful to be applied on class model visualization~\cite{simonyan2013deep, zeiler2014visualizing} and object localization even in cluttered scenes with multiple objects.
 
 \setlength{\tabcolsep}{2pt}
 \begin{figure*}[htb]
