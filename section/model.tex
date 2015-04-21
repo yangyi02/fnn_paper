@@ -20,7 +20,7 @@ The most recent state-of-the-art deep CNNs~\cite{Simonyan2014Very} consist of ma
 \textbf{Convolutional Layer:} 
 The convolutional layer is parameterized by $C'$ filters with $k_c \in \mathcal{R}^{K \times K \times C}, c=1\ldots C'$. The output of convolutional layer computed at every pixel location ($i'$, $j'$):
 \begin{equation}
-y_{c'} = \sum_{c=1}^C k_{cc'} * x_c
+\vec{y}_{c'} = \sum_{c=1}^C k_{cc'} * \vec{x}_c
 % y(i',j',c') = \sum_{c} \sum_{i,j \in \mathcal{N}} w_c(i,j) \cdot x(i+i', j+j', c)
 \end{equation}
 
@@ -43,7 +43,7 @@ Finally, a few fully connected layers (normally with drop-out) is stacked on top
 \end{equation}
 
 \subsection{Re-interpretion of ReLU and Max-Pooling}
-Low-level stages tend to learn biologically plausible feature detectors, such as Gabor filters [14]. Detectors in higher layers learn to respond to concrete visual objects or their parts, e.g., [15].
+In the ConvNet, each output of the convolutional layer is forward as the input of ReLU layer. In the architeture, low-level convolutional filters tend to learn biologically plausible feature detectors, such as Gabor filters, while filers in higher layers learn to respond to concrete visual objects or their parts. The ReLU neurons control the activation of the filtering results, to make sure the useful low-level information (above 0) is passed and irrelavent information is stopped.
 
 We model the max function as neuron activation gates $h$ with binary values 0 or 1. For the ReLU layer, the gates work as turn on the neuron to let the below message pass or turn off the neuron to stop the message flow. For the Max-Pooling layer, the gates work similarly as ReLU, except only one gate can be open among a local region.
 
@@ -58,10 +58,18 @@ For the max-pooling layer,
 y_l(i,j,c) = \sum_{} h_l(u, v) \cdot y_{l-1}(i+u, j+v, c)
 \end{equation}
 
-The idea behind dasNet is to harness the power of sequential processing to improve classification performance by allowing the network to iteratively focus the attention of its filters. First, the standard Maxout net (see Section 2) is augmented to allow the filters to be weighted differently on different passes over the same image (compare to equation 1):
-
 \subsection{Hidden Neuron Activations in Feedback}
-Given an image $I_0$ and a pre-trained feedforward neural network with learned parameters $w$, we optimize the neuron activiations $h$ over all the hidden layers to maximize the class score output:
+However, in order to recognize the image, the middle level layers are designed to provide all possible information for the final layer to classify. This works well when there is only one salient object in the image. However when people care about different aspects in the images, the same feature may not be appropriate all the time. 
+
+Since the model open all the gates for the gates for all information to pass, when we are targeted on a paticular semantic labels, we want to turn off those gates that provide irrelavant information for seeing that object. This top-down message will be utilized to turn off those relu.
+
+We model the top down as another type of activation variable, similar as ReLu. However, this unit activates based on the the overall information of bottom-up responses and top-down messages. 
+
+To understand the model, we allow each ReLU neuron to either turn on, turn off, or pass a proportion of the information computed from the convolutional layer, in order to maximially interpret the image as the target class.
+
+We model a feedback layer on top of the relu layers to improve the activation felxibility, that the feedback neuron activation variables depend on the weights from high level targets. When combined with ReLU layer, the two layers not only capture on the bottom-up features but also top-down weights passed from the target neuron. Figure.~\ref{fig:model} illustrates the architecture of our model and the inference process. 
+ 
+Given an image $I$ and a neural network with learned parameters $w$, we optimize the target neuron output by jointly reasoning neuron activiations $h$ over all the hidden layers. Particularly, if the target neuron is the class node in the top layer, we optimize the class score $S_c$ by looking for the reorganization of hidden neuron activations on the ReLU layer:
 \begin{equation}
 \begin{aligned}
   \max_h S_c(I_0, h) \\
@@ -69,7 +77,7 @@ Given an image $I_0$ and a pre-trained feedforward neural network with learned p
 \end{aligned}
 \end{equation}
 
-This leads to an integer programming, which is a NP-hard problem given the current deep convolutional neural net structure. To obtain a good solution, we conduct two ways to optimize it: the layer-wise coordinate descent method and linear relaxation.
+This leads to an integer programming problem, which is a NP-hard problem given the current deep convolutional neural net structure. To obtain a good solution, we apply a linear relaxation.
 
 In the linear relaxation, we rephrase the problem as:
 \begin{equation}
@@ -79,9 +87,10 @@ In the linear relaxation, we rephrase the problem as:
 \end{aligned}
 \end{equation}
 
-We use the backpropagation algorithm and gradient descent to optimize $h$. After convergence we discretize $h$ to 0 or 1.
+\begin{comment}
+To understand the model, we allow each ReLU neuron to either turn on, turn off, or pass a proportion of the information computed from the convolutional layer, in order to maximially interpret the image as the target class.
 
-We model the top down as another type of activation variable, similar as ReLu. However, this unit activates based on the the overall information of bottom-up responses and top-down messages. 
+We use the gradient descent method to optimize $h$. After convergence we discretize $h$ to 0 or 1.
 
 In practice, we treat the inference process as discriminatively optimize the final class node. 
 
@@ -92,10 +101,12 @@ During optimization, we proposed two ways to deal with it, 1. coordinate descent
 Hard optimization: The coordinate descent frameworks stand in this way: 1. Initialize h as all 1 meaning the gate is open, compute feedfoward messages to the class node, then given the current activation status, optimize the last layer h to maximize the class output, given the updates last layer h, keep optimizing lower layers. And reiterate this process.
 
 Soft optimization: The continuous relaxation falls in below way, compute the gradient of class node y given h, use gradient descent update h, and keep until this until convergence.
+\end{comment}
 
 \subsection{Relationship to Deconvolutional Neural Networks}
+To understand how our inference algorithm work exactly, we compare it to the Deconvolutional neural networks model~\cite{}.
 
 Following this, deconvnet can be viewed as a one iteration of our hard optimization
 
 \subsection{Implementation Details}
-
+In the real model implementation, we only add
