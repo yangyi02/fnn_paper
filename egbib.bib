@@ -170,6 +170,24 @@ eprintclass = {cs.CV},
 month = sep
 }
 
+NIN from NUS
+@article{lin2013network,
+  title={Network in network},
+  author={Lin, Min and Chen, Qiang and Yan, Shuicheng},
+  journal={arXiv preprint arXiv:1312.4400},
+  year={2013}
+}
+
+DBM
+@inproceedings{salakhutdinov2009deep,
+  title={Deep boltzmann machines},
+  author={Salakhutdinov, Ruslan and Hinton, Geoffrey E},
+  booktitle={International Conference on Artificial Intelligence and Statistics},
+  pages={448--455},
+  year={2009}
+}
+
+
 BatchNormalization from Google
 @article{ioffe2015batch,
   title={Batch normalization: Accelerating deep network training by reducing internal covariate shift},
@@ -184,6 +202,18 @@ PRelu
   author={He, Kaiming and Zhang, Xiangyu and Ren, Shaoqing and Sun, Jian},
   journal={arXiv preprint arXiv:1502.01852},
   year={2015}
+}
+
+Dropout
+@article{srivastava2014dropout,
+  title={Dropout: A simple way to prevent neural networks from overfitting},
+  author={Srivastava, Nitish and Hinton, Geoffrey and Krizhevsky, Alex and Sutskever, Ilya and Salakhutdinov, Ruslan},
+  journal={The Journal of Machine Learning Research},
+  volume={15},
+  number={1},
+  pages={1929--1958},
+  year={2014},
+  publisher={JMLR. org}
 }
 
 
@@ -210,8 +240,22 @@ ImageNet:
   year={2009},
   organization={IEEE}
 }
+
+Representation Learning by Bengio
+@article{bengio2013representation,
+  title={Representation learning: A review and new perspectives},
+  author={Bengio, Yoshua and Courville, Aaron and Vincent, Pascal},
+  journal={Pattern Analysis and Machine Intelligence, IEEE Transactions on},
+  volume={35},
+  number={8},
+  pages={1798--1828},
+  year={2013},
+  publisher={IEEE}
+}
+
 ====================================
 5. Feedback network
+Jürgen Schmidhuber's feedback network implemented in rnn
 @article{Stollenga:2014tl,
 author = {Stollenga, Marijn and Masci, Jonathan and Gomez, Faustino and Schmidhuber, Juergen},
 title = {{Deep Networks with Internal Selective Attention through Feedback Connections}},
@@ -223,7 +267,20 @@ eprintclass = {cs.CV},
 month = jul
 }
 
+@article{sermanet2014attention,
+  title={Attention for Fine-Grained Categorization},
+  author={Sermanet, Pierre and Frome, Andrea and Real, Esteban},
+  journal={arXiv preprint arXiv:1412.7054},
+  year={2014}
+}
 
+@inproceedings{wang2014attentional,
+  title={Attentional Neural Network: Feature Selection Using Cognitive Feedback},
+  author={Wang, Qian and Zhang, Jiaxing and Song, Sen and Zhang, Zheng},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={2033--2041},
+  year={2014}
+}
 
 @article{Mnih:2014ti,
 author = {Mnih, Volodymyr and Heess, Nicolas and Graves, Alex and Kavukcuoglu, Koray},
@@ -231,6 +288,14 @@ title = {{Recurrent Models of Visual Attention}},
 journal = {NIPS},
 year = {2014},
 month = jun
+}
+
+DRAW paper from Google DeepMind
+@article{gregor2015draw,
+  title={DRAW: A Recurrent Neural Network For Image Generation},
+  author={Gregor, Karol and Danihelka, Ivo and Graves, Alex and Wierstra, Daan},
+  journal={arXiv preprint arXiv:1502.04623},
+  year={2015}
 }
 
 ====================================
@@ -253,10 +318,33 @@ month = jun
   organization={IEEE}
 }
 
+
+
 @inproceedings{yuri2001interactive,
   title={Interactive graph cuts for optimal boundaryand region segmentation of objects in ND images},
   author={Yuri, B and Marie-Pierre, J},
   booktitle={IEEEInternational Conference on Computer Vision. USA: IEEE},
   volume={112},
   year={2001}
+}
+
+====================================
+7. Recurrent and LSTM
+LSTM
+@article{hochreiter1997long,
+  title={Long short-term memory},
+  author={Hochreiter, Sepp and Schmidhuber, J{\"u}rgen},
+  journal={Neural computation},
+  volume={9},
+  number={8},
+  pages={1735--1780},
+  year={1997},
+  publisher={MIT Press}
+}
+
+@article{chung2015gated,
+  title={Gated Feedback Recurrent Neural Networks},
+  author={Chung, Junyoung and Gulcehre, Caglar and Cho, Kyunghyun and Bengio, Yoshua},
+  journal={arXiv preprint arXiv:1502.02367},
+  year={2015}
 }

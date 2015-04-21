@@ -107,21 +107,12 @@ As the example shown in Figure~\ref{fig:splash0}, given a high-level semantic st
 
 \subsubsection*{Weakly Supervised Object Localization}
 % Unify the network: recognition and detection in a single network.
-Given the salience maps shown in Figure~\ref{fig:splah} and Figure~\ref{fig:visual_compare}, we further develop a weakly supervised object localization algorithm. Instead of using large amount of supervision (\emph{e.g.}, bounding box positions) in traditional methods such as R-CNN~\cite{girshick2014rich} or using regression model~\cite{erhan2014scalable}, we don't require any localization information in the training stage. In this case, we utilize \emph{a unified network performing both recognition and localization tasks}. Experimental results show that our weakly supervised algorithm using feedback network could achieve similar performance on ImageNet object localization task as GoogLeNet~\cite{Szegedy2014Going} and VGG~\cite{Simonyan2014Very}.
+% Simultaneously answer the question of "what" and "where"
+Given the salience maps shown in Figure~\ref{fig:splah} and Figure~\ref{fig:visual_compare}, we further develop a weakly supervised object localization algorithm. Instead of using large amount of supervision (\emph{e.g.}, bounding box positions) in traditional methods such as R-CNN~\cite{girshick2014rich} or using regression model~\cite{erhan2014scalable}, we don't require any localization information in the training stage. In this case, we utilize \emph{a unified network performing both recognition and localization tasks}, to answer questions of ``what'' and ``where'' simultaneously, which are the two most important tasks in computer vision. Experimental results show that our weakly supervised algorithm using feedback network could achieve similar performance on ImageNet object localization task as GoogLeNet~\cite{Szegedy2014Going} and VGG~\cite{Simonyan2014Very}.
 
 The remainder of this paper is organized as follows: Section~\ref{sec:related_work} introduces the related work, while we formulate our algorithm in Section~\ref{sec:model}. Experiments of visualization and object localization are demonstrated in Section~\ref{sec:experiment}. We conclude this work and future directions in Section~\ref{sec:conclusion}
 
 % Implementation - caffe~\cite{jia2014caffe}
-
-\begin{comment}
-Introduction will follow these three aspects:
-\begin{description}
-  \item[Optimization of model] Using DPM as an inspiration, to claim the model add flexibility and spatial assignments to objects / parts;
-  \item[Cognitive] Biased Competition theory. Attention includes bottom-up and top-down. While the latter is driven by high-level sementics;
-  \item[Unified Network for recognition and detection]: This is important. In this work, we unify the recognition and attention in a unified network. (But the problem is, how to detect multiple objects in an single image? For example, two dogs, two cats?)
-\end{description}
-\end{comment}
-
 
 
 
