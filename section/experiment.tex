@@ -37,13 +37,13 @@ However, Most of the images in ImageNet 2014 dataset contain only one salient ob
 
 \begin{table}
 \centering
-\begin{tabular}{|c|c|}
+\begin{tabular}{|c|c|c|c|}
 \hline
-Method & Localization Accuracy (\%) \\
+Method & Localization Error (\%) \\
 \hline
-Oxford~\cite{simonyan2013deep} & 50.0 \\
-Deconv~\cite{zeiler2014visualizing} & 54.7 \\
-Feedback & \textbf{57.3} \\
+Oxford~\cite{simonyan2013deep} & 41.6 \\
+Deconv~\cite{zeiler2014visualizing} & \\
+Feedback & \textbf{39.8} \\
 \hline
 \end{tabular}
 \caption{We show the localization evaluation on ImageNet 2014 localization competition. Our model clearly outperforms the weakly supervised approach based on []. Notably, we compare even fairbly well against supervisedly trained localization model, where an extra localization bouding boxes dataset is used. We demonstrate that when learning for classifications objectives, the Deep ConvNet already integrate powerful class specific features for attentioning on the important areas.}
@@ -54,10 +54,10 @@ Feedback & \textbf{57.3} \\
 \centering
 \begin{tabular}{|c|c|}
 \hline
-Method & Localization Accuracy (\%) \\ 
+Model & Localization Error (\%) \\ 
 \hline
 AlexNet~\cite{Krizhevsky2012ImageNet} & \\
-VggNet~\cite{Simonyan2014Very} & 57.3 \\
+VggNet~\cite{Simonyan2014Very} & 39.8 \\
 GooglNet~\cite{Szegedy2014Going} & \\
 \hline
 \end{tabular}
