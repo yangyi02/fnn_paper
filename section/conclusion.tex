@@ -1,6 +1,11 @@
 \section{Conclusion \& Discussion}
 \label{sec:conclusion}
 
+We propose a Feedback Convolutional Neural Network architecture in this paper, which achieves the selectivity of neuron activations by jointly reasoning outputs of class nodes and activations of hidden layer neurons during the feedback loop. The proposed Feedback CNN is capable to capture high level semantic concepts and project down to image representations as salience maps. Benefit from the feedback mechanism implemented in our model, we utilize the salience map to build a unified deep neural network for both recognition and object detection tasks, to answer the questions both ``What'' and ``Where'' simultaneously. Experimental results on ImageNet 2014 object localization Challenge show that our model could achieve competitive or even better performance compared with state-of-the-arts, using only weakly supervised information.
+
+The Feedback CNN has the potential to improve various computer vision and machine learning tasks, such as fine-grained recognition, multi-task learning, and object detection. Moreover, we are seeing the possibilities to implement semi-supervised CNN using the proposed feedback architecture as future work.
+
+\begin{comment}
 We proposes a Feedback Convolusional Neural Networks for class model visualization and object localization.
 Our Feedback Neural Networks can infer the hidden neuron status given the bottom level input image and top level class labels.
 Experiments on ImageNet localization challengeindicates that our model is superior in weakly supervised object localization, and further experiments demonstrate its powerfulness in distinguishing objects, even under cluttered backgrounds with multiple objects.
@@ -10,3 +15,4 @@ Experiments on ImageNet localization challengeindicates that our model is superi
 (3)
 
 Figure 1: We show the powerfulness of feedback neural networks on class model visualization and object localizations, even when an image contains very cluttered background and lots of salient objects. Note that we simply use a pertained feedforward multi-class convnets (GoogleNet) model [] trained with ImageNet dataset where each training image only contains one object and no further training is involved. The feedback neural nets are able to adapt its middle-level hidden layers (usually represents object parts) by combining the bottom-up feedforward image features as well as top-down feedback semantic information. (a) input image (b) class model visualization given the class label: panda, elephant, gorilla, tiger, lion, (c) final object localization results based on the class model visualization.
+\end{comment}
