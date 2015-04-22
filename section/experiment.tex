@@ -250,25 +250,25 @@ Although the three ConvNets are pre-trained for image classification, we could u
 
 We test our localization results on ImageNet 2014 localization validation set, which contains $\sim$20000 images with each image associated with a label and a bounding box. The predicted bounding box is considered as correct if its overlap with the ground truth is over 50\%. We resize every image to 224x224 as the models' required resolution and provide the ground-truth class labels for the localization prediction. No further preprocessing or multi-scale strategy is involved. 
 
-\textbf{Comparison of Localization Methods:} Table~\ref{tab:localization_accuracy} shows the comparsion of weakly supervised localization accuracy against Oxford and Deconv. We use the same VggNet and apply the same graph cut strategy on all the 3 models. Our method obtains 57\% accuracy, outperforming both Oxford 50\% and Deconv 53\%, suggesting that in terms of capturing attention and localizing salient objects, our feedback net is better. Note that currently this is only top-down and weakly supervised and the object localization task is not taken into account during training.
+\textbf{Comparison of Localization Methods:} Table~\ref{tab:localization_accuracy} shows the comparsion of our weakly supervised localization accuracy against the baseline method~\cite{simonyan2013deep}. We use the same Googlenet and apply the same graph cut strategy. Our method obtains 38\% localization error, significantly outperforming Oxford 44.6\%, suggesting that in terms of capturing attention and localizing salient objects, our feedback net is better. Note that our weakly supervised localization error is even closer to a carefully trained supervised localization model (34.3\%).
 
-\textbf{Comparsion of ConvNet Models:} We also compare the weakly supervised localization ability of the three most popular ConvNet models: AlexNet, VggNet and GoogleNet in Table~\ref{tab:localization_model_compare}, given the ground-truth class labels. AlexNet ... \textbf{\color{red} I need the number to complete the paragraph. } 
+\textbf{Comparsion of ConvNet Models:} We also analyze the weakly supervised localization accuracy of the three ConvNets in Table~\ref{tab:localization_model_compare}, provided with the same testing protocol. Even provided with ground truth class, VggNet and GoogleNet significantly outperforms AlexNet suggesting that better feature representations are sharable between the two highly correlated visual tasks: recognition and localization. GoogleNet outperforms VggNet even further, which matches the observations in Figure~\ref{fig:model_compare}.
 
-However, Most of the images in ImageNet 2014 dataset contain only one salient object. We further show some localization results on images with multiple object classes in Figure~\ref{} ... \textbf{\color{red} I need the figures to complete the paragraph}. Obviously our feedback net cannot distinguish multiple object instances from the same class, but could capture the salient areas, which could be utilized by other sophisticated object detection algorithms. 
+%However, Most of the images in ImageNet 2014 dataset contain only one salient object. We further show some localization results on images with multiple object classes in Figure~\ref{} ... \textbf{\color{red} I need the figures to complete the paragraph}. Obviously our feedback net cannot distinguish multiple object instances from the same class, but could capture the salient areas, which could be utilized by other sophisticated object detection algorithms. 
 
 \begin{table}
 \centering
 \small
-Localization Errors of Different Methods
+Localization Errors Given Ground Truth Labels
 \begin{tabular}{|c|c|}
 \hline
 Method & Localization Error (\%) \\ \hline
-Oxford~\cite{simonyan2013deep} & 44.7 \\ \hline
-Deconv~\cite{zeiler2014visualizing} & 46.9 \\ \hline
-Feedback & \textbf{42.3} \\ \hline
-VggNet-Supervised~\cite{Simonyan2014Very} & 34.3 \\ \hline
+Oxford~\cite{simonyan2013deep} & 44.6 \\ \hline
+%Deconv~\cite{zeiler2014visualizing} & 46.9 \\ \hline
+Feedback & \textbf{38.8} \\ \hline
+Oxford-Supervised~\cite{Simonyan2014Very} & 34.3 \\ \hline
 \end{tabular}
-\caption{We show that even given ground truth labels, our feedback method still outperforms baseline methods on ImageNet 2014 validation dataset.}
+\caption{We compare our weakly supervised localization results on ImageNet 2014 validation set with the simplified testing protocol: the bounding box is predicted from a single central crop of images and the ground truth labels are provided. We show that our feedback method siginificantly outperforms the baseline method (44.6\%) that uses the original image gradient to localize, and works even closer to a carefully trained supervised localization model (34.3\%).}
 \label{tab:localization_accuracy}
 \end{table}
 
@@ -279,25 +279,23 @@ Localization Errors of Different Feedback ConvNets
 \begin{tabular}{|c|c|}
 \hline
 Model & Localization Error (\%) \\ \hline 
-AlexNet~\cite{Krizhevsky2012ImageNet} & 47.1 \\ \hline
-VggNet~\cite{Simonyan2014Very} & 42.3 \\ \hline
-GooglNet~\cite{Szegedy2014Going} & \textbf{40.1} \\ \hline
+AlexNet~\cite{Krizhevsky2012ImageNet} & 49.6 \\ \hline
+VggNet~\cite{Simonyan2014Very} & 40.2 \\ \hline
+GooglNet~\cite{Szegedy2014Going} & \textbf{38.8} \\ \hline
 \end{tabular}
-\caption{In order to more fairly compare AlexNet agaisnt VggNet ana GoogleNet, we use the ground truth labels as the target labels for evaluating localization.}
+\caption{We analyze the attention ability by running our feedback mechanism on the three popular ConvNets. All models use the same testing protocol as Table~\ref{tab:localization_accuracy}. Even provided with ground truth class, VggNet and GoogleNet significant outperforms AlexNet suggesting they are learning better features. GoogleNet outperforms VggNet even further, which matches the observations in Figure~\ref{fig:model_compare}.}
 \label{tab:localization_model_compare}
 \end{table}
 
-\begin{comment}
-\begin{table}
-\centering
-Localization Error With Top 5 Predictions
-\begin{tabular}{|c|c|c|c|} \hline
-Method & AlexNet & VggNet & GoogleNet \\ \hline
-Oxford~\cite{simonyan2013deep} & 53.4 & 51.6 & 47.8 \\ \hline
-Deconv~\cite{zeiler2014visualizing} & 55.2 & 52.2 & 49.6\\ \hline
-Feedback & 52.3 & 49.0 & \textbf{46.1} \\ \hline 
-\end{tabular}
-\caption{We compare the localization results on ImageNet 2014 validation set against Oxford and Deconv, using three different ConvNet models. Our feedback method clearly outperforms the baseline approaches for weakly supervised object localization. Notably, although VggNet and GoogleNet have ery similar image classfication accuray on ImageNet, our comparison suggests GoogleNet learns better middle level features than VggNet.}
-\label{tab:localization_accuracy_top5}
-\end{table}
-\end{comment}
+%\begin{table}
+%\centering
+%Localization Error With Top 5 Predictions
+%\begin{tabular}{|c|c|c|c|} \hline
+%Method & AlexNet & VggNet & GoogleNet \\ \hline
+%Oxford~\cite{simonyan2013deep} & 53.4 & 51.6 & 47.8 \\ \hline
+%Deconv~\cite{zeiler2014visualizing} & 55.2 & 52.2 & 49.6\\ \hline
+%Feedback & 52.3 & 49.0 & \textbf{46.1} \\ \hline 
+%\end{tabular}
+%\caption{We compare the localization results on ImageNet 2014 validation set against Oxford and Deconv, using three different ConvNet models. Our feedback method clearly outperforms the baseline approaches for weakly supervised object localization. Notably, although VggNet and GoogleNet have ery similar image classfication accuray on ImageNet, our comparison suggests GoogleNet learns better middle level features than VggNet.}
+%\label{tab:localization_accuracy_top5}
+%\end{table}
