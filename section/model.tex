@@ -46,7 +46,7 @@ Finally, a few fully connected layers (normally with drop-out) is stacked on top
 \end{comment}
 
 \subsection{Re-interpreting ReLU and Max-Pooling}
-We can re-interpret ReLU and max-pooling layers as components for feature selection in neural nets. During feedforward computation, ReLU and max-pooling layers select those neuron signals that are either \emph{confident enough or locally maximal} to facilitate the invariance~\cite{riesenhuber1999hierarchical}, spatial assignments~\cite{weng1992cresceptron}, and proceed the message passing.
+The ReLU and max-pooling layers can be re-interpreted as components for feature selection in neural nets. During feedforward computation, ReLU and max-pooling layers select those neuron signals that are either \emph{confident enough or locally maximal} to facilitate the invariance~\cite{riesenhuber1999hierarchical}, spatial assignments~\cite{weng1992cresceptron}, and proceed the message passing to higher levels.
 
 We introduce a set of binary activation variables $\mathbf{z} \in \{0, 1\}$ to replace the $\max()$ operations in these layers. For the ReLU layer, $\mathbf{z}$ is the same size as the input $\mathbf{x}$ and Equation~\ref{eq:relu} can be rewritten as $\mathbf{y} = \mathbf{z} \circ \mathbf{x}$, where $\circ$ is the element wise product (Hadamard product). For the max-pooling layer, $\mathbf{z}$ are similar as convolutional filters except that they are location variant. Equation~\ref{eq:max-pool} can be rewritten as $\mathbf{y} = \mathbf{z} * \mathbf{x}$, where $*$ is the convolution operator.
 
