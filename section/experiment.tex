@@ -259,16 +259,16 @@ However, Most of the images in ImageNet 2014 dataset contain only one salient ob
 \begin{table}
 \centering
 \small
-Localization Errors of Different Methods
+Localization Errors of Given Ground Truth Labels
 \begin{tabular}{|c|c|}
 \hline
 Method & Localization Error (\%) \\ \hline
-Oxford~\cite{simonyan2013deep} & 44.7 \\ \hline
-Deconv~\cite{zeiler2014visualizing} & 46.9 \\ \hline
-Feedback & \textbf{42.3} \\ \hline
-VggNet-Supervised~\cite{Simonyan2014Very} & 34.3 \\ \hline
+Oxford~\cite{simonyan2013deep} & 44.6 \\ \hline
+%Deconv~\cite{zeiler2014visualizing} & 46.9 \\ \hline
+Feedback & \textbf{38.8} \\ \hline
+Oxford-Supervised~\cite{Simonyan2014Very} & 34.3 \\ \hline
 \end{tabular}
-\caption{We show that even given ground truth labels, our feedback method still outperforms baseline methods on ImageNet 2014 validation dataset.}
+\caption{We compare our weakly supervised localization results on ImageNet 2014 validation set with the simplified testing protocol: the bounding box is predicted from a single central crop of images and the ground truth labels are provided. We show that our feedback method siginificantly outperforms the baseline method (44.6\%) that uses the original image gradient to localize, and works even closer to a carefully trained supervised localization model (34.3\%).}
 \label{tab:localization_accuracy}
 \end{table}
 
@@ -279,9 +279,9 @@ Localization Errors of Different Feedback ConvNets
 \begin{tabular}{|c|c|}
 \hline
 Model & Localization Error (\%) \\ \hline 
-AlexNet~\cite{Krizhevsky2012ImageNet} & 47.1 \\ \hline
-VggNet~\cite{Simonyan2014Very} & 42.3 \\ \hline
-GooglNet~\cite{Szegedy2014Going} & \textbf{40.1} \\ \hline
+AlexNet~\cite{Krizhevsky2012ImageNet} & 49.6 \\ \hline
+VggNet~\cite{Simonyan2014Very} & 40.2 \\ \hline
+GooglNet~\cite{Szegedy2014Going} & \textbf{38.8} \\ \hline
 \end{tabular}
 \caption{In order to more fairly compare AlexNet agaisnt VggNet ana GoogleNet, we use the ground truth labels as the target labels for evaluating localization.}
 \label{tab:localization_model_compare}
