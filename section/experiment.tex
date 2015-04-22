@@ -38,14 +38,11 @@ However, Most of the images in ImageNet 2014 dataset contain only one salient ob
 \begin{table}
 \centering
 Localization Error With Top 5 Predictions
-\begin{tabular}{|c|c|c|c|}
-\hline
-Method & AlexNet & VggNet & GoogleNet \\ 
-\hline
-Oxford~\cite{simonyan2013deep} & 53.4 & 51.6 & 47.8 \\
-Deconv~\cite{zeiler2014visualizing} & 55.2 & 52.2 & 49.6\\
-Feedback & 52.3 & 49.0 & \textbf{46.1} \\
-\hline
+\begin{tabular}{|c|c|c|c|} \hline
+Method & AlexNet & VggNet & GoogleNet \\ \hline
+Oxford~\cite{simonyan2013deep} & 53.4 & 51.6 & 47.8 \\ \hline
+Deconv~\cite{zeiler2014visualizing} & 55.2 & 52.2 & 49.6\\ \hline
+Feedback & 52.3 & 49.0 & \textbf{46.1} \\ \hline 
 \end{tabular}
 \caption{We compare the localization results on ImageNet 2014 validation set against Oxford and Deconv, using three different ConvNet models. Our feedback method clearly outperforms the baseline approaches for weakly supervised object localization. Notably, although VggNet and GoogleNet have ery similar image classfication accuray on ImageNet, our comparison suggests GoogleNet learns better middle level features than VggNet.}
 \label{tab:localization_accuracy_top5}
@@ -56,12 +53,10 @@ Feedback & 52.3 & 49.0 & \textbf{46.1} \\
 Localization Error With Ground Truth Labels
 \begin{tabular}{|c|c|}
 \hline
-Model & Localization Error (\%) \\ 
-\hline
-AlexNet~\cite{Krizhevsky2012ImageNet} & 47.1 \\
-VggNet~\cite{Simonyan2014Very} & 42.3 \\
-GooglNet~\cite{Szegedy2014Going} & \textbf{40.1} \\
-\hline
+Model & Localization Error (\%) \\ \hline 
+AlexNet~\cite{Krizhevsky2012ImageNet} & 47.1 \\ \hline
+VggNet~\cite{Simonyan2014Very} & 42.3 \\ \hline
+GooglNet~\cite{Szegedy2014Going} & \textbf{40.1} \\ \hline
 \end{tabular}
 \caption{In order to more fairly compare AlexNet agaisnt VggNet ana GoogleNet, we use the ground truth labels as the target labels for evaluating localization.}
 \label{tab:localization_model_compare}
@@ -72,77 +67,83 @@ GooglNet~\cite{Szegedy2014Going} & \textbf{40.1} \\
 Localization Error With Ground Truth Labels
 \begin{tabular}{|c|c|}
 \hline
-Method & Localization Error (\%) \\
-\hline
-Oxford~\cite{simonyan2013deep} & 44.7 \\
-Deconv~\cite{zeiler2014visualizing} & 46.9 \\
-Feedback & \textbf{42.3} \\
-\hline
+Method & Localization Error (\%) \\ \hline
+Oxford~\cite{simonyan2013deep} & 44.7 \\ \hline
+Deconv~\cite{zeiler2014visualizing} & 46.9 \\ \hline
+Feedback & \textbf{42.3} \\ \hline
+VggNet-Supervised~\cite{Simonyan2014Very} & 33.1 \\ \hline
 \end{tabular}
 \caption{We show that even given ground truth labels, our feedback method still outperforms baseline methods on ImageNet 2014 validation dataset.}
 \label{tab:localization_accuracy}
 \end{table}
 
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{0.5pt}
 \begin{figure*}
 \begin{center}
-\begin{tabular}{c||ccc||ccc}
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat1_diff_258} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/dog-cat1_diff_258} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat1_diff_258} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat1_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/dog-cat1_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat1_diff_286} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat2_diff_163} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/dog-cat2_diff_163} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat2_diff_163} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat2_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/dog-cat2_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat2_diff_286} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat3} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat3_diff_188} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/dog-cat3_diff_188} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat3_diff_188} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat3_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/dog-cat3_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat3_diff_286} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat4} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat4_diff_243} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/dog-cat4_diff_243} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat4_diff_243} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat4_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/dog-cat4_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat4_diff_286} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car1_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/bic-car1_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car1_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/bic-car1_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_672} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car2_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/bic-car2_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car2_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/bic-car2_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_672} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele1_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/zeb-ele1_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele1_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/zeb-ele1_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_387} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele2_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/zeb-ele2_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele2_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/deconv/zeb-ele2_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_387} \\
+\begin{tabular}{ccccccc}
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat1} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat1_diff_258} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/dog-cat1_diff_258} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/dog-cat1_diff_258} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat1_diff_286} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/dog-cat1_diff_286} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/dog-cat1_diff_286} \\
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat2} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat2_diff_163} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/dog-cat2_diff_163} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/dog-cat2_diff_163} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat2_diff_286} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/dog-cat2_diff_286} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/dog-cat2_diff_286} \\
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat3} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat3_diff_188} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/dog-cat3_diff_188} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/dog-cat3_diff_188} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat3_diff_286} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/dog-cat3_diff_286} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/dog-cat3_diff_286} \\
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat4} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat4_diff_243} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/dog-cat4_diff_243} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/dog-cat4_diff_243} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/dog-cat4_diff_286} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/dog-cat4_diff_286} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/dog-cat4_diff_286} \\
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/bic-car1} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/bic-car1_diff_818} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/bic-car1_diff_818} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_818} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/bic-car1_diff_672} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/bic-car1_diff_672} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_672} \\
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/bic-car2} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/bic-car2_diff_818} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/bic-car2_diff_818} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_818} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/bic-car2_diff_672} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/bic-car2_diff_672} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_672} \\
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/zeb-ele1} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/zeb-ele1_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/zeb-ele1_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/zeb-ele1_diff_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/zeb-ele1_diff_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_387} \\
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/zeb-ele2} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/zeb-ele2_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/zeb-ele2_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/oxford/zeb-ele2_diff_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/deconv/zeb-ele2_diff_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_387} \\
 {\small (a) Image} &
 {\small (b) Gradient} &
 {\small (c) Deconv} &
@@ -150,178 +151,102 @@ Feedback & \textbf{42.3} \\
 {\small (e) Gradient} &
 {\small (f) Deconv} &
 {\small (g) Feedback} \\
-& \multicolumn{3}{c||}{Object 1: dog, car, zebra} & \multicolumn{3}{|c}{Object 2: cat, bike, elephant} \\
+& \multicolumn{3}{c}{\small Object 1: dog, car or zebra} & \multicolumn{3}{c}{\small Object 2: cat, bike or elephant} \\
 \end{tabular}
 % \vspace{-10pt}
-\caption{We demonstrate the effectiveness of feedback neural networks for class-specific feature extraction, by comparing the class model visualization results against original gradient~\cite{simonyan2013deep} and Deconv~\cite{zeiler2014visualizing} on selected images with multiple objects. All methods compute visualizations on top a pre-trained GoogleNet. Column (a) shows the input images (\emph{i.e.} dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (b) and (e) show the original image gradients. Column (c) and (f) show the deconv results. Column (d) and (g) show the image gradients after feedback. Comparing against original gradient and Deconv, the feedback visualization focus more on the correponding salient object area. Better viewed in color.} 
+\caption{We demonstrate the effectiveness of feedback neural networks for class-specific feature extraction, by comparing the class model visualization results against original gradient~\cite{simonyan2013deep} and Deconv~\cite{zeiler2014visualizing} on selected images with multiple objects. All methods compute visualizations given a pre-trained GoogleNet. Column (a) shows the input images (\emph{i.e.} dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (b) and (e) show the original image gradients. Column (c) and (f) show the deconv results. Column (d) and (g) show the image gradients after feedback. Comparing against original gradient and Deconv, the feedback visualization focus more on the correponding salient object area. Better viewed in color and zoom in.} 
 \label{fig:examples}
 % \vspace{-30pt}
 \end{center}
 \end{figure*}
 
-
-\begin{comment}
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{0.5pt}
 \begin{figure*}
 \begin{center}
 \begin{tabular}{ccccccc}
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat1_sali_258} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat1_diff_258} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat1_diff_258} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat1_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat1_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat1_sali_286} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat2_sali_163} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat2_diff_163} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat2_diff_163} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat2_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat2_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat2_sali_286} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat3_sali_188} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat3_diff_188} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat3_diff_188} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat3} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat3_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat3_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat3_sali_286} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat4_sali_243} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat4_diff_243} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat4_diff_243} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat4} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/dog-cat4_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat4_diff_286} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/dog-cat4_sali_286} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_sali_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car1_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car1_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_sali_672} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_sali_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car2_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/bic-car2_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_sali_672} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_sali_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele1_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele1_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_sali_387} \\
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_sali_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele2_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/oxford/zeb-ele2_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_sali_387} \\
-{\small (a) Saliency} &
-{\small (b) Feedback} &
-{\small (c) Gradient} &
-{\small (d) Image} &
-{\small (e) Gradient} &
-{\small (f) Feedback} &
-{\small (g) Saliency}
-\end{tabular}
-% \vspace{-10pt}
-\caption{We illustrate the effectiveness of feedback neural networks (built on a pre-trained GoogleNet) for class-specific feature extraction. Column (d) shows the selected input images containing two different objects (i.e.\ dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (c) and (e) show the orignal image gradients of the two different classes. Column (b) and (f) show the image gradients after feedback net finishes adjusting hidden neuron activiations w.r.t. the two different classes. Column (a) and (g) show the salience map computed from the gradients after feedback. Comparing against the orignal image gradients in (c) and (e) which usually spread over the entire image, feedbacked gradients in (b) and (f) focus more on the corresponding object area. Better viewed in color.}
-\label{fig:examples}
-% \vspace{-30pt}
-\end{center}
-\end{figure*}
-\end{comment}
-
-\setlength{\tabcolsep}{2pt}
-\begin{figure*}
-\begin{center}
-\begin{tabular}{cccccccc}
-\rotatebox{90}{\hspace{5mm}Gradient} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/zeb-ele1_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/zeb-ele1_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_387} \\
-\rotatebox{90}{\hspace{5mm}Saliency} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/zeb-ele1_sali_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/zeb-ele1_sali_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_sali_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/zeb-ele1_sali_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/zeb-ele1_sali_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele1_sali_387} \\
-\rotatebox{90}{\hspace{5mm}Gradient} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/zeb-ele2_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/zeb-ele2_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/zeb-ele2_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/zeb-ele2_diff_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_387} \\
-\rotatebox{90}{\hspace{5mm}Saliency} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/zeb-ele2_sali_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/zeb-ele2_sali_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_sali_341} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/zeb-ele2_sali_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/zeb-ele2_sali_387} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/zeb-ele2_sali_387} \\
-\rotatebox{90}{\hspace{5mm}Gradient} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_672} \\
-\rotatebox{90}{\hspace{5mm}Saliency} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_sali_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_sali_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_sali_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_sali_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_sali_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_sali_672} \\
-\rotatebox{90}{\hspace{5mm}Gradient} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_diff_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_672} \\
-\rotatebox{90}{\hspace{5mm}Saliency} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_sali_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_sali_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_sali_818} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2} &
-\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_sali_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_sali_672} &
-\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_sali_672} \\
-&
-{\small (a) AlexNet} &
-{\small (b) VggNet} &
-{\small (c) GoogleNet} &
-{\small (d) Image} &
+%\rotatebox{90}{\hspace{5mm}Gradient} &
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele1} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/vggnet/soft/zeb-ele1_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/vggnet/soft/zeb-ele1_diff_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_387} \\
+%\rotatebox{90}{\hspace{5mm}Saliency} &
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele1} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/alexnet/soft/zeb-ele1_sali_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/vggnet/soft/zeb-ele1_sali_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele1_sali_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/alexnet/soft/zeb-ele1_sali_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/vggnet/soft/zeb-ele1_sali_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele1_sali_387} \\
+%\rotatebox{90}{\hspace{5mm}Gradient} &
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele2} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/alexnet/soft/zeb-ele2_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/vggnet/soft/zeb-ele2_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/alexnet/soft/zeb-ele2_diff_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/vggnet/soft/zeb-ele2_diff_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_387} \\
+%\rotatebox{90}{\hspace{5mm}Saliency} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele2} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/alexnet/soft/zeb-ele2_sali_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/vggnet/soft/zeb-ele2_sali_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele2_sali_341} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/alexnet/soft/zeb-ele2_sali_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/vggnet/soft/zeb-ele2_sali_387} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/examples/googlenet/soft/zeb-ele2_sali_387} \\
+%\rotatebox{90}{\hspace{5mm}Gradient} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_diff_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_diff_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_diff_672} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_diff_672} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_diff_672} \\
+%\rotatebox{90}{\hspace{5mm}Saliency} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_sali_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_sali_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_sali_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car1_sali_672} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car1_sali_672} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car1_sali_672} \\
+%\rotatebox{90}{\hspace{5mm}Gradient} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_diff_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_diff_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_diff_672} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_diff_672} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_672} \\
+%\rotatebox{90}{\hspace{5mm}Saliency} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_sali_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_sali_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_sali_818} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/alexnet/soft/bic-car2_sali_672} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/vggnet/soft/bic-car2_sali_672} &
+%\includegraphics[width=0.13\linewidth]{figs/examples/googlenet/soft/bic-car2_sali_672} \\
+{\small (a) Image} &
+{\small (b) AlexNet} &
+{\small (c) VggNet} &
+{\small (d) GoogleNet} &
 {\small (e) AlexNet} &
 {\small (f) VggNet} &
-{\small (g) GoogleNet}
+{\small (g) GoogleNet} \\
 \end{tabular}
 % \vspace{-10pt}
-\caption{We visualize the feedback ability of three most popular pre-trained ConvNets: AlexNet, VggNet and GoogleNet. We show the input images in column (d). We show the feedbacked image gradients and salience maps for each image. On the left 3 columns, we compute the results w.r.t. zebra or car, on the right 3 columns we compute the results w.r.t. elephant or bike. In the visualization results, VggNet performs quite better than AlexNet, especially in capturing the most salient object details, suggesting the benefit of usage of small convolutional filters and deeper structures. Although both VggNet and GogoleNet produce similar classification accruacy, we find GoogleNet provides the better class specific feature separations. We suspect the two 4096 fully connected layers in VggNet (which GoogleNetdoes not have) could harm the spatial distinctiveness of image features.}
+\caption{We visualize the feedback ability of three most popular pre-trained ConvNets: AlexNet, VggNet and GoogleNet, by visualizing the final image gradients and salience maps after feedback. We show the input images in column (a). We show the results of the three models feedbacked by "zebra" in column (b), (c), (d) and by "elephant" in column (e), (f), (g) repsectively. We find that VggNet performs quite better than AlexNet, especially in capturing salient object details, suggesting the benefit of usage of small convolutional filters and deeper architecture. Although both VggNet and GogoleNet produce similar classification accruacy, we find GoogleNet provides the better class specific feature separations. We suspect the two 4096 fully connected layers in VggNet (which GoogleNetdoes not have) could harm the spatial distinctiveness of image features.}
 \label{fig:model_compare}
 % \vspace{-30pt}
 \end{center}
 \end{figure*}
 
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{0.5pt}
 \begin{figure*}
 \begin{center}
 \begin{tabular}{ccccccc}
@@ -332,34 +257,37 @@ Feedback & \textbf{42.3} \\
 {\small (e) Kit fox} &
 {\small (f) Tiger} &
 {\small (g) Ostrich} \\
+\vspace{-2.5pt}
 &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/pyrenees} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/beagle} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/yorkshire-terrier} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/kit-fox} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/tiger} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/ostrich} \\
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat1} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_258} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_163} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_188} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_279} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_293} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_10} \\
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat2} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_258} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_163} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_188} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_279} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_293} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_10} \\
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat3} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_258} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_163} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_188} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_279} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_293} &
-\includegraphics[width=0.13\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_10} \\
+\includegraphics[width=0.14\linewidth,height=0.08\linewidth]{figs/class_compare/pyrenees} &
+\includegraphics[width=0.14\linewidth,height=0.08\linewidth]{figs/class_compare/beagle} &
+\includegraphics[width=0.14\linewidth,height=0.08\linewidth]{figs/class_compare/yorkshire-terrier} &
+\includegraphics[width=0.14\linewidth,height=0.08\linewidth]{figs/class_compare/kit-fox} &
+\includegraphics[width=0.14\linewidth,height=0.08\linewidth]{figs/class_compare/tiger} &
+\includegraphics[width=0.14\linewidth,height=0.08\linewidth]{figs/class_compare/ostrich} \\
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat1} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_258} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_163} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_188} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_279} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_293} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat1_diff_10} \\
+\vspace{-2.5pt}
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat2} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_258} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_163} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_188} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_279} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_293} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat2_diff_10} \\
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat3} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_258} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_163} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_188} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_279} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_293} &
+\includegraphics[width=0.14\linewidth,height=0.11\linewidth]{figs/class_compare/googlenet/soft/dog-cat3_diff_10} \\
 \end{tabular}
 % \vspace{-10pt}
 \caption{We show some interesting visualizations for the understanding of fine-grained classification by comparsing against the feedback gradients of ground truth labels and other classes. The top row shows the class labels and a representative image for each class for the ease of understanding. Column (a) shows the three examplar input images, their ground truth labels are great pyrenees, beagle and yorkshire terrier respectively. We can see that although (b), (c) and (d) are all dogs, their salient area for distinction are quite different. Noses are one of the most important feature for classifying dogs, but ears are specific feature for beagles, while fluffy is more importatnt to yorkshire terrier. When the top down is from (e) kit fox, features on the cat in the last row is more fox-specific: nose and ears. When top down is from (f) tiger, features on the same at is more tiger-specific: textures. And when it's (g) ostrich, nothing special come out.}
