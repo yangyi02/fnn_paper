@@ -20,7 +20,7 @@ The most recent state-of-the-art deep CNNs~\cite{Simonyan2014Very} consist of ma
 \textbf{Convolutional Layer:} 
 The convolutional layer is parameterized by $C'$ filters with every filter $\mathbf{k} \in \mathcal{R}^{K \times K \times C}$.
 \begin{equation}
-\mathbf{y}_{c'} = \sum_{c=1}^C \mathbf{k}_{c'c} * \mathbf{x}_c
+\mathbf{y}_{c'} = \sum_{c=1}^C \mathbf{k}_{c'c} * \mathbf{x}_c,\ \forall c'
 \end{equation}
 
 \textbf{ReLU Layer:}
@@ -33,7 +33,7 @@ The ReLU layer is used to provide the nonlinearity for the network.
 \textbf{Max-Pooling Layer:}
 The max-pooling layer is used to reduce the dimensionality of the output and model the invariance in deformable objects. The max-pooling operation is applied for every pixel location $i,j$ around its small neighborhood $\mathcal{N}$.
 \begin{equation}
-y_{i,j,c} = \max_{u,v \in \mathcal{N}} x_{i+u, j+v, c}
+y_{i,j,c} = \max_{u,v \in \mathcal{N}} x_{i+u, j+v, c},\ \forall i, j, c
 \label{eq:max-pool}
 \end{equation}
 
@@ -60,11 +60,9 @@ For the max-pooling layer,
 \end{equation}
 where $*$ is the convolution operation. The element value in $\mathbf{z}$ is determined by $\mathbf{x}$ as the property of max-pooling.
 
-For both layers, the $\max()$ functions are replaced with the linear operations between inputs and hidden variables. However, the values of the latent variables $\mathbf{z}$ are completely determined by the bottom-up input $\mathbf{x}$. 
+For both layers, the $\max()$ functions are replaced with linear operations between the inputs and binary hidden variables. The binary latent variables performs as feature selection. However, the values of the latent variables $\mathbf{z}$ are completely determined by the bottom-up input $\mathbf{x}$, meaning that the feature selection based on bottom-up. 
 
-The final feature computed for classifcation are shared among all classes. It can be imagined that when ConvNets compute the middle layer features, it tries to make the largest possible information pass through the network . These features are stationary change them even when the upper layers neurons are changed.
-
-
+During the feedforward process, since the middle layers have no idea about what is going on on the top layers, they have to keep the information passed from bottom layers as much as possible. Hence the final layer features computed for classifcation are sharable among all classes. It can be imagined that when ConvNets compute the middle layer features, it tries to make the largest possible information pass through the network. However, These features are stationary and even when there provide with prior information about top level neurons, the features won't change themselves.
 
 \subsection{Updating Hidden Neuron in Feedback}
 However, in order to recognize the image, the middle level layers are designed to provide all possible information for the final layer to classify. This works well when there is only one salient object in the image. However when people care about different aspects in the images, the same feature may not be appropriate all the time. 
