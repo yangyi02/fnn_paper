@@ -283,7 +283,7 @@ AlexNet~\cite{Krizhevsky2012ImageNet} & 49.6 \\ \hline
 VggNet~\cite{Simonyan2014Very} & 40.2 \\ \hline
 GooglNet~\cite{Szegedy2014Going} & \textbf{38.8} \\ \hline
 \end{tabular}
-\caption{In order to more fairly compare AlexNet agaisnt VggNet ana GoogleNet, we use the ground truth labels as the target labels for evaluating localization.}
+\caption{We analyze the attention ability by running our feedback mechanism on the three popular ConvNets. All models use the same testing protocol as Table~\ref{tab:localization_accuracy}. Even provided with ground truth class, VggNet and GoogleNet significant outperforms AlexNet suggesting they are learning better features. GoogleNet outperforms VggNet even further, which matches the observations in Figure~\ref{fig:model_compare}}
 \label{tab:localization_model_compare}
 \end{table}
 
