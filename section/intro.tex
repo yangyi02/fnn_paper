@@ -28,18 +28,18 @@ Visual attention typically is dominant by \emph{``goals''} from our mind easily 
 
 Inspired by the above evidences, we present a novel \emph{Feedback Convolutional Neural Network} architecture in this paper. It achieves this selectivity by jointly reasoning outputs of class nodes and activations of hidden layer neurons during the feedback loop. As shown in Figure~\ref{fig:splash0}, during the feedforward stage, the proposed network performs inference from image features in a bottom-up manner as traditional Convolutional Networks; while in feedback loops, it sets up high-level semantic labels (\emph{e.g.}, outputs of class nodes) as the ``goal'' in visual search to infer the activation status of hidden layer neurons. The network is powerful to be applied on class model visualization~\cite{simonyan2013deep, zeiler2014visualizing} and object localization even in cluttered scenes with multiple objects.
 
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{0.5pt}
 \begin{figure*}[htb]
 \begin{center}
 \begin{tabular}{ccccccc}
 %\rotatebox{90}{\hspace{5mm}Sequential} &
-\includegraphics[width=0.13\linewidth]{figs/splash1/original} &
-\includegraphics[width=0.13\linewidth]{figs/splash1/panda} &
-\includegraphics[width=0.13\linewidth]{figs/splash1/tiger} &
-\includegraphics[width=0.13\linewidth]{figs/splash1/gorilla} &
-\includegraphics[width=0.13\linewidth]{figs/splash1/lion} &
-\includegraphics[width=0.13\linewidth]{figs/splash1/elephant} &
-\includegraphics[width=0.13\linewidth]{figs/splash1/localization}\\
+\includegraphics[width=0.14\linewidth]{figs/splash1/original} &
+\includegraphics[width=0.14\linewidth]{figs/splash1/panda} &
+\includegraphics[width=0.14\linewidth]{figs/splash1/tiger} &
+\includegraphics[width=0.14\linewidth]{figs/splash1/gorilla} &
+\includegraphics[width=0.14\linewidth]{figs/splash1/lion} &
+\includegraphics[width=0.14\linewidth]{figs/splash1/elephant} &
+\includegraphics[width=0.14\linewidth]{figs/splash1/localization}\\
 {\small (a) Input Image} &
 {\small (b) Panda} &
 {\small (c) Tiger} &
