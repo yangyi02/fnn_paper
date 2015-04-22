@@ -83,7 +83,7 @@ Given an image $I$ and a neural network with learned parameters $w$, we optimize
 This leads to an integer programming problem, which is NP-hard given the current deep net architecture. An approximated solution could be derived by applying a linear relaxation:
 \begin{equation}
 \begin{aligned}
-& \max_z & & s_c(I, z) \\
+& \max_z & & s_c(I, z) - \lambda ||z|| \\
 & s.t. & & \ 0 \leq z^l_{i,j,c} \leq 1, \; \forall\ l, i, j, c\\
 \end{aligned}
 \end{equation}
