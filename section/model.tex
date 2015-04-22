@@ -60,8 +60,12 @@ For the max-pooling layer,
 \end{equation}
 where $*$ is the convolution operation. The element value in $\mathbf{z}$ is determined by $\mathbf{x}$ as the property of max-pooling.
 
-For both layers, the $\max$ function is replaced with the element-wise product or convolution of hidden variables. However, the values for these latent variables are completely determined by the bottom-up layer input $\mathbf{x}$ and there is no way to change them even when the upper layers neurons are changed.
- 
+For both layers, the $\max()$ functions are replaced with the linear operations between inputs and hidden variables. However, the values of the latent variables $\mathbf{z}$ are completely determined by the bottom-up layer input $\mathbf{x}$. When there are two  
+
+change them even when the upper layers neurons are changed.
+
+
+
 \subsection{Updating Hidden Neuron in Feedback}
 However, in order to recognize the image, the middle level layers are designed to provide all possible information for the final layer to classify. This works well when there is only one salient object in the image. However when people care about different aspects in the images, the same feature may not be appropriate all the time. 
 

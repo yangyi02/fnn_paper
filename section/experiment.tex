@@ -58,9 +58,9 @@ Localization Error With Ground Truth Labels
 \hline
 Model & Localization Error (\%) \\ 
 \hline
-AlexNet~\cite{Krizhevsky2012ImageNet} & \\
-VggNet~\cite{Simonyan2014Very} & 39.8 \\
-GooglNet~\cite{Szegedy2014Going} & \\
+AlexNet~\cite{Krizhevsky2012ImageNet} & 47.1 \\
+VggNet~\cite{Simonyan2014Very} & 42.3 \\
+GooglNet~\cite{Szegedy2014Going} & \textbf{40.1} \\
 \hline
 \end{tabular}
 \caption{In order to more fairly compare AlexNet agaisnt VggNet ana GoogleNet, we use the ground truth labels as the target labels for evaluating localization.}
@@ -74,9 +74,9 @@ Localization Error With Ground Truth Labels
 \hline
 Method & Localization Error (\%) \\
 \hline
-Oxford~\cite{simonyan2013deep} & 41.6 \\
-Deconv~\cite{zeiler2014visualizing} & 42.5 \\
-Feedback & \textbf{39.8} \\
+Oxford~\cite{simonyan2013deep} & 44.7 \\
+Deconv~\cite{zeiler2014visualizing} & 46.9 \\
+Feedback & \textbf{42.3} \\
 \hline
 \end{tabular}
 \caption{We show that even given ground truth labels, our feedback method still outperforms baseline methods on ImageNet 2014 validation dataset.}
