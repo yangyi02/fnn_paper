@@ -6,7 +6,7 @@
 \begin{center}
 \includegraphics[width=0.95\linewidth]{figs/model/model}
 % \vspace{-10pt}
-\caption{Illustration of our feedback model and its inference process. At the first iteration, the model performs as a feedforward neural net. Then given the top signal neuron, the hidden layers update their gates to maximize the confidence for the top neuron. This process continues until convergence.}
+\caption{Illustration of our feedback model and its inference process. At the first iteration, the model performs as a feedforward neural net. After then, the neurons in the feedback hidden layers update their activation status to maximize the confidence output of the target top neuron. This process continues until convergence. (We show only one layer here, but the feedback layers can be tacked in the deep ConvNet.) Better viewed in color.}
 \label{fig:model}
 % \vspace{-30pt}
 \end{center}
@@ -15,32 +15,33 @@
 We first review the current state-of-the-art feedforward Deep Convolutional Neural Networks (CNNs) architecture and then propose our feedback model on top of that. 
 
 \subsection{Review of Convolutional Neural Networks}
-The most recent state-of-the-art deep CNNs~\cite{Simonyan2014Very} consist of many stacked feedforward layers, including convolutional, rectified linear units (ReLU), max-pooling and fully connected layers. For each layer, the input $x$ can be an image or the output of a previous layer, consisting of $C$ input channels of width $M$ and height $N$: $x \in \mathcal{R}^{M \times N \times C}$. The output $y$ consists of a set of $C'$ output channels of width $M'$ and height $N'$: $y \in \mathcal{R}^{M' \times N' \times C'}$. 
+The most recent state-of-the-art deep CNNs~\cite{Simonyan2014Very} consist of many stacked feedforward layers, including convolutional, rectified linear units (ReLU) and max-pooling layers. For each layer, the input $\mathbf{x}$ can be an image or the output of a previous layer, consisting of $C$ input channels of width $M$ and height $N$: $\mathbf{x} \in \mathcal{R}^{M \times N \times C}$. The output $\mathbf{y}$ consists of a set of $C'$ output channels of width $M'$ and height $N'$: $\mathbf{y} \in \mathcal{R}^{M' \times N' \times C'}$. 
 
 \textbf{Convolutional Layer:} 
-The convolutional layer is parameterized by $C'$ filters with $k_c \in \mathcal{R}^{K \times K \times C}, c=1\ldots C'$. The output of convolutional layer computed at every pixel location ($i'$, $j'$):
+The convolutional layer is parameterized by $C'$ filters with every filter $\mathbf{k} \in \mathcal{R}^{K \times K \times C}$.
 \begin{equation}
-\vec{y}_{c'} = \sum_{c=1}^C k_{cc'} * \vec{x}_c
-% y(i',j',c') = \sum_{c} \sum_{i,j \in \mathcal{N}} w_c(i,j) \cdot x(i+i', j+j', c)
+\mathbf{y}_{c'} = \sum_{c=1}^C \mathbf{k}_{c'c} * \mathbf{x}_c
 \end{equation}
 
 \textbf{ReLU Layer:}
-A ReLU layer is used to add the nonlinearity for the network. The operation is element-wise
+The ReLU layer is used to provide the nonlinearity for the network.
 \begin{equation}
-y_l(i,j,c) = \max (0,y_{l-1}(i,j,c))
+\mathbf{y} = \max (\mathbf{0}, \mathbf{x})
 \end{equation} 
 
 \textbf{Max-Pooling Layer:}
-A max-pooling layer is used to reduce the dimensionality of the output from a convolutional layer as well as keep the translation invarianceproperty of a network for modeling deformable parts and objects at various image locations. The operation of a max-pooling layer is very similar to convolution, except  
+The max-pooling layer is used to reduce the dimensionality of the output and model the invariance in deformable objects. The max-pooling operation is usually applied over a small neighborhood $\mathcal{N}$ for every pixel location $i,j$ in the image.
 \begin{equation}
-y_l(i,j,c) = \max_{u,v \in \mathcal{N}} y_{l-1}(i+u, j+v, c)
+y_{i,j,c} = \max_{u,v \in \mathcal{N}} x_{i+u, j+v, c}
 \end{equation}
 
+\begin{comment}
 \textbf{Fully Connnected Layer:} The fully connected layer is parameterized by the production matrix with $W \in \mathcal{R}^{M'N'C' \times MNC}$. 
 Finally, a few fully connected layers (normally with drop-out) is stacked on top of the convolutional outputs to compute the scores of every class. 
 \begin{equation}
 \vec{y}_l = W_l^T  \vec{y}_{l-1}
 \end{equation}
+\end{comment}
 
 \subsection{Re-interpretion of ReLU and Max-Pooling}
 In the ConvNet, each output of the convolutional layer is forward as the input of ReLU layer. In the architeture, low-level convolutional filters tend to learn biologically plausible feature detectors, such as Gabor filters, while filers in higher layers learn to respond to concrete visual objects or their parts. The ReLU neurons control the activation of the filtering results, to make sure the useful low-level information (above 0) is passed and irrelavent information is stopped.
@@ -103,10 +104,17 @@ Hard optimization: The coordinate descent frameworks stand in this way: 1. Initi
 Soft optimization: The continuous relaxation falls in below way, compute the gradient of class node y given h, use gradient descent update h, and keep until this until convergence.
 \end{comment}
 
-\subsection{Relationship to Deconvolutional Neural Networks}
+\subsection{Relationship to the Deconvolutional Neural Networks}
+
+
 To understand how our inference algorithm work exactly, we compare it to the Deconvolutional neural networks model~\cite{}.
+
+we show below, DeconvNet-based reconstruction of the n-th layer input Xn is either equivalent or similar to computing the gradient of the visualised neuron ac-tivity f with respect to Xn, so DeconvNet effectively corresponds to the gradient back-propagation through a ConvNet.
+
+We can conclude that apart from the RELU layer, computing the approximate feature map recon- struction Rn using a DeconvNet is equivalent to computing the derivative ∂f/∂Xn using back- propagation, which is a part of our visualisation algorithms. Thus, gradient-based visualisation can be seen as the generalisation of that of [13], since the gradient-based techniques can be applied to the visualisation of activities in any layer, not just a convolutional one. In particular, in this paper we visualised the class score neurons in the final fully-connected layer.
 
 Following this, deconvnet can be viewed as a one iteration of our hard optimization
 
 \subsection{Implementation Details}
-In the real model implementation, we only add
+
+
