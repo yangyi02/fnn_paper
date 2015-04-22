@@ -12,12 +12,12 @@
 \end{center}
 \end{figure*}
 
-We first review the current state-of-the-art feedforward Deep Convolutional Neural Networks (CNNs) architecture and then propose our feedback model on top of that. 
+We first review the current state-of-the-art feedforward Deep Convolutional Neural Networks (CNNs) architecture and then propose our feedback model on top of that.
 
 \subsection{Review of Convolutional Neural Networks}
-The most recent state-of-the-art deep CNNs~\cite{Simonyan2014Very} consist of many stacked feedforward layers, including convolutional, rectified linear units (ReLU) and max-pooling layers. For each layer, the input $\mathbf{x}$ can be an image or the output of a previous layer, consisting of $C$ input channels of width $M$ and height $N$: $\mathbf{x} \in \mathcal{R}^{M \times N \times C}$. The output $\mathbf{y}$ consists of a set of $C'$ output channels of width $M'$ and height $N'$: $\mathbf{y} \in \mathcal{R}^{M' \times N' \times C'}$. 
+The most recent state-of-the-art deep CNNs~\cite{Simonyan2014Very} consist of many stacked feedforward layers, including convolutional, rectified linear units (ReLU) and max-pooling layers. For each layer, the input $\mathbf{x}$ can be an image or the output of a previous layer, consisting of $C$ input channels of width $M$ and height $N$: $\mathbf{x} \in \mathcal{R}^{M \times N \times C}$. The output $\mathbf{y}$ consists of a set of $C'$ output channels of width $M'$ and height $N'$: $\mathbf{y} \in \mathcal{R}^{M' \times N' \times C'}$.
 
-\textbf{Convolutional Layer:} 
+\textbf{Convolutional Layer:}
 The convolution layer is used to extract different features of the input. The convolutional layer is parameterized by $C'$ filters with every filter $\mathbf{k} \in \mathcal{R}^{K \times K \times C}$.
 \begin{equation}
 \mathbf{y}_{c'} = \sum_{c=1}^C \mathbf{k}_{c'c} * \mathbf{x}_c,\ \forall c'
@@ -28,7 +28,7 @@ The ReLU layer is used to increase the nonlinear properties of the decision func
 \begin{equation}
 \mathbf{y} = \max (\mathbf{0}, \mathbf{x})
 \label{eq:relu}
-\end{equation} 
+\end{equation}
 
 \textbf{Max-Pooling Layer:}
 The max-pooling layer is used to reduce the dimensionality of the output and variance in deformable objects to ensure that the same result will be obtained even when image features have small translations. The max-pooling operation is applied for every pixel $(i,j)$ around its small neighborhood $\mathcal{N}$.
@@ -38,33 +38,35 @@ y_{i,j,c} = \max_{u,v \in \mathcal{N}} x_{i+u, j+v, c},\ \forall i, j, c
 \end{equation}
 
 \begin{comment}
-\textbf{Fully Connnected Layer:} The fully connected layer is parameterized by the production matrix with $W \in \mathcal{R}^{M'N'C' \times MNC}$. 
-Finally, a few fully connected layers (normally with drop-out) is stacked on top of the convolutional outputs to compute the scores of every class. 
+\textbf{Fully Connnected Layer:} The fully connected layer is parameterized by the production matrix with $W \in \mathcal{R}^{M'N'C' \times MNC}$.
+Finally, a few fully connected layers (normally with drop-out) is stacked on top of the convolutional outputs to compute the scores of every class.
 \begin{equation}
 \vec{y}_l = W_l^T  \vec{y}_{l-1}
 \end{equation}
 \end{comment}
 
 \subsection{Re-interpreting ReLU and Max-Pooling}
-We can re-interpret ReLU and max-pooling layers as components for feature selection in the neural nets. During feedforward computation, the ReLU and max-pooling layers select those neuron signals that are either \emph{confident enough or locally maximal} to proceed the message passing. 
+We can re-interpret ReLU and max-pooling layers as components for feature selection in neural nets. During feedforward computation, ReLU and max-pooling layers select those neuron signals that are either \emph{confident enough or locally maximal} to facilitate the invariance~\cite{riesenhuber1999hierarchical}, spatial assignments~\cite{weng1992cresceptron}, and proceed the message passing.
 
-We introduce a set of binary activation variables $\mathbf{z} \in \{0, 1\}$ to replace the $\max()$ operations in these layers. For the ReLU layer, $\mathbf{z}$ is the same size as the input $\mathbf{x}$ and Equation~\ref{eq:relu} can be rewritten as $\mathbf{y} = \mathbf{z} \circ \mathbf{x}$, where $\circ$ is the element wise product (Hadamard product). For the max-pooling layer, $\mathbf{z}$ are similar as convolutional filters except that they are location variant. Equation~\ref{eq:max-pool} can be rewritten as $\mathbf{y} = \mathbf{z} * \mathbf{x}$, where $*$ is the convolution operator. 
+We introduce a set of binary activation variables $\mathbf{z} \in \{0, 1\}$ to replace the $\max()$ operations in these layers. For the ReLU layer, $\mathbf{z}$ is the same size as the input $\mathbf{x}$ and Equation~\ref{eq:relu} can be rewritten as $\mathbf{y} = \mathbf{z} \circ \mathbf{x}$, where $\circ$ is the element wise product (Hadamard product). For the max-pooling layer, $\mathbf{z}$ are similar as convolutional filters except that they are location variant. Equation~\ref{eq:max-pool} can be rewritten as $\mathbf{y} = \mathbf{z} * \mathbf{x}$, where $*$ is the convolution operator.
 
-For both layers, the $\max()$ functions are replaced with linear operations between the inputs and binary hidden variables. The binary activation variables perform as feature selection. However, the values of $\mathbf{z}$ are completely determined by the bottom-up input $\mathbf{x}$, meaning that the feature selections are purely based on bottom-up signals and won't be changed with any top-down information.
+For both layers, the $\max()$ functions are replaced with linear operations between the inputs and binary hidden variables, as binary activation variables. The binary activation variables perform feature selection. However, the values of $\mathbf{z}$ are completely determined by the bottom-up input $\mathbf{x}$, meaning that the feature selections are purely based on bottom-up signals and won't be changed with any top-down information.
 
-During the feedforward process, the neural net features need to keep a overall description of the image content, due to the lack of top-down global information. The middle-level neurons try to turn on enough ReLU on while the high-level fully connected layers try to keep the feature embedding as discriminative and descriptive as possible. This works well when there is only one salient object in the image and no prior information is given. However, when the image contains multiple objects and complex scenes, the same feature may be too general to work equally well for all objects.
+During the feedforward process, neural-net features need to keep an overall description of the image content and make image representation as general as possible, due to the lack of top-down semantic information. To achieve this target, middle-level neurons try to turn enough ReLUs on to avoid information loss; while the high-level fully connected layers are responsible for providing discriminability and descriptive ability. This works well when there is only one salient object in the image and no prior information is given. However, when the image contains multiple objects and complex scenes, the same feature may be too general to work equally well for all objects. So it will fail in the detection task.
+
+% During the feedforward process, the neural net features need to keep a overall description of the image content, due to the lack of top-down global information. The middle-level neurons try to turn on enough ReLU on while the high-level fully connected layers try to keep the feature embedding as discriminative and descriptive as possible. This works well when there is only one salient object in the image and no prior information is given. However, when the image contains multiple objects and complex scenes, the same feature may be too general to work equally well for all objects.
 
 \subsection{Adding the Feedback Layer}
 Since the model open all the gates for the gates for all information to pass, when we are targeted on a paticular semantic labels, we want to turn off those gates that provide irrelavant information for seeing that object. This top-down message will be utilized to turn off those relu.
 
-To increase the model flexbility to images and prior knowledges, we introduce an extra layer to the existing convolutional neural networks. We call it the feedback layer. The feedback layer contains another set of binary activation variables $\mathbf{z} \in \{0, 1\}$, similar to ReLU. However, the unit variable activations are determined by the top-down message from output, not the bottom input. To further bring the model with the power of both bottom-up and top-down reasoning, we combine build the feedback layer on top of every ReLU layer. The ReLU gate will be open if bottom feature is significant enough while the feedback gate will open if the target neuron is significantly affected by the feature. The two layers together control the final gates for the message passing in the neural nets. Figure.~\ref{fig:model} illustrates a simple architecture of our feedback model with only one ReLU layer and one feedback layer. 
+To increase the model flexbility to images and prior knowledges, we introduce an extra layer to the existing convolutional neural networks. We call it the feedback layer. The feedback layer contains another set of binary activation variables $\mathbf{z} \in \{0, 1\}$, similar to ReLU. However, the unit variable activations are determined by the top-down message from output, not the bottom input. To further bring the model with the power of both bottom-up and top-down reasoning, we combine build the feedback layer on top of every ReLU layer. The ReLU gate will be open if bottom feature is significant enough while the feedback gate will open if the target neuron is significantly affected by the feature. The two layers together control the final gates for the message passing in the neural nets. Figure.~\ref{fig:model} illustrates a simple architecture of our feedback model with only one ReLU layer and one feedback layer.
 
 \subsection{Updating Hidden Neurons in Feedback Loops}
 Given an image $I$ and a neural network with learned parameters $w$, we optimize the target neuron output by jointly reasoning the binary neuron activiations $\mathbf{z}$ over all the hidden feedback layers. In particular, if the target neuron is the class node in the top layer, we optimize the class score $s_k$ by re-ajusting the feedback neurons at every layer $l$, channel $c$ and pixel $(i,j)$.
 \begin{equation}
 \begin{aligned}
 & \max_z & & s_k(I, z) - \lambda ||z|| \\
-& s.t. & & \ z^l_{i,j,c} \in \{0, 1\}, \; \forall\ l, i, j, c 
+& s.t. & & \ z^l_{i,j,c} \in \{0, 1\}, \; \forall\ l, i, j, c
 \end{aligned}
 \end{equation}
 
@@ -83,7 +85,7 @@ z_{t+1} = z_t + \alpha \cdot (\frac{\partial s_c}{\partial z} |_{z_t} - \lambda)
 \end{aligned}
 \end{equation}
 
-We initialize $z$ as the ReLU activation status after a first feedforward and truncate $z$ when the updated values are either larger than 1 or smaller than 0 during inference. 
+We initialize $z$ as the ReLU activation status after a first feedforward and truncate $z$ when the updated values are either larger than 1 or smaller than 0 during inference.
 
 \subsection{Implementation Details}
-In real implementation, we set the feedback layer on top of every ReLU layer except those taking the fully connected layers as inputs. We suspect the fully connected layers learn more embedding spaces rather than paticular parts compared to convolutional layers. We set learning rate of hidden activations to 0.1 and update the neurons of all the feedback layers simultaneously. Each iteration performs a feedforward step of the neural net and a backpropagation step to send back gradients. This process usually converges in 10 to 50 iterations. After that, we set a hidden neuron activation to 1 if its value is greater than 0.5 and 0 if smaller. 
+In real implementation, we set the feedback layer on top of every ReLU layer except those taking the fully connected layers as inputs. We suspect the fully connected layers learn more embedding spaces rather than paticular parts compared to convolutional layers. We set learning rate of hidden activations to 0.1 and update the neurons of all the feedback layers simultaneously. Each iteration performs a feedforward step of the neural net and a backpropagation step to send back gradients. This process usually converges in 10 to 50 iterations. After that, we set a hidden neuron activation to 1 if its value is greater than 0.5 and 0 if smaller.
