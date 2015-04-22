@@ -60,9 +60,9 @@ For the max-pooling layer,
 \end{equation}
 where $*$ is the convolution operation. The element value in $\mathbf{z}$ is determined by $\mathbf{x}$ as the property of max-pooling.
 
-For both layers, the $\max()$ functions are replaced with the linear operations between inputs and hidden variables. However, the values of the latent variables $\mathbf{z}$ are completely determined by the bottom-up layer input $\mathbf{x}$. When there are two  
+For both layers, the $\max()$ functions are replaced with the linear operations between inputs and hidden variables. However, the values of the latent variables $\mathbf{z}$ are completely determined by the bottom-up input $\mathbf{x}$. 
 
-change them even when the upper layers neurons are changed.
+The final feature computed for classifcation are shared among all classes. It can be imagined that when ConvNets compute the middle layer features, it tries to make the largest possible information pass through the network . These features are stationary change them even when the upper layers neurons are changed.
 
 
 
