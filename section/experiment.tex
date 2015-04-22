@@ -19,72 +19,11 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 
 \textbf{Feedback Visualization of Similar Classes:} We also show a few intersting feedback visualizations for understanding the fine-grained classifcation models of GoogleNet. The GoogleNet is trained on ImageNet dataset with 1000 classes, among which there are $\sim$100 dog categories and $\sim$500 animal categories. We visualize the feedback templates of dog-cat images given paticular dog classes and animal classes in Figure~\ref{fig:class_compare}. We observe that each class has its own special salient image features for distinction, for example, some classes (\emph{i.e.} beagle, kit fox) look for local part features such as nose and ears, while others (\emph{i.e.} terrier, tiger) focus on global attributes such as furry and tabby.
 
-\subsection{Weakly Supervised Object Localization}
-\label{subsec:localization}
-To quantitatively demonstrate the effectiveness of the feedback model. we experiment on the ImageNet 2014 localization task.
-
-As pointed in~\cite{simonyan2013deep}, the magnitude of the elements in the model template $\mathbf{T}_k$ defines the class specific salience map on image $\mathbf{I}$. Pixels with larger magnitudes indicate that they are more important to the class. We adopt the same saliency extraction strategy as~\cite{simonyan2013deep} that a single class saliency value $M_k$ for class $k$ at pixel $(i,j)$ is computed across all color channels: $M_k(i,j) = \max_{c \in rgb} | T_k(i,j,c) |$.
-
-Although the three ConvNets are pre-trained for image classification, we could use the feedbacked salience map for weakly supervised object localization. Following~\cite{simonyan2013deep}, given an image and the corresponding class salience map, we compute the object segmentation mask using the GraphCut color segmentation~\cite{yuri2001interactive}. During the inialization of graph cut, We set the pixels with the saliency higher than 95\% quantile of the saliency distribution in the image as foreground and those with the saliency lower than 30\% quantile as background. Once foreground and background segmentations are computed, the object segmentation mask is set to the largest connected component of the foreground pixels and the tighest bounding box is extracted as the localization result.
-
-We test our localization results on ImageNet 2014 localization validation set. The dataset contains $\sim$20000 images. 
-
-We resize every image to 224x224 as the model required resolution and use the ground-truth class labels for the localization prediction. No further preprocessing or multi-scale strategy is involved. 
-
-The predicted bounding box is considered as correct if its intersection over union with the ground truth bounding box is over 50\%. 
-
-\textbf{Comparison of Localization Methods:} Table~\ref{tab:localization_accuracy} shows the comparsion of weakly supervised localization accuracy against Oxford and Deconv. We use the same VggNet and apply the same graph cut strategy on all the 3 models. Our method obtains 57\% accuracy, outperforming both Oxford 50\% and Deconv 53\%, suggesting that in terms of capturing attention and localizing salient objects, our feedback net is better. Note that currently this is only top-down and weakly supervised and the object localization task is not taken into account during training.
-
-\textbf{Comparsion of ConvNet Models:} We also compare the weakly supervised localization ability of the three most popular ConvNet models: AlexNet, VggNet and GoogleNet in Table~\ref{tab:localization_model_compare}, given the ground-truth class labels. AlexNet ... \textbf{\color{red} I need the number to complete the paragraph. } 
-
-However, Most of the images in ImageNet 2014 dataset contain only one salient object. We further show some localization results on images with multiple object classes in Figure~\ref{} ... \textbf{\color{red} I need the figures to complete the paragraph}. Obviously our feedback net cannot distinguish multiple object instances from the same class, but could capture the salient areas, which could be utilized by other sophisticated object detection algorithms. 
-
-\begin{table}
-\centering
-Localization Error With Top 5 Predictions
-\begin{tabular}{|c|c|c|c|} \hline
-Method & AlexNet & VggNet & GoogleNet \\ \hline
-Oxford~\cite{simonyan2013deep} & 53.4 & 51.6 & 47.8 \\ \hline
-Deconv~\cite{zeiler2014visualizing} & 55.2 & 52.2 & 49.6\\ \hline
-Feedback & 52.3 & 49.0 & \textbf{46.1} \\ \hline 
-\end{tabular}
-\caption{We compare the localization results on ImageNet 2014 validation set against Oxford and Deconv, using three different ConvNet models. Our feedback method clearly outperforms the baseline approaches for weakly supervised object localization. Notably, although VggNet and GoogleNet have ery similar image classfication accuray on ImageNet, our comparison suggests GoogleNet learns better middle level features than VggNet.}
-\label{tab:localization_accuracy_top5}
-\end{table}
-
-\begin{table}
-\centering
-Localization Error With Ground Truth Labels
-\begin{tabular}{|c|c|}
-\hline
-Model & Localization Error (\%) \\ \hline 
-AlexNet~\cite{Krizhevsky2012ImageNet} & 47.1 \\ \hline
-VggNet~\cite{Simonyan2014Very} & 42.3 \\ \hline
-GooglNet~\cite{Szegedy2014Going} & \textbf{40.1} \\ \hline
-\end{tabular}
-\caption{In order to more fairly compare AlexNet agaisnt VggNet ana GoogleNet, we use the ground truth labels as the target labels for evaluating localization.}
-\label{tab:localization_model_compare}
-\end{table}
-
-\begin{table}
-\centering
-Localization Error With Ground Truth Labels
-\begin{tabular}{|c|c|}
-\hline
-Method & Localization Error (\%) \\ \hline
-Oxford~\cite{simonyan2013deep} & 44.7 \\ \hline
-Deconv~\cite{zeiler2014visualizing} & 46.9 \\ \hline
-Feedback & \textbf{42.3} \\ \hline
-VggNet-Supervised~\cite{Simonyan2014Very} & 33.1 \\ \hline
-\end{tabular}
-\caption{We show that even given ground truth labels, our feedback method still outperforms baseline methods on ImageNet 2014 validation dataset.}
-\label{tab:localization_accuracy}
-\end{table}
-
 \setlength{\tabcolsep}{0.5pt}
 \begin{figure*}
 \begin{center}
 \begin{tabular}{ccccccc}
+& \multicolumn{3}{c}{\small -------------------- Object 1: dog --------------------} & \multicolumn{3}{c}{\small -------------------- Object 2: cat --------------------} \\
 \vspace{-2.5pt}
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/oxford/dog-cat1} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/oxford/dog-cat1_diff_258} &
@@ -117,6 +56,7 @@ VggNet-Supervised~\cite{Simonyan2014Very} & 33.1 \\ \hline
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/oxford/dog-cat4_diff_286} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/deconv/dog-cat4_diff_286} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/dog-cat4_diff_286} \\
+& \multicolumn{3}{c}{\small -------------------- Object 1: car --------------------} & \multicolumn{3}{c}{\small -------------------- Object 2: bike --------------------} \\
 \vspace{-2.5pt}
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/oxford/bic-car1} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/oxford/bic-car1_diff_818} &
@@ -133,6 +73,7 @@ VggNet-Supervised~\cite{Simonyan2014Very} & 33.1 \\ \hline
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/oxford/bic-car2_diff_672} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/deconv/bic-car2_diff_672} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/bic-car2_diff_672} \\
+& \multicolumn{3}{c}{\small -------------------- Object 1: zebra --------------------} & \multicolumn{3}{c}{\small -------------------- Object 2: elephant --------------------} \\
 \vspace{-2.5pt}
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/oxford/zeb-ele1} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/oxford/zeb-ele1_diff_341} &
@@ -155,10 +96,9 @@ VggNet-Supervised~\cite{Simonyan2014Very} & 33.1 \\ \hline
 {\small (e) Gradient} &
 {\small (f) Deconv} &
 {\small (g) Feedback} \\
-& \multicolumn{3}{c}{\small Object 1: dog, car or zebra} & \multicolumn{3}{c}{\small Object 2: cat, bike or elephant} \\
 \end{tabular}
 % \vspace{-10pt}
-\caption{We demonstrate the effectiveness of feedback neural networks for class-specific feature extraction, by comparing the class model visualization results against original gradient~\cite{simonyan2013deep} and Deconv~\cite{zeiler2014visualizing} on selected images with multiple objects. All methods compute visualizations given a pre-trained GoogleNet. Column (a) shows the input images (\emph{i.e.} dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (b) and (e) show the original image gradients. Column (c) and (f) show the deconv results. Column (d) and (g) show the image gradients after feedback. Comparing against original gradient and Deconv, the feedback visualization focus more on the correponding salient object area. Better viewed in color and zoom in.} 
+\caption{We demonstrate the effectiveness of feedback neural networks for class-specific feature extraction, by comparing the class model visualization results against original gradient~\cite{simonyan2013deep} and Deconv~\cite{zeiler2014visualizing} on selected images with multiple objects. All methods compute visualizations using a pre-trained GoogleNet trained on ImageNet 2012 classification dataset. Column (a) shows the input images (\emph{i.e.} dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (b) and (e) show the original image gradients given the provided class labels. Column (c) and (f) show the Deconv results. Column (d) and (g) show the image gradients after feedback. Comparing against original gradient and Deconv, the feedback visualization captures more accurate salient area of the target object. For example, in the 4th row, both original template and Deconv see the dog and cat, even provided with the target label. In the last row, when zebra is specified, Deconv finds it hard to supress the elephant area. Our feedback method supress the irrelevant object much better. Better viewed in color and zoom in.} 
 \label{fig:examples}
 % \vspace{-30pt}
 \end{center}
@@ -299,3 +239,63 @@ VggNet-Supervised~\cite{Simonyan2014Very} & 33.1 \\ \hline
 % \vspace{-30pt}
 \end{center}
 \end{figure*}
+
+\subsection{Weakly Supervised Object Localization}
+\label{subsec:localization}
+To quantitatively demonstrate the effectiveness of the feedback model. we experiment on the ImageNet 2014 localization task.
+
+As pointed in~\cite{simonyan2013deep}, the magnitude of the elements in the model template $\mathbf{T}_k$ defines the class specific salience map on image $\mathbf{I}$. Pixels with larger magnitudes indicate that they are more important to the class. We adopt the same saliency extraction strategy as~\cite{simonyan2013deep} that a single class saliency value $M_k$ for class $k$ at pixel $(i,j)$ is computed across all color channels: $M_k(i,j) = \max_{c \in rgb} | T_k(i,j,c) |$.
+
+Although the three ConvNets are pre-trained for image classification, we could use the feedbacked salience map for weakly supervised object localization. Following~\cite{simonyan2013deep}, given an image and the corresponding class salience map, we compute the object segmentation mask using the GraphCut color segmentation~\cite{yuri2001interactive}. During the inialization of graph cut, We set the pixels with the saliency higher than 95\% quantile of the saliency distribution in the image as foreground and those with the saliency lower than 30\% quantile as background. Once foreground and background segmentations are computed, the object segmentation mask is set to the largest connected component of the foreground pixels and the tighest bounding box is extracted as the localization result.
+
+We test our localization results on ImageNet 2014 localization validation set, which contains $\sim$20000 images with each image associated with a label and a bounding box. The predicted bounding box is considered as correct if its overlap with the ground truth is over 50\%. We resize every image to 224x224 as the models' required resolution and provide the ground-truth class labels for the localization prediction. No further preprocessing or multi-scale strategy is involved. 
+
+\textbf{Comparison of Localization Methods:} Table~\ref{tab:localization_accuracy} shows the comparsion of weakly supervised localization accuracy against Oxford and Deconv. We use the same VggNet and apply the same graph cut strategy on all the 3 models. Our method obtains 57\% accuracy, outperforming both Oxford 50\% and Deconv 53\%, suggesting that in terms of capturing attention and localizing salient objects, our feedback net is better. Note that currently this is only top-down and weakly supervised and the object localization task is not taken into account during training.
+
+\textbf{Comparsion of ConvNet Models:} We also compare the weakly supervised localization ability of the three most popular ConvNet models: AlexNet, VggNet and GoogleNet in Table~\ref{tab:localization_model_compare}, given the ground-truth class labels. AlexNet ... \textbf{\color{red} I need the number to complete the paragraph. } 
+
+However, Most of the images in ImageNet 2014 dataset contain only one salient object. We further show some localization results on images with multiple object classes in Figure~\ref{} ... \textbf{\color{red} I need the figures to complete the paragraph}. Obviously our feedback net cannot distinguish multiple object instances from the same class, but could capture the salient areas, which could be utilized by other sophisticated object detection algorithms. 
+
+\begin{table}
+\centering
+Localization Errors of Different Methods 
+\begin{tabular}{|c|c|}
+\hline
+Method & Localization Error (\%) \\ \hline
+Oxford~\cite{simonyan2013deep} & 44.7 \\ \hline
+Deconv~\cite{zeiler2014visualizing} & 46.9 \\ \hline
+Feedback & \textbf{42.3} \\ \hline
+VggNet-Supervised~\cite{Simonyan2014Very} & 33.1 \\ \hline
+\end{tabular}
+\caption{We show that even given ground truth labels, our feedback method still outperforms baseline methods on ImageNet 2014 validation dataset.}
+\label{tab:localization_accuracy}
+\end{table}
+
+\begin{table}
+\centering
+Localization Errors of Different Feedback ConvNets
+\begin{tabular}{|c|c|}
+\hline
+Model & Localization Error (\%) \\ \hline 
+AlexNet~\cite{Krizhevsky2012ImageNet} & 47.1 \\ \hline
+VggNet~\cite{Simonyan2014Very} & 42.3 \\ \hline
+GooglNet~\cite{Szegedy2014Going} & \textbf{40.1} \\ \hline
+\end{tabular}
+\caption{In order to more fairly compare AlexNet agaisnt VggNet ana GoogleNet, we use the ground truth labels as the target labels for evaluating localization.}
+\label{tab:localization_model_compare}
+\end{table}
+
+\begin{comment}
+\begin{table}
+\centering
+Localization Error With Top 5 Predictions
+\begin{tabular}{|c|c|c|c|} \hline
+Method & AlexNet & VggNet & GoogleNet \\ \hline
+Oxford~\cite{simonyan2013deep} & 53.4 & 51.6 & 47.8 \\ \hline
+Deconv~\cite{zeiler2014visualizing} & 55.2 & 52.2 & 49.6\\ \hline
+Feedback & 52.3 & 49.0 & \textbf{46.1} \\ \hline 
+\end{tabular}
+\caption{We compare the localization results on ImageNet 2014 validation set against Oxford and Deconv, using three different ConvNet models. Our feedback method clearly outperforms the baseline approaches for weakly supervised object localization. Notably, although VggNet and GoogleNet have ery similar image classfication accuray on ImageNet, our comparison suggests GoogleNet learns better middle level features than VggNet.}
+\label{tab:localization_accuracy_top5}
+\end{table}
+\end{comment}
