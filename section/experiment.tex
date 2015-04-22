@@ -5,11 +5,11 @@ To verify the feedback model, we conduct qualitative experiments on class neuron
 
 \subsection{Image Specific Class Model Visualization}
 \label{subsec:visualization}
-Given an image $\mathbf{I}$, a class label $k$ and the hidden neuron activation states $\mathbf{z}$, we approximate the neural net class score $s_k$ with the first-order taylor expansion in the neighborhood of $\mathbf{I}$:
+Given an image $I$, a class label $k$ and the hidden neuron activation states $\mathbf{z}$, we approximate the neural net class score $s_k$ with the first-order taylor expansion in the neighborhood of $I$:
 \begin{equation}
-  s_k(\mathbf{I}, \mathbf{z}) \approx  \mathbf{T}_k(\mathbf{z})^T \mathbf{I} + b
+  s_k(I, \mathbf{z}) \approx  \mathbf{T}_k(\mathbf{z})^T I + b
 \end{equation}
-where $\mathbf{T}_k(\mathbf{z})$ is the derivative of $s_k$ with respect to the image at the point of $\mathbf{I}$ and $\mathbf{z}$. $\mathbf{T}_k(\mathbf{z})$ can be viewed as the linear template applied on image $\mathbf{I}$ for measuring how likely the image belongs to class $k$. We can visualize $\mathbf{T}$ since it's the same size as the image $\mathbf{I}$. We use this technique to visualize the our feedback model throughout the paper.
+where $\mathbf{T}_k(\mathbf{z})$ is the derivative of $s_k$ with respect to the image at the point of $I$ and $\mathbf{z}$. $\mathbf{T}_k(\mathbf{z})$ can be viewed as the linear template applied on image $I$ for measuring how likely the image belongs to class $k$. We can visualize $\mathbf{T}$ since it's the same size as the image $I$. We use this technique to visualize the our feedback model throughout the paper.
 
 Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{i.e.} Conv, ReLU and max-pooling) to compute the class scores, once the hidden states $\mathbf{z}$ are determined, the final score is a linear function on the image, equivalent to the inner product between the template and the image.
 
@@ -244,7 +244,7 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 \label{subsec:localization}
 To quantitatively demonstrate the effectiveness of the feedback model. we experiment on the ImageNet 2014 localization task.
 
-As pointed in~\cite{simonyan2013deep}, the magnitude of the elements in the model template $\mathbf{T}_k$ defines the class specific salience map on image $\mathbf{I}$. Pixels with larger magnitudes indicate that they are more important to the class. We adopt the same saliency extraction strategy as~\cite{simonyan2013deep} that a single class saliency value $M_k$ for class $k$ at pixel $(i,j)$ is computed across all color channels: $M_k(i,j) = \max_{c \in rgb} | T_k(i,j,c) |$.
+As pointed in~\cite{simonyan2013deep}, the magnitude of the elements in the model template $\mathbf{T}_k$ defines the class specific salience map on image $I$. Pixels with larger magnitudes indicate that they are more important to the class. We adopt the same saliency extraction strategy as~\cite{simonyan2013deep} that a single class saliency value $M_k$ for class $k$ at pixel $(i,j)$ is computed across all color channels: $M_k(i,j) = \max_{c \in rgb} | T_k(i,j,c) |$.
 
 Although the three ConvNets are pre-trained for image classification, we could use the feedbacked salience map for weakly supervised object localization. Following~\cite{simonyan2013deep}, given an image and the corresponding class salience map, we compute the object segmentation mask using the GraphCut color segmentation~\cite{yuri2001interactive}. During the inialization of graph cut, We set the pixels with the saliency higher than 95\% quantile of the saliency distribution in the image as foreground and those with the saliency lower than 30\% quantile as background. Once foreground and background segmentations are computed, the object segmentation mask is set to the largest connected component of the foreground pixels and the tighest bounding box is extracted as the localization result.
 
