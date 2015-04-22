@@ -63,20 +63,27 @@ To increase the model flexbility to images and prior knowledges, we introduce an
 Given an image $I$ and a neural network with learned parameters $w$, we optimize the target neuron output by jointly reasoning the binary neuron activiations $\mathbf{z}$ over all the hidden feedback layers. In particular, if the target neuron is the class node in the top layer, we optimize the class score $s_k$ by re-ajusting the feedback neurons at every layer $l$, channel $c$ and pixel $(i,j)$.
 \begin{equation}
 \begin{aligned}
-  \max_z s_k(I, z) + \lambda ||z|| \\
-  s.t.\ z^l_{i,j,c} \in \{0, 1\},\ \forall\ l, i, j, c 
+& \max_z & & s_k(I, z) - \lambda ||z|| \\
+& s.t. & & \ z^l_{i,j,c} \in \{0, 1\}, \; \forall\ l, i, j, c 
 \end{aligned}
 \end{equation}
 
-This leads to an integer programming problem, which is a NP-hard problem given the current deep convolutional neural net structure. To obtain a good solution, we apply a linear relaxation.
-
-In the linear relaxation, we rephrase the problem as:
+This leads to an integer programming problem, which is NP-hard given the current deep net structure. To obtain a good solution, we apply a linear relaxation to the problem.
 \begin{equation}
 \begin{aligned}
-  \max_h S_c(I_0, h) \\
-  s.t.\ 0 \leq h_i \leq 1
+& \max_z & & s_c(I, z) \\
+& s.t. & & \ 0 \leq z^l_{i,j,c} \leq 1, \; \forall\ l, i, j, c\\
 \end{aligned}
 \end{equation}
+
+We use gradient ascent algorithm to update the hidden variables through all layers simultaneously.
+\begin{equation}
+\begin{aligned}
+z_{t+1} = z_t + \alpha \cdot (\frac{\partial s_c}{\partial z} |_{z_t} - \lambda)
+\end{aligned}
+\end{equation}
+
+We initialize $z$ as the ReLU activation status after a first feedforward and truncate $z$ when the updated values are either larger than 1 or smaller than 0 during inference. 
 
 \subsection{Implementation Details}
 In real implementation, we set the feedback layer on top of every ReLU layer except those taking the fully connected layers as inputs. We suspect the fully connected layers learn more embedding spaces rather than paticular parts compared to convolutional layers. We set learning rate of hidden activations to 0.1 and update the neurons of all the feedback layers simultaneously. Each iteration performs a feedforward step of the neural net and a backpropagation step to send back gradients. This process usually converges in 10 to 50 iterations. After that, we set a hidden neuron activation to 1 if its value is greater than 0.5 and 0 if smaller. 
