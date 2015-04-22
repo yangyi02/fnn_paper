@@ -9,6 +9,12 @@ Despite great successes have been achieved by applying Feedforward Networks to i
 
 As formulated in \emph{Biased Competition Theory}~\cite{beck2009top,desimone1995neural}, feedback, which passes the high-level semantic information down to the low-level perception, controls the selectivity of neuron activations in an extra loop in addition to the feedforward process. This results the ``Top-Down'' attention in human cognition. Hierarchical probabilistic computational model~\cite{lee2003hierarchical} is proposed to characterize feedback stimuli in a top-down manner. This is further incorporated into deep neural networks, for example, modeling feedback loops as latent variables in DBM~\cite{wang2014attentional}, or using selectivity to resolve fine-grained classification~\cite{Mnih:2014ti}, \emph{et al.}. Due to the computational efficiency and capacity limitations of generative models used in~\cite{Mnih:2014ti,wang2014attentional}, they are hardly used in large scale datasets.
 
+Vision is inherently ambiguous and could benefit from any prior knowledge from the high-level layers. 
+
+Also lateral connec- tions play an important role. This hints at the importance of processes like attention, expectation, top-down reasoning, imagination, and filling in. 
+
+Many computer vision systems try to work in a purely feed-forward fashion. However, vision is inherently ambiguous and benefits from any prior knowledge available. 
+
 \subsection{Visualization, Detection, and Localization}
 
 Feedback is always related with visualization of CNN and object localization since both of these aim to project the high-level semantic information back to image representations. To visualize neuron responses and class models, deconvolution, various approaches are proposed either using deconvolution~\cite{zeiler2014visualizing} or optimization based on gradients~\cite{simonyan2013deep}. As demonstrated in \cite{simonyan2013deep}, visualization of Convolutional Neural Network is showing semantically meaningful salient regions and helps understand working mechanism of CNNs.
