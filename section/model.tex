@@ -27,12 +27,14 @@ The convolutional layer is parameterized by $C'$ filters with every filter $\mat
 The ReLU layer is used to provide the nonlinearity for the network.
 \begin{equation}
 \mathbf{y} = \max (\mathbf{0}, \mathbf{x})
+\label{eq:relu}
 \end{equation} 
 
 \textbf{Max-Pooling Layer:}
-The max-pooling layer is used to reduce the dimensionality of the output and model the invariance in deformable objects. The max-pooling operation is usually applied over a small neighborhood $\mathcal{N}$ for every pixel location $i,j$ in the image.
+The max-pooling layer is used to reduce the dimensionality of the output and model the invariance in deformable objects. The max-pooling operation is applied for every pixel location $i,j$ around its small neighborhood $\mathcal{N}$.
 \begin{equation}
 y_{i,j,c} = \max_{u,v \in \mathcal{N}} x_{i+u, j+v, c}
+\label{eq:max-pool}
 \end{equation}
 
 \begin{comment}
@@ -44,22 +46,23 @@ Finally, a few fully connected layers (normally with drop-out) is stacked on top
 \end{comment}
 
 \subsection{Re-interpretion of ReLU and Max-Pooling}
-In the ConvNet, each output of the convolutional layer is forward as the input of ReLU layer. In the architeture, low-level convolutional filters tend to learn biologically plausible feature detectors, such as Gabor filters, while filers in higher layers learn to respond to concrete visual objects or their parts. The ReLU neurons control the activation of the filtering results, to make sure the useful low-level information (above 0) is passed and irrelavent information is stopped.
-
-We model the max function as neuron activation gates $h$ with binary values 0 or 1. For the ReLU layer, the gates work as turn on the neuron to let the below message pass or turn off the neuron to stop the message flow. For the Max-Pooling layer, the gates work similarly as ReLU, except only one gate can be open among a local region.
+Both ReLU and Max-Pooling layer can be re-interpreted when we introduce the binary latent activation variables $\mathbf{z}: \mathbf{z} \in \{0, 1\}$. For the ReLU layer, $\mathbf{z}$ is the same size as the input $\mathbf{x}$, while for the max-pooling, $\mathbf{z}$ is similar as a set of location variant filters. Given that Equations~\ref{eq:relu} and~\ref{eq:max-pool} can be re-interpreted.
 
 For the ReLU layer, 
 \begin{equation}
-y_l(i,j,c) = h_l(i,j,c) \cdot y_{l-1}(i,j,c)
-\end{equation} 
-where $h_l(i,j,c) = 0$ when $y_{l-1}(i,j,c) <= 0$ and $h_l(i,j,c) = 1$ when $y_{l-1}(i,j,c) > 0$.
+\mathbf{y} = \mathbf{z} \circ \mathbf{x}
+\end{equation}
+where $\circ$ is the element wise product (Hadamard product). The element value in $\mathbf{z}$ is determine by $\mathbf{x}$ as the property of ReLU.
 
 For the max-pooling layer,
 \begin{equation}
-y_l(i,j,c) = \sum_{} h_l(u, v) \cdot y_{l-1}(i+u, j+v, c)
+\mathbf{y} = \mathbf{z} * \mathbf{x}
 \end{equation}
+where $*$ is the convolution operation. The element value in $\mathbf{z}$ is determined by $\mathbf{x}$ as the property of max-pooling.
 
-\subsection{Hidden Neuron Activations in Feedback}
+For both layers, the $\max$ function is replaced with the element-wise product or convolution of hidden variables. However, the values for these latent variables are completely determined by the bottom-up layer input $\mathbf{x}$ and there is no way to change them even when the upper layers neurons are changed.
+ 
+\subsection{Updating Hidden Neuron in Feedback}
 However, in order to recognize the image, the middle level layers are designed to provide all possible information for the final layer to classify. This works well when there is only one salient object in the image. However when people care about different aspects in the images, the same feature may not be appropriate all the time. 
 
 Since the model open all the gates for the gates for all information to pass, when we are targeted on a paticular semantic labels, we want to turn off those gates that provide irrelavant information for seeing that object. This top-down message will be utilized to turn off those relu.
