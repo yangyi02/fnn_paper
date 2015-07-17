@@ -1,24 +1,6 @@
 \section{Experimental Results}
 \label{sec:experiment}
 
-To verify the feedback model, we conduct qualitative experiments on class neuron visualizations and the weakly supervised object localization task. We use the three most popular pre-trained ConvNet models, AlexNet~\cite{Krizhevsky2012ImageNet}, VggNet~\cite{simonyan2013deep} and GoogleNet~\cite{Szegedy2014Going} for experiments. All three models are pre-trained with ImageNet 2012 classification training dataset~\cite{deng2009imagenet}, obtained from Caffe~\cite{jia2014caffe} model zoo. AlexNet achieves $\sim$15\% top 5 classification error on ImageNet 2012 testing dataset, while VggNet and GoogleNet obtains $\sim$7.5\%. GoogleNet slightly outperforms VggNet, but the gap is small and can be ignored.
-
-\subsection{Image Specific Class Model Visualization}
-\label{subsec:visualization}
-Given an image $I$, a class label $k$ and the hidden neuron activation states $\mathbf{z}$, we approximate the neural net class score $s_k$ with the first-order taylor expansion in the neighborhood of $I$:
-\begin{equation}
-  s_k(I, \mathbf{z}) \approx  \mathbf{T}_k(\mathbf{z})^T I + b
-\end{equation}
-where $\mathbf{T}_k(\mathbf{z})$ is the derivative of $s_k$ with respect to the image at the point of $I$ and $\mathbf{z}$. $\mathbf{T}_k(\mathbf{z})$ can be viewed as the linear template applied on image $I$ for measuring how likely the image belongs to class $k$. We can visualize $\mathbf{T}$ since it's of the same size as the image $I$. We use this technique to visualize our feedback model throughout the paper.
-
-Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{i.e.} Conv, ReLU and max-pooling) to compute the class scores, once the hidden states $\mathbf{z}$ are determined, the final score is a linear function of the image, which is equivalent to the inner product between the template and the image.
-
-\textbf{Comparison of Visualization Methods:} We compare the image gradient (template $\mathbf{T}$) after the feedback process against the original one in feedforward pass, and Deconvolutional Neural Net (Deconv)~\cite{zeiler2014visualizing} on a set of complex images containing multiple objects from different classes. We show the qualititative results in Figure~\ref{fig:examples}. All techniques use the same pre-trained GoogleNet and ground truth class labels are given as a prior. The visualization results before feedback is the same as original image gradients, where all the hidden neurons states are determined by the bottom-up computations only, while visualizations turn out to be similar with Deconv after feedback. However, our feedback model captures more salient regions for the specific class while suppress irrelevant object areas much better than Deconv.
-
-\textbf{Comparison of ConvNet Models:} We also qualitatively compare AlexNet, VggNet and GoogleNet by visualizing their feedback templates in Figure~\ref{fig:model_compare}. All models are given ground truth class labels as a prior. From the visualization results, we find that VggNet and GoogleNet produce more accurate visual attention than AlexNet, suggesting that using smaller convolution filters and deeper architectures could further distinguish similar and nearby objects. We also observe that, although both VggNet and GoogleNet produce very smilar image classification accuracies, GoogleNet better captures the salient object areas than VggNet. We hypothesize that the two $4,096$ dimensional fully connected layers (\emph{i.e.}, fc6, fc7) in VggNet (which GoogleNet does not contain) could ruin the spatial distinctiveness of final image features, as pointed out in~\cite{lin2013network}.
-
-\textbf{Feedback Visualization of Similar Classes:} We also show a few interesting feedback visualizations to help understand fine-grained classification models of GoogLeNet. The GoogLeNet is trained on ImageNet dataset with $1,000$ classes, among which there are $\sim$100 dog categories and $\sim$500 animal categories. We visualize the feedback templates of dog-cat images given particular dog classes and animal classes in Figure~\ref{fig:class_compare}. It is notable that each class has its own special salient image features for distinction. For example, some classes (\emph{i.e.} beagle, kit fox) look for local part features such as nose and ears, while others (\emph{i.e.} terrier, tiger) focus on global attributes such as furry and tabby.
-
 \setlength{\tabcolsep}{0.5pt}
 \begin{figure*}
 \begin{center}
@@ -103,6 +85,25 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 % \vspace{-30pt}
 \end{center}
 \end{figure*}
+
+To verify the feedback model, we conduct qualitative experiments on class neuron visualizations and the weakly supervised object localization task. We use the three most popular pre-trained ConvNet models, AlexNet~\cite{Krizhevsky2012ImageNet}, VggNet~\cite{simonyan2013deep} and GoogleNet~\cite{Szegedy2014Going} for experiments. All three models are pre-trained with ImageNet 2012 classification training dataset~\cite{deng2009imagenet}, obtained from Caffe~\cite{jia2014caffe} model zoo. AlexNet achieves $\sim$15\% top 5 classification error on ImageNet 2012 testing dataset, while VggNet and GoogleNet obtains $\sim$7.5\%. GoogleNet slightly outperforms VggNet, but the gap is small and can be ignored.
+
+\subsection{Image Specific Class Model Visualization}
+\label{subsec:visualization}
+Given an image $I$, a class label $k$ and the hidden neuron activation states $\mathbf{z}$, we approximate the neural net class score $s_k$ with the first-order taylor expansion in the neighborhood of $I$:
+\begin{equation}
+  s_k(I, \mathbf{z}) \approx  \mathbf{T}_k(\mathbf{z})^T I + b
+\end{equation}
+where $\mathbf{T}_k(\mathbf{z})$ is the derivative of $s_k$ with respect to the image at the point of $I$ and $\mathbf{z}$. $\mathbf{T}_k(\mathbf{z})$ can be viewed as the linear template applied on image $I$ for measuring how likely the image belongs to class $k$. We can visualize $\mathbf{T}$ since it's of the same size as the image $I$. We use this technique to visualize our feedback model throughout the paper.
+
+Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{i.e.} Conv, ReLU and max-pooling) to compute the class scores, once the hidden states $\mathbf{z}$ are determined, the final score is a linear function of the image, which is equivalent to the inner product between the template and the image.
+
+\textbf{Comparison of Visualization Methods:} We compare the image gradient (template $\mathbf{T}$) after the feedback process against the original one in feedforward pass, and Deconvolutional Neural Net~\cite{zeiler2014visualizing} on a set of complex images containing multiple objects from different classes. We show the qualititative results in Figure~\ref{fig:examples}. All techniques use the same pre-trained GoogleNet and ground truth class labels are given as a prior. Visualization results before feedback is the same as original image gradients, where all the hidden neurons states are determined by the bottom-up computations only, while visualizations turn out to be similar with Deconv after feedback. However, our feedback model captures more salient regions for the specific class while suppress irrelevant object areas much better than Deconv.
+
+\textbf{Comparison of ConvNet Models:} We also qualitatively compare AlexNet, VggNet and GoogleNet by visualizing their feedback templates in Figure~\ref{fig:model_compare}. All models are given ground truth class labels as a prior. From the visualization results, we find that VggNet and GoogleNet produce more accurate visual attention than AlexNet, suggesting that using smaller convolution filters and deeper architectures could further distinguish similar and nearby objects. We also observe that, although both VggNet and GoogleNet produce very smilar image classification accuracies, GoogleNet better captures the salient object areas than VggNet. We hypothesize that the two $4,096$ dimensional fully connected layers (\emph{i.e.}, fc6, fc7) in VggNet (which GoogleNet does not contain) could ruin the spatial distinctiveness of final image features, as pointed out in~\cite{lin2013network}.
+
+\textbf{Feedback Visualization of Similar Classes:} We also show a few interesting feedback visualizations to help understand fine-grained classification models of GoogLeNet. The GoogLeNet is trained on ImageNet dataset with $1,000$ classes, among which there are $\sim$100 dog categories and $\sim$500 animal categories. We visualize the feedback templates of dog-cat images given particular dog classes and animal classes in Figure~\ref{fig:class_compare}. It is notable that each class has its own special salient image features for distinction. For example, some classes (\emph{i.e.} beagle, kit fox) look for local part features such as nose and ears, while others (\emph{i.e.} terrier, tiger) focus on global attributes such as furry and tabby.
+
 
 \setlength{\tabcolsep}{0.5pt}
 \begin{figure*}
@@ -242,15 +243,50 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 
 \subsection{Weakly Supervised Object Localization}
 \label{subsec:localization}
-To quantitatively demonstrate the effectiveness of the feedback model. we experiment on the ImageNet 2014 localization task.
 
+\begin{table}[htb]
+\centering
+\small
+% Localization Errors Given Ground Truth Labels
+\begin{tabular}{|c|c|}
+\hline
+Method & Localization Error (\%) \\ \hline
+Oxford~\cite{simonyan2013deep} & 44.6 \\ \hline
+%Deconv~\cite{zeiler2014visualizing} & 46.9 \\ \hline
+Feedback & \textbf{38.8} \\ \hline
+%Oxford-Supervised~\cite{Simonyan2014Very} & 34.3 \\ \hline
+\end{tabular}
+\caption{We compare our weakly supervised localization results on ImageNet 2014 {\color{red} localization} validation set with the simplified testing protocol: the bounding box is predicted from a single central crop of images and the ground truth labels are provided. We show that our feedback method significant outperforms the baseline method (44.6\%) that uses the original image gradient to localize {\color{red} in \cite{simonyan2013deep}, both on GoogLeNet architecture.}
+%We show that our feedback method significantly outperforms the baseline method (44.6\%) that uses the original image gradient to localize, and works even closer to a carefully trained supervised localization model (34.3\%).
+}
+\label{tab:localization_accuracy}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\small
+% Localization Errors of Different Feedback ConvNets
+\begin{tabular}{c|c|c}
+\hline
+                                      & Weakly Supervised             & Supervised              \\ \hline
+Model                                 & Localization Error (\%)       & Localization Error (\%) \\ \hline
+AlexNet~\cite{Krizhevsky2012ImageNet} & 49.6                          & -                       \\ \hline
+VggNet~\cite{Simonyan2014Very}        & 40.2                          & 34.3\cite{Simonyan2014Very} \\ \hline
+GooglNet~\cite{Szegedy2014Going}      & \textbf{38.8}                 & - \\ \hline
+\end{tabular}
+\caption{{\color{red} 1. The ability of attention for major ConvNets are tested and shown in column 2, with the same testing protocol as Table~\ref{tab:localization_accuracy}}. Even provided with ground truth class, VggNet and GoogleNet significant outperforms AlexNet suggesting they are learning better features. GoogleNet outperforms VggNet even further, which matches the observations in Figure~\ref{fig:model_compare}. {\color{red} 2. We also compare the weakly-supervised feedback mechanism with totally supervised localization model in \cite{Simonyan2014Very} on VGG, in the third column. It shows that we are competitive to a carefully trained supervised localization model (34.3\%) }}
+\label{tab:localization_model_compare}
+\end{table}
+
+To quantitatively demonstrate the effectiveness of the feedback model. we experiment on the ImageNet 2014 localization task.
+%
 As pointed in~\cite{simonyan2013deep}, the magnitude of the elements in the model template $\mathbf{T}_k$ defines the class specific salience map on image $I$. Pixels with larger magnitudes indicate that they are more important to the class. We adopt the same saliency extraction strategy as~\cite{simonyan2013deep} that a single class saliency value $M_k$ for class $k$ at pixel $(i,j)$ is computed across all color channels: $M_k(i,j) = \max_{c \in rgb} | T_k(i,j,c) |$.
 
 We show that the proposed Feedback CNN has to potential to unify recognition and detection into a single network architecture in this experiment, instead of using separate ones to perform different tasks respectively. Although the three ConvNets are pre-trained for image classification, we could use the feedbacked salience map for weakly supervised object localization. Following~\cite{simonyan2013deep}, given an image and the corresponding class salience map, we compute the object segmentation mask using the GraphCut color image segmentation~\cite{yuri2001interactive}. To initialize graph cut, we treat pixels with saliency higher than 95\% quantile of the saliency distribution in the image as foreground and those lower than 30\% quantile as background. Once foreground and background segmentations are computed, the object segmentation mask is set to be the largest connected foreground component, and the tightest bounding box is extracted as the localization result.
 
 We test our localization results on ImageNet 2014 localization validation set, which contains $\sim20,000$ images with each image associated with labels and corresponding bounding boxes. A prediction is considered as correct if its overlap with the ground truth bounding box is over 50\%. Image are resized  to 224x224 to meet the model requirement on resolutions, and ground-truth class labels are provided to predict localizations. Neither further preprocessing nor multi-scale strategy are involved.
 
-\textbf{Comparison of Localization Methods:} Table~\ref{tab:localization_accuracy} shows the comparison of our weakly supervised localization accuracy against the baseline method~\cite{simonyan2013deep}. For fair comparison, we reimplemented the method in~\cite{simonyan2013deep} following the details in the original paper strictly, and name as ``Oxford.'' For our own method, we use GoogLeNet and apply the same segmentation strategy in our model. Our method obtains 38.8\% localization error, significantly outperforming Oxford 44.6\%, suggesting that in terms of capturing attention and localizing salient objects, our feedback net is better. Note that our weakly supervised localization error is even closer to a carefully trained supervised localization model (34.3\%).
+\textbf{Comparison of Localization Methods:} Table~\ref{tab:localization_accuracy} shows the comparison of our weakly supervised localization accuracy against the baseline method~\cite{simonyan2013deep}. For fair comparison, we reimplemented the method in~\cite{simonyan2013deep} following the details in the original paper strictly, and name as ``Oxford.'' For our method, we use GoogLeNet and apply the same segmentation strategy in our model. Our method obtains 38.8\% localization error, significantly outperforming Oxford 44.6\%, suggesting that in terms of capturing attention and localizing salient objects, our feedback net is better. Note that our weakly supervised localization error is even closer to a carefully trained supervised localization model (34.3\%).
 
 \textbf{Comparsion of ConvNet Models:} We also analyze  weakly supervised localization accuracies of above mentioned three ConvNets in Table~\ref{tab:localization_model_compare}, provided with the same testing protocol. Even provided with ground truth class, VggNet and GoogleNet significantly outperforms AlexNet.
 This suggests that better feature representations are sharable between the two highly correlated visual tasks: recognition and localization. GoogLeNet outperforms VggNet even further, which matches the observations in Figure~\ref{fig:model_compare}.
@@ -259,36 +295,6 @@ This suggests that better feature representations are sharable between the two h
 
 %However, Most of the images in ImageNet 2014 dataset contain only one salient object. We further show some localization results on images with multiple object classes in Figure~\ref{} ... \textbf{\color{red} I need the figures to complete the paragraph}. Obviously our feedback net cannot distinguish multiple object instances from the same class, but could capture the salient areas, which could be utilized by other sophisticated object detection algorithms.
 
-\begin{table}
-\centering
-\small
-Localization Errors Given Ground Truth Labels
-\begin{tabular}{|c|c|}
-\hline
-Method & Localization Error (\%) \\ \hline
-Oxford~\cite{simonyan2013deep} & 44.6 \\ \hline
-%Deconv~\cite{zeiler2014visualizing} & 46.9 \\ \hline
-Feedback & \textbf{38.8} \\ \hline
-Oxford-Supervised~\cite{Simonyan2014Very} & 34.3 \\ \hline
-\end{tabular}
-\caption{We compare our weakly supervised localization results on ImageNet 2014 validation set with the simplified testing protocol: the bounding box is predicted from a single central crop of images and the ground truth labels are provided. We show that our feedback method siginificantly outperforms the baseline method (44.6\%) that uses the original image gradient to localize, and works even closer to a carefully trained supervised localization model (34.3\%).}
-\label{tab:localization_accuracy}
-\end{table}
-
-\begin{table}
-\centering
-\small
-Localization Errors of Different Feedback ConvNets
-\begin{tabular}{|c|c|}
-\hline
-Model & Localization Error (\%) \\ \hline
-AlexNet~\cite{Krizhevsky2012ImageNet} & 49.6 \\ \hline
-VggNet~\cite{Simonyan2014Very} & 40.2 \\ \hline
-GooglNet~\cite{Szegedy2014Going} & \textbf{38.8} \\ \hline
-\end{tabular}
-\caption{We analyze the attention ability by running our feedback mechanism on the three popular ConvNets. All models use the same testing protocol as Table~\ref{tab:localization_accuracy}. Even provided with ground truth class, VggNet and GoogleNet significant outperforms AlexNet suggesting they are learning better features. GoogleNet outperforms VggNet even further, which matches the observations in Figure~\ref{fig:model_compare}.}
-\label{tab:localization_model_compare}
-\end{table}
 
 %\begin{table}
 %\centering
@@ -308,12 +314,28 @@ GooglNet~\cite{Szegedy2014Going} & \textbf{38.8} \\ \hline
 \label{subsec:re-classification}
 }
 
+\begin{table}
+\centering
+\small
+%Classification Errors \\
+\begin{tabular}{|c|c|c|}
+\hline
+Method & Top 1 (\%) & Top 5 (\%) \\ \hline
+GoogleNet~\cite{Szegedy2014Going} & 32.28 & 11.75 \\ \hline
+GoogleNet Feedback & \textbf{30.49} & \textbf{10.46} \\ \hline
+\end{tabular}
+\caption{\color{red} We compare our classification errors on ImageNet 2014 validation set with the simplified testing protocol: the first row shows the classification results of a GoogleNet given a single central crop of images, the second row shows the classification results of the same GoogleNet given the attention crop of images. The attention box is computed based on the feedback mechanism described in the subsection~\ref{subsec:re-classification}.
+%Given the same CNN model, the classification accuracy siginificantly outperforms the baseline method that uses the original image.
+}
+\label{tab:reclassification_error}
+\end{table}
+
 \textcolor{red}{
-Given the weakly supervised attention box, we {\em re-classify} the image labels using the zoomed-in image patches that is cropped around the bounding box. We call such method {\em "Look and Think Twice"}, which mimics the human visual recognition process that human may focuses to recongize object in a complicated image after a first time glimpse. We apply this similar strategy to the image classification. By looking at the full image first in a coarse scale, our model obtaines an initial guess of a set of most possible object classes based on the full image, we then identify the salient object areas from the predicted top-ranked labels using the feedback neural nets. 
+Given the weakly supervised attention box, we {\em re-classify} the image labels using the zoomed-in image patches that is cropped around the bounding box. We call such method {\em "Look and Think Twice"}, which mimics the human visual recognition process that human may focuses to recognize object in a complicated image after a first time glimpse. We apply this similar strategy to the image classification. By looking at the full image first in a coarse scale, our model obtaines an initial guess of a set of most possible object classes based on the full image, we then identify the salient object regions from the predicted top-ranked labels using the feedback neural nets, and re-classify those ROIs. Here are the \textbf{Implementation Details}:
 }
 
 \textcolor{red}{
-\textbf{Implementation Details:} We describe the experimental details below:
+%\textbf{Implementation Details:} We describe the experimental details below:
 \begin{enumerate}
 \item Resize image to size 224*224*3, run CNN model and predict top 5 class labels.
 \item For each of the top 5 class labels, compute object localization box with feedback model.
@@ -324,30 +346,17 @@ Given the weakly supervised attention box, we {\em re-classify} the image labels
 
 \textbf{Classification Accuracy:} \textcolor{red}{We test our classification results on ImageNet 2014 classification validation set, which contains ~50,000 images with each image associated with labels. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop. After the re-classification, the top 5 classification errors drops by 1.29\%. The top 1 error drops even more 1.79\%, which suggests the classification model can the provide an more accurate classification with correct bounding boxes.}
 
-\textbf{Ablative Study:} \textcolor{red}{We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. We show the ablative study in Figure~\ref{fig:reclassification_delta}, We find that classification errors drop using feedback crop for images with smaller objects, for example, for images with object area smaller than 20\%, the top-1 classification errors drop significantly with almost 5\%.}
 
-\begin{table}
-\centering
-\small
-Classification Errors \\
-\begin{tabular}{|c|c|c|}
-\hline
-Method & Top 1 (\%) & Top 5 (\%) \\ \hline
-GoogleNet~\cite{Szegedy2014Going} & 32.28 & 11.75 \\ \hline
-GoogleNet Feedback & \textbf{30.49} & \textbf{10.46} \\ \hline
-\end{tabular}
-\caption{\color{red} We compare our classification results on ImageNet 2014 validation set with the simplified testing protocol: the first row shows the classification results of a GoogleNet given a single central crop of images, the second row shows the classification results of the same GoogleNet given the attention crop of images. The attention box is computed based on the feedback mechanism described in the subsection~\cite{subsec:re-classification}. Given the same CNN model, the classification accuracy siginificantly outperforms the baseline method that uses the original image.}
-\label{tab:reclassification_error}
-\end{table}
+\textbf{Ablative Study:} \textcolor{red}{We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. We show the ablative study in Figure~\ref{fig:reclassification_delta}, We find that classification errors drop using feedback crop for images with smaller objects, for example, for images with object area smaller than 20\%, the top-1 classification errors drop significantly with almost 5\%.}
 
 \setlength{\tabcolsep}{2pt}
 \begin{figure}[htb]
 \begin{center}
 %\includegraphics[width=0.95\columnwidth]{figs/re-classification/re-classification}
-\includegraphics[width=0.95\columnwidth]{figs/re-classification/delta}
+\includegraphics[width=0.85\columnwidth]{figs/re-classification/delta}
 % \vspace{-10pt}
-\caption{\color{red} We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. We find that classification increases using feedback crop for images with smaller objects, for example, for those images with object area smaller than 20\%, the top-1 classification accruacy increase significantly for almost 5\%.} 
+\caption{\color{red} We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. Classifications using feedback crop for images increase with smaller objects. E.g., for those images with object area smaller than 20\%, the top-1 classification accuracy increases significantly for almost 5\%.}
 \label{fig:reclassification_delta}
-\vspace{-10pt}
+%\vspace{-10pt}
 \end{center}
 \end{figure}
