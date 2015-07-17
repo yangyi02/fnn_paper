@@ -302,3 +302,56 @@ GooglNet~\cite{Szegedy2014Going} & \textbf{38.8} \\ \hline
 %\caption{We compare the localization results on ImageNet 2014 validation set against Oxford and Deconv, using three different ConvNet models. Our feedback method clearly outperforms the baseline approaches for weakly supervised object localization. Notably, although VggNet and GoogleNet have ery similar image classfication accuray on ImageNet, our comparison suggests GoogleNet learns better middle level features than VggNet.}
 %\label{tab:localization_accuracy_top5}
 %\end{table}
+
+\textcolor{red}{
+\subsection{Image Re-Classification with Attention}
+\label{subsec:re-classification}
+}
+
+\textcolor{red}{
+Given the weakly supervised attention box, we {\em re-classify} the image labels using the zoomed-in image patches that is cropped around the bounding box. We call such method {\em "Look and Think Twice"}, which mimics the human visual recognition process that human may focuses to recongize object in a complicated image after a first time glimpse. We apply this similar strategy to the image classification. By looking at the full image first in a coarse scale, our model obtaines an initial guess of a set of most possible object classes based on the full image, we then identify the salient object areas from the predicted top-ranked labels using the feedback neural nets. 
+}
+
+\textcolor{red}{
+\textbf{Implementation Details:} We describe the experimental details below:
+\begin{enumerate}
+\item Resize image to size 224*224*3, run CNN model and predict top 5 class labels.
+\item For each of the top 5 class labels, compute object localization box with feedback model.
+\item For each of the 5 bounding boxes, crop the image patch from the original image with full resolution and resize it to 224*224*3, then predict top 5 labels with confidence again.
+\item Given the total 25 labels and the corresponding confidences, rank them and pick the top 5 as final solution.
+\end{enumerate}
+}
+
+\color{red}{
+\textbf{Classification Accuracy:} We test our classification results on ImageNet 2014 classification validation set, which contains ~50,000 images with each image associated with labels. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop. After the re-classification, the top 5 classification errors drops by 1.29\%. The top 1 error drops even more 1.79\%, which suggests the classification model can the provide an more accurate classification with correct bounding boxes.
+}
+
+\color{red}{
+\textbf{Ablative Study:} We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. We show the ablative study in Figure~\ref{fig:reclassification_delta}, We find that classification errors drop using feedback crop for images with smaller objects, for example, for images with object area smaller than 20\%, the top-1 classification errors drop significantly with almost 5\%. 
+}
+
+\begin{table}
+\centering
+\small
+Classification Errors \\
+\begin{tabular}{|c|c|c|}
+\hline
+Method & Top 1 (\%) & Top 5 (\%) \\ \hline
+GoogleNet~\cite{Szegedy2014Going} & 32.28 & 11.75 \\ \hline
+GoogleNet Feedback & \textbf{30.49} & \textbf{10.46} \\ \hline
+\end{tabular}
+\caption{\color{red} We compare our classification results on ImageNet 2014 validation set with the simplified testing protocol: the first row shows the classification results of a GoogleNet given a single central crop of images, the second row shows the classification results of the same GoogleNet given the attention crop of images. The attention box is computed based on the feedback mechanism described in the subsection~\cite{subsec:re-classification}. Given the same CNN model, the classification accuracy siginificantly outperforms the baseline method that uses the original image.}
+\label{tab:reclassification_error}
+\end{table}
+
+\setlength{\tabcolsep}{2pt}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.95\columnwidth]{figs/re-classification/re-classification}
+\includegraphics[width=0.95\columnwidth]{figs/re-classification/delta}
+% \vspace{-10pt}
+\caption{\color{red} We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. We find that classification increases using feedback crop for images with smaller objects, for example, for those images with object area smaller than 20\%, the top-1 classification accruacy increase significantly for almost 5\%.} 
+\label{fig:reclassification_delta}
+\vspace{-10pt}
+\end{center}
+\end{figure}
