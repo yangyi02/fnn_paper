@@ -322,13 +322,9 @@ Given the weakly supervised attention box, we {\em re-classify} the image labels
 \end{enumerate}
 }
 
-\color{red}{
-\textbf{Classification Accuracy:} We test our classification results on ImageNet 2014 classification validation set, which contains ~50,000 images with each image associated with labels. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop. After the re-classification, the top 5 classification errors drops by 1.29\%. The top 1 error drops even more 1.79\%, which suggests the classification model can the provide an more accurate classification with correct bounding boxes.
-}
+\textbf{Classification Accuracy:} \textcolor{red}{We test our classification results on ImageNet 2014 classification validation set, which contains ~50,000 images with each image associated with labels. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop. After the re-classification, the top 5 classification errors drops by 1.29\%. The top 1 error drops even more 1.79\%, which suggests the classification model can the provide an more accurate classification with correct bounding boxes.}
 
-\color{red}{
-\textbf{Ablative Study:} We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. We show the ablative study in Figure~\ref{fig:reclassification_delta}, We find that classification errors drop using feedback crop for images with smaller objects, for example, for images with object area smaller than 20\%, the top-1 classification errors drop significantly with almost 5\%. 
-}
+\textbf{Ablative Study:} \textcolor{red}{We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. We show the ablative study in Figure~\ref{fig:reclassification_delta}, We find that classification errors drop using feedback crop for images with smaller objects, for example, for images with object area smaller than 20\%, the top-1 classification errors drop significantly with almost 5\%.}
 
 \begin{table}
 \centering
