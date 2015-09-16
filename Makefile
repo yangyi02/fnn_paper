@@ -1,4 +1,4 @@
-TARGET=paper
+TARGET=camera-ready
 
 all: 
 	pdflatex $(TARGET).tex
