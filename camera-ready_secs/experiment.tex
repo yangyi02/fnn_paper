@@ -80,13 +80,16 @@
 {\small (g) Feedback} \\
 \end{tabular}
 % \vspace{-10pt}
-\caption{We demonstrate the effectiveness of feedback neural networks for class-specific feature extraction, by comparing the class model visualization results against original gradient~\cite{simonyan2013deep} and Deconv~\cite{zeiler2014visualizing} on selected images with multiple objects. All methods compute visualizations using a pre-trained GoogleNet trained on ImageNet 2012 classification dataset. Column (a) shows the input images (\emph{i.e.} dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (b) and (e) show the original image gradients given the provided class labels. Column (c) and (f) show the Deconv results. Column (d) and (g) show the image gradients after feedback. Comparing against original gradient and Deconv, the feedback visualization captures more accurate salient area of the target object. For example, in the 4th row, both original template and Deconv see the dog and cat, even provided with the target label. In the last row, when zebra is specified, Deconv finds it hard to supress the elephant area. Our feedback method supress the irrelevant object much better. Better viewed in color and zoom in.}
+\caption{We demonstrate the effectiveness of feedback neural networks for class-specific feature extraction, by comparing the class model visualization results against original gradient~\cite{simonyan2013deep} and Deconv~\cite{zeiler2014visualizing} on selected images with multiple objects. All methods compute visualizations using a pre-trained GoogleNet trained on ImageNet 2012 classification dataset. Column (a) shows the input images (\emph{i.e.} dog v.s. cat, car v.s. bike, and zebra v.s. elephant). Column (b) and (e) show the original image gradients given the provided class labels. Column (c) and (f) show the Deconv results. Column (d) and (g) show the image gradients after feedback. Comparing against original gradient and Deconv, the feedback visualization captures more accurate salient area of the target object. For example, in the 4th row, both original template and Deconv see the dog and cat, even provided with the target label. In the last row, when zebra is specified, Deconv finds it hard to suppress the elephant area. Our feedback method suppress the irrelevant object much better. Better viewed in color and zoom in.}
 \label{fig:examples}
 % \vspace{-30pt}
 \end{center}
 \end{figure*}
 
-To verify the feedback model, we conduct qualitative experiments on class neuron visualizations and the weakly supervised object localization task. We use the three most popular pre-trained ConvNet models, AlexNet~\cite{Krizhevsky2012ImageNet}, VggNet~\cite{simonyan2013deep} and GoogleNet~\cite{Szegedy2014Going} for experiments. All three models are pre-trained with ImageNet 2012 classification training dataset~\cite{deng2009imagenet}, obtained from Caffe~\cite{jia2014caffe} model zoo. AlexNet achieves $\sim$15\% top 5 classification error on ImageNet 2012 testing dataset, while VggNet and GoogleNet obtains $\sim$7.5\%. GoogleNet slightly outperforms VggNet, but the gap is small and can be ignored.
+The \emph{Feedback Network} could be used to improve various computer vision problems. In this paper, we demonstrate its potential, conduct qualitative experiments on class neuron visualizations, and quantitative experiments on weakly supervised object localization task. Furthermore, we show that the image recognition could also benefit from the \emph{Feedback} mechanism, by taking the strategy ``Looking and Thinking Twice'', which eliminate noisy or cluttered background and makes the network focused on salient regions.
+We use three most popular pre-trained ConvNet models, AlexNet~\cite{Krizhevsky2012ImageNet}, VggNet~\cite{simonyan2013deep} and GoogleNet~\cite{Szegedy2014Going} for experiments. All three models are pre-trained with ImageNet 2012 classification training dataset~\cite{deng2009imagenet}, obtained from Caffe~\cite{jia2014caffe} model zoo\footnote{https://github.com/BVLC/caffe/wiki/Model-Zoo}.
+% I think this sentence has no effect here. Remove it.
+% AlexNet achieves $\sim$15\% top 5 classification error on ImageNet 2012 testing dataset, while VggNet and GoogleNet obtains $\sim$7.5\%. GoogleNet slightly outperforms VggNet, but the gap is small and can be ignored.
 
 \subsection{Image Specific Class Model Visualization}
 \label{subsec:visualization}
@@ -94,16 +97,21 @@ Given an image $I$, a class label $k$ and the hidden neuron activation states $\
 \begin{equation}
   s_k(I, \mathbf{z}) \approx  \mathbf{T}_k(\mathbf{z})^T I + b
 \end{equation}
-where $\mathbf{T}_k(\mathbf{z})$ is the derivative of $s_k$ with respect to the image at the point of $I$ and $\mathbf{z}$. $\mathbf{T}_k(\mathbf{z})$ can be viewed as the linear template applied on image $I$ for measuring how likely the image belongs to class $k$. We can visualize $\mathbf{T}$ since it's of the same size as the image $I$. We use this technique to visualize our feedback model throughout the paper.
+where $\mathbf{T}_k(\mathbf{z})$ is the derivative of $s_k$ with respect to the image at the point of $I$ and $\mathbf{z}$. $\mathbf{T}_k(\mathbf{z})$ can be viewed as the linear template applied on image $I$ for measuring how likely the image belongs to class $k$, and could be visualized in the same spatial space since it is of the same size as input image $I$.
+% We can visualize $\mathbf{T}$ since it's of the same size as the image $I$.
+We use this technique to visualize our feedback model throughout the paper.
 
-Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{i.e.} Conv, ReLU and max-pooling) to compute the class scores, once the hidden states $\mathbf{z}$ are determined, the final score is a linear function of the image, which is equivalent to the inner product between the template and the image.
+% What is this sentence saying??? I don't understand! Why only VggNet???
+More specifically, for a Convolutional Network composed with a stack of piecewise linear layers (\emph{i.e.} Conv, ReLU and max-pooling) to compute the class scores, once the hidden states $\mathbf{z}$ are determined, the final score is a linear function of the image, which is equivalent to the inner product between the template and the image.
 
-\textbf{Comparison of Visualization Methods:} We compare the image gradient (template $\mathbf{T}$) after the feedback process against the original one in feedforward pass, and Deconvolutional Neural Net~\cite{zeiler2014visualizing} on a set of complex images containing multiple objects from different classes. We show the qualititative results in Figure~\ref{fig:examples}. All techniques use the same pre-trained GoogleNet and ground truth class labels are given as a prior. Visualization results before feedback is the same as original image gradients, where all the hidden neurons states are determined by the bottom-up computations only, while visualizations turn out to be similar with Deconv after feedback. However, our feedback model captures more salient regions for the specific class while suppress irrelevant object areas much better than Deconv.
+\textbf{Comparison of Visualization Methods:} We compare the image gradient (template $\mathbf{T}$) after the feedback process against the original one in feedforward pass, and Deconvolutional Neural Net~\cite{zeiler2014visualizing} on a set of complex images containing multiple objects from different classes. We show the qualitative results in Figure~\ref{fig:examples}. All techniques use the same pre-trained GoogleNet and ground truth class labels are given as a prior. Visualization results before feedback is the same as original image gradients, where all the hidden neurons states are determined by the bottom-up computations only, while visualizations turn out to be similar with Deconv after feedback. However, our feedback model captures more salient regions for the specific class while suppress irrelevant object areas much better than Deconv.
 
-\textbf{Comparison of ConvNet Models:} We also qualitatively compare AlexNet, VggNet and GoogleNet by visualizing their feedback templates in Figure~\ref{fig:model_compare}. All models are given ground truth class labels as a prior. From the visualization results, we find that VggNet and GoogleNet produce more accurate visual attention than AlexNet, suggesting that using smaller convolution filters and deeper architectures could further distinguish similar and nearby objects. We also observe that, although both VggNet and GoogleNet produce very smilar image classification accuracies, GoogleNet better captures the salient object areas than VggNet. We hypothesize that the two $4,096$ dimensional fully connected layers (\emph{i.e.}, fc6, fc7) in VggNet (which GoogleNet does not contain) could ruin the spatial distinctiveness of final image features, as pointed out in~\cite{lin2013network}.
+\textbf{Comparison of ConvNet Models:} We also qualitatively compare AlexNet, VggNet and GoogleNet by visualizing their feedback templates in Figure~\ref{fig:model_compare}. All models are given ground truth class labels as a prior. From the visualization results, we find that VggNet and GoogleNet produce more accurate visual attention than AlexNet, suggesting that using smaller convolution filters and deeper architectures could further distinguish similar and nearby objects. We also observe that, although both VggNet and GoogleNet produce very similar image classification accuracies, GoogleNet better captures the salient object areas than VggNet. We hypothesize that the two $4,096$ dimensional fully connected layers (\emph{i.e.}, fc6, fc7) in VggNet (which GoogleNet does not contain) could ruin the spatial distinctiveness of image features, as pointed out in~\cite{lin2013network}.
 
+%% This is removed
+\begin{comment}
 \textbf{Feedback Visualization of Similar Classes:} We also show a few interesting feedback visualizations to help understand fine-grained classification models of GoogLeNet. The GoogLeNet is trained on ImageNet dataset with $1,000$ classes, among which there are $\sim$100 dog categories and $\sim$500 animal categories. We visualize the feedback templates of dog-cat images given particular dog classes and animal classes in Figure~\ref{fig:class_compare}. It is notable that each class has its own special salient image features for distinction. For example, some classes (\emph{i.e.} beagle, kit fox) look for local part features such as nose and ears, while others (\emph{i.e.} terrier, tiger) focus on global attributes such as furry and tabby.
-
+\end{comment}
 
 %%===========================================================
 %% Revision in camera-ready version: remove gradient visualizations and preserve only the salience maps
@@ -113,16 +121,14 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 \begin{center}
 \begin{tabular}{ccccccc}
 %\rotatebox{90}{\hspace{5mm}Gradient} &
-\begin{comment}
-\vspace{-2.5pt}
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_341} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele1_diff_341} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_341} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_387} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele1_diff_387} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_387} \\
-\end{comment}
+%\vspace{-2.5pt}
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_341} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele1_diff_341} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_341} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_387} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele1_diff_387} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_387} \\
 %\rotatebox{90}{\hspace{5mm}Saliency} &
 \vspace{-2.5pt}
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1} &
@@ -132,17 +138,15 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele1_sali_387} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele1_sali_387} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1_sali_387} \\
-\begin{comment}
 %\rotatebox{90}{\hspace{5mm}Gradient} &
-\vspace{-2.5pt}
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele2_diff_341} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele2_diff_341} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_341} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele2_diff_387} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele2_diff_387} &
-\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_387} \\
-\end{comment}
+%\vspace{-2.5pt}
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele2_diff_341} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele2_diff_341} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_341} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele2_diff_387} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele2_diff_387} &
+%\includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_387} \\
 %\rotatebox{90}{\hspace{5mm}Saliency} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele2_sali_341} &
@@ -361,7 +365,7 @@ Given the weakly supervised attention box, the image labels are {\em re-classifi
 \begin{figure}[htb]
 \begin{center}
 %\includegraphics[width=0.95\columnwidth]{figs/re-classification/re-classification}
-\includegraphics[width=0.85\columnwidth]{figs/re-classification/delta}
+\includegraphics[width=\columnwidth]{figs/re-classification/delta.pdf}
 % \vspace{-10pt}
 \caption{We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. Classifications using feedback crop for images increase with smaller objects. E.g., for those images with object area smaller than 20\%, the top-1 classification accuracy increases significantly for almost 5\%.}
 \label{fig:reclassification_delta}
