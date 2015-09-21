@@ -4,7 +4,7 @@
 \setlength{\tabcolsep}{2pt}
 \begin{figure*}
 \begin{center}
-\includegraphics[width=\linewidth]{figs/model/model}
+\includegraphics[width=0.95\linewidth]{figs/model/model}
 % \vspace{-10pt}
 \caption{Illustration of our feedback model and its inference process. At the first iteration, the model performs as a feedforward neural net. Then, the neurons in the feedback hidden layers update their activation status to maximize the confidence output of the target top neuron. This process continues until convergence. (We show only one layer here, but feedback layers can be tacked in the deep ConvNet.)}
 \label{fig:model}
@@ -44,32 +44,37 @@ Be interpreting ReLU and Max-Pooling layers as ``gates'' controlled by input $x$
 
 \subsection{Introducing the Feedback Layer}
 Since the model opens all gates and allow maximal information getting through to ensure the generalization, to increase the discriminability within feature level, it is feasible to turn off those gates that provide irrelevant information when targeting at particular semantic labels. This strategy is explained as selectivity in biased competition theory~\cite{desimone1995neural} and is critical to realize the top-down attention.
+%when we are targeted on a particular semantic labels, we want to turn off those gates that provide irrelevant information for seeing that object. This top-down message will be utilized to turn off those relu.
 
 More technically, to increase the model flexibility to images and prior knowledges, we introduce an extra layer to the existing convolutional neural network. We call it the \emph{feedback layer}. The feedback layer contains another set of binary neuron activation variables $\mathbf{z} \in \{0, 1\}$, in addition to ReLU. However, these binary variables are activated by top-down messages from outputs, instead of bottom inputs.
 %
 The feedback layer is stacked upon each ReLU layer, and they compose a hybrid control unit to active neuron response in both bottom-up and top-down manners:
+\\\textbf{Bottom-Up} Inherent the selectivity from \emph{ReLU layers}, and the dominant features will be passed to upper layers;
+\\\textbf{Top-Down} Controlled by \emph{Feedback Layers}, which propagate the high-level semantics and global information back to image representations. This is achieved by activating only those gates related with particular target neurons.
+\\Figure.~\ref{fig:model} illustrates a simple architecture of our feedback model with only one ReLU layer and one feedback layer.
 
+\begin{comment}
 \begin{description}
   \item[Bottom-Up] Inherent the selectivity from \emph{ReLU layers}, and the dominant features will be passed to upper layers;
-  \item[Top-Down] Controlled by \emph{Feedback Layers}, which propagate the high-level semantics and global information back to image representations. Only those gates related with particular target neurons are activated.
+  \item[Top-Down] Controlled by \emph{Feedback Layers}, which propagate the high-level semantics and global information back to image representation. This is achieved by activating only those gates related with target neurons.
 \end{description}
-Figure.~\ref{fig:model} illustrates a simple architecture of our feedback model with only one ReLU layer and one feedback layer.
+\end{comment}
 
 \subsection{Updating Hidden Neurons in Feedback Loops}
-We formulate the feedback mechanism as an optimization problem, by introducing an addition control gate-variable $\mathbf{z}$. Given an image $I$ and a neural network with learned parameters $w$, we optimize the target neuron output by jointly inference on binary neuron activations $\mathbf{z}$ over all the hidden feedback layers. In particular, if the target neuron is a $k$-th class node in the top layer, we optimize the class score $s_k$ by re-adjusting the neuron activations at every neuron $(i,j)$ of channel $c$, on feedback layer $l$.
+Given an image $I$ and a neural network with learned parameters $w$, we optimize the target neuron output by jointly inference on binary neuron activations $\mathbf{z}$ over all the hidden feedback layers. In particular, if the target neuron is a $k$-th class node in the top layer, we optimize the class score $s_k$ by re-adjusting the neuron activations at every pixel $(i,j)$ of channel $c$, on feedback layer $l$.
+\vspace{-3pt}
 \begin{equation}
 \begin{aligned}
 & \max_\mathbf{z} & & s_k(I, \mathbf{z}) - \lambda ||\mathbf{z}|| \\
 & s.t. & & \ z^l_{i,j,c} \in \{0, 1\}, \; \forall\ l, i, j, c
 \end{aligned}
 \end{equation}
-Since the goal of this optimization aims at activating minimal number of neurons yet maximizing the target score, we use $L1$ norm in above target function, as $\|\mathbf{z}\|_1$
+\vspace{-5pt}
 
-
-This leads to an integer programming problem, which is NP-hard given the current deep net architecture. An approximation could be derived by applying a linear relaxation:
+This leads to an integer programming problem, which is NP-hard given the current deep net architecture. An approximated solution could be derived by applying a linear relaxation:
 \begin{equation}
 \begin{aligned}
-& \max_\mathbf{z} & & s_k(I, \mathbf{z}) - \lambda ||\mathbf{z}||_1 \\
+& \max_\mathbf{z} & & s_k(I, \mathbf{z}) - \lambda ||\mathbf{z}|| \\
 & s.t. & & \ 0 \leq z^l_{i,j,c} \leq 1, \; \forall\ l, i, j, c\\
 \end{aligned}
 \end{equation}
@@ -80,9 +85,8 @@ We use the gradient ascent algorithm to update the hidden variables through all 
 \mathbf{z}_{t+1} = \mathbf{z}_t + \alpha \cdot (\frac{\partial s_k}{\partial \mathbf{z}} |_{\mathbf{z}_t} - \lambda)
 \end{aligned}
 \end{equation}
-where $\frac{\partial \lambda \|\mathbf{z}\|_1}{\partial z_i} = \lambda$ since we require $0 \leq z^l_(i,j,c) \leq 1$.
 
 The initialization of feedback layer status $z$ is set to be the corresponding ReLU activation after the first feedforward pass and truncate $z$ when the updated values are either larger than 1 or smaller than 0 during inference.
 
 \subsection{Implementation Details}
-As for implementation details, we set the feedback layer on top of each ReLU layer except those taking fully connected layers as inputs. It is suspected that fully connected layers learn more embedding spaces rather than particular parts compared to convolutional layers. We set learning rate of hidden activations to 0.1 and update the neurons of all the feedback layers simultaneously. Each iteration performs a feedforward step of the neural net and a backpropagation step to send back gradients. This process usually converges in 10 to 50 iterations. The final neuron activations are binarized by threshold $0.5$.
+As for implementation details, we set the feedback layer on top of every ReLU layer except those taking the fully connected layers as inputs. It is suspected that the fully connected layers learn more embedding spaces rather than particular parts compared to convolutional layers. We set learning rate of hidden activations to 0.1 and update the neurons of all the feedback layers simultaneously. Each iteration performs a feedforward step of the neural net and a backpropagation step to send back gradients. This process usually converges in 10 to 50 iterations. The final neuron activations are binarized by threshold $0.5$.

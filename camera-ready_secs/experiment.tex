@@ -105,11 +105,15 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 \textbf{Feedback Visualization of Similar Classes:} We also show a few interesting feedback visualizations to help understand fine-grained classification models of GoogLeNet. The GoogLeNet is trained on ImageNet dataset with $1,000$ classes, among which there are $\sim$100 dog categories and $\sim$500 animal categories. We visualize the feedback templates of dog-cat images given particular dog classes and animal classes in Figure~\ref{fig:class_compare}. It is notable that each class has its own special salient image features for distinction. For example, some classes (\emph{i.e.} beagle, kit fox) look for local part features such as nose and ears, while others (\emph{i.e.} terrier, tiger) focus on global attributes such as furry and tabby.
 
 
+%%===========================================================
+%% Revision in camera-ready version: remove gradient visualizations and preserve only the salience maps
+%%===========================================================
 \setlength{\tabcolsep}{0.5pt}
 \begin{figure*}
 \begin{center}
 \begin{tabular}{ccccccc}
 %\rotatebox{90}{\hspace{5mm}Gradient} &
+\begin{comment}
 \vspace{-2.5pt}
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_341} &
@@ -118,6 +122,7 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele1_diff_387} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele1_diff_387} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1_diff_387} \\
+\end{comment}
 %\rotatebox{90}{\hspace{5mm}Saliency} &
 \vspace{-2.5pt}
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1} &
@@ -127,6 +132,7 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele1_sali_387} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele1_sali_387} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele1_sali_387} \\
+\begin{comment}
 %\rotatebox{90}{\hspace{5mm}Gradient} &
 \vspace{-2.5pt}
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2} &
@@ -136,6 +142,7 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele2_diff_387} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/vggnet/soft/zeb-ele2_diff_387} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2_diff_387} \\
+\end{comment}
 %\rotatebox{90}{\hspace{5mm}Saliency} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/googlenet/soft/zeb-ele2} &
 \includegraphics[width=0.14\linewidth,height=0.115\linewidth]{figs/examples/alexnet/soft/zeb-ele2_sali_341} &
@@ -191,6 +198,9 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 \end{center}
 \end{figure*}
 
+%%=========================================================
+%% This figure is deleted, since it is not useful in camera-ready version
+\begin{comment}
 \setlength{\tabcolsep}{0.5pt}
 \begin{figure*}
 \begin{center}
@@ -240,6 +250,8 @@ Specifically, for a VggNet which uses a stack of piecewise linear layers (\emph{
 % \vspace{-30pt}
 \end{center}
 \end{figure*}
+\end{comment}
+%%=========================================================
 
 \subsection{Weakly Supervised Object Localization}
 \label{subsec:localization}
