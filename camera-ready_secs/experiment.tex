@@ -296,3 +296,32 @@ This phenomenon means traditional ConvNet is powerless in hanlding small objects
 %\vspace{-10pt}
 \end{center}
 \end{figure}
+
+\setlength{\tabcolsep}{0.5pt}
+\begin{figure}[htb]
+\begin{center}
+\begin{tabular}{ccc}
+%\vspace{-2.5pt}
+\includegraphics[width=0.31\linewidth,height=0.31\linewidth]{figs/re-classification/ILSVRC2012_val_00000115} &
+\includegraphics[width=0.31\linewidth,height=0.31\linewidth]{figs/re-classification/boundingbox/ILSVRC2012_val_00000115} &
+\includegraphics[width=0.31\linewidth,height=0.31\linewidth]{figs/re-classification/crop_image/ILSVRC2012_val_00000115} \\
+%{\small 172, 264, 254, 265, 173} &
+%{\small {\color{red} 174}, 216, 254, 181, 172} \\
+\includegraphics[width=0.31\linewidth,height=0.31\linewidth]{figs/re-classification/ILSVRC2012_val_00000608} &
+\includegraphics[width=0.31\linewidth,height=0.31\linewidth]{figs/re-classification/boundingbox/ILSVRC2012_val_00000608} &
+\includegraphics[width=0.31\linewidth,height=0.31\linewidth]{figs/re-classification/crop_image/ILSVRC2012_val_00000608} \\
+%{\small 837, 838, 448, 802, 634} &
+%{\small 972, {\color{red} 644}, 634, 837, 573} \\
+{\small (a) Original Image} &
+{\small (b) Attention Boxes} &
+{\small (c) Cropped Image} \\
+\end{tabular}
+% \vspace{-10pt}
+\caption{We show two examples in the ImageNet localization validation set, demonstrating how the re-classification works. column (a) shows the original images which ConvNets predict incorrect labels ({\em "Italian greyhound"} and {\em "sunglass"}), column (b) shows the 5 calculated bounding box areas using the top-5 saliency maps, column (c) shows the cropped images obtained from the red box which ConvNets predict the correct labels ({\em "Ibizan hound"} and {\em "mask"}) with high confidences.}
+
+\label{fig:reclassification_examples}
+% \vspace{-30pt}
+\end{center}
+\end{figure}
+
+
