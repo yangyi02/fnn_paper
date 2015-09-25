@@ -213,7 +213,7 @@ Oxford~\cite{simonyan2013deep} & 44.6 \\ \hline
 Feedback & \textbf{38.8} \\ \hline
 %Oxford-Supervised~\cite{Simonyan2014Very} & 34.3 \\ \hline
 \end{tabular}
-\caption{Comparison of our weakly supervised localization results on ImageNet 2014 localization validation set with the simplified testing protocol: the bounding box is predicted from a single central crop of images and the ground truth labels are provided.
+\caption{Comparison of our weakly supervised localization results on ImageNet 2014 validation set with the simplified testing protocol: the bounding box is predicted from a single central crop of images and the ground truth labels are provided.
 We show that our feedback method significant outperforms the baseline method (error rate 44.6\%) that uses the original image gradient to localize in \cite{simonyan2013deep}, both on GoogLeNet architecture.
 %We show that our feedback method significantly outperforms the baseline method (44.6\%) that uses the original image gradient to localize, and works even closer to a carefully trained supervised localization model (34.3\%).
 }
@@ -240,7 +240,7 @@ To quantitatively demonstrate the effectiveness of the feedback model. we experi
 
 We show that the proposed Feedback CNN has the potential to unify recognition and detection into a single network architecture in this experiment, instead of using separate ones to perform different tasks respectively. Although the three ConvNets are pre-trained for image classification, we could use the feedbacked salience map for weakly supervised object localization. Given an image and the corresponding class salience map, we compute the object segmentation mask by simply thresholding so that the foreground area covers $95\%$ energy out of the whole salience map, and calculate a tightest bounding box as the localization result. Different from~\cite{simonyan2013deep}, which uses GraphCut~\cite{yuri2001interactive}, this requires saliency maps of higher quality, but only takes less computation.
 
-We test our localization results on ImageNet 2014 localization validation set, which contains $\sim50,000$ images with each image associated with labels and corresponding bounding boxes. A prediction is considered as correct if and only if its overlap with the ground truth bounding box is over 50\%. Image are resized  to 224x224 to meet the model requirement on resolutions, and ground-truth class labels are provided to predict localizations. Neither further preprocessing nor multi-scale strategy are involved.
+We test our localization results on ImageNet 2014 validation set, which contains $\sim50,000$ images with each image associated with labels and corresponding bounding boxes. A prediction is considered as correct if and only if its overlap with the ground truth bounding box is over 50\%. Image are resized  to 224x224 to meet the model requirement on resolutions, and ground-truth class labels are provided to predict localizations. Neither further preprocessing nor multi-scale strategy are involved.
 
 \textbf{Comparison of Localization Methods:} Table~\ref{tab:localization_accuracy} shows the comparison of our weakly supervised localization accuracy against the baseline method~\cite{simonyan2013deep}. For fair comparison, we reimplemented the method in~\cite{simonyan2013deep} following the details in the original paper strictly, and name as ``Oxford.'' For our method, we use GoogLeNet and apply the same segmentation strategy in our model. Our method obtains 38.8\% localization error, and significantly outperforms Oxford (44.6\%), suggesting that in terms of capturing attention and localizing salient objects, our feedback net is better. Note that our weakly supervised localization error is even closer to a carefully trained supervised localization model (34.3\%).
 
@@ -266,25 +266,25 @@ GoogleNet Feedback & \textbf{30.49} & \textbf{10.46} \\ \hline
 Given the weakly supervised attention boxes, the image labels are {\em re-classified} using zoomed-in image patches cropped around the bounding boxes. We call such method {\em ``Look and Think Twice''}, which mimics the human visual recognition process that human may focus to recognize objects in a complicated image after a first time glimpse. We apply this strategy to the image classification. By looking at the full image first in a coarse scale, our model obtains an initial
 guess of a set of most probable object classes, we then identify the salient object regions from the predicted top-ranked labels using the feedback neural nets, and re-classify those regions.
 
-Here are the \textbf{Implementation Details}:
+Below are the \textbf{Implementation Details}:
 \begin{center}
   \fbox{
     \parbox{0.95\linewidth}{
       \noindent
       \begin{itemize}\itemsep2pt
-        \item Resize image to size 224*224*3, run CNN model and predict top 5 class labels.
-        \item \emph{Foreach} of the top 5 class labels, compute object localization box with feedback model.
-        \item Crop image patch for each of 5 bounding boxes from original image and resize to $224*224*3$. Predict top 5 labels again.
+        \item Resize image to size $224*224$, run CNN model and predict top 5 class labels.
+        \item \emph{For each} of the top 5 class labels, compute object localization box with feedback model.
+        \item Crop image patch for each of 5 bounding boxes from original image and resize to $224*224$. Predict top 5 labels again.
         \item Given the total 25 labels and the corresponding confidences, rank them and pick the top 5 as final solution.
       \end{itemize}
     }
   }
 \end{center}
 
-\textbf{Classification Accuracy:} We test our classification results on ImageNet 2014 classification validation set, which contains $\sim50,000$ images with each image associated with one label. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop~\footnote{Model from Caffe Model Zoo}. After the re-classification, the top 5 classification errors drops by $1.29\%$, and, moreover, top 1 error improves even more $1.79\%$. These results suggest that correct estimations of bounding boxes by a glance can provide more accurate classifications.
+\textbf{Classification Accuracy:} We test our classification results on ImageNet 2014 validation set, which contains $\sim50,000$ images with each image associated with one label. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop~\footnote{Model from Caffe Model Zoo}. After the re-classification, the top 5 classification errors drops by $1.29\%$, and, moreover, top 1 error improves even more $1.79\%$. These results suggest that correct estimations of bounding boxes by a glance can provide more accurate classifications.
 
-\textbf{Ablative Study:} To further understand how ``Look and Think Twice'' improves the classification task, we divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. The ablative study is shown in Figure~\ref{fig:reclassification_delta}, and we find that classification errors drop using feedback crop for images with smaller objects, for example, for objects of less than $20\%$ area of images, the top-1 classification errors drop significantly with almost 5\%.
-This phenomenon means traditional ConvNet is powerless in hanlding small objects because of cluttered backgrounds, while our algorithm could focus the network's attention onto those areas.
+\textbf{Ablative Study:} To further understand how ``Look and Think Twice'' improves the classification task, we divide the ImageNet 2014 validation set based on the proportion of the object size in the image. Figure~\ref{fig:reclassification_delta} shows the ablative study. We find that with feedbacks, classification errors drop significantly for images with smaller objects. For example, for objects of less than $20\%$ area of images, the top-1 classification error drops with almost
+$5\%$. This suggests traditional ConvNet is powerless in recognzing small objects with cluttered backgrounds, especially when the image is resized to a fixed resolution ({\em i.e.} $224*224$). Our algorithm, on contrary, could focus the network's attention onto the salient areas, extracting image patches with enough resolutions on the potential objects.
 
 \setlength{\tabcolsep}{2pt}
 \begin{figure}[htb]
@@ -292,7 +292,7 @@ This phenomenon means traditional ConvNet is powerless in hanlding small objects
 %\includegraphics[width=0.95\columnwidth]{figs/re-classification/re-classification}
 \includegraphics[width=\columnwidth]{figs/re-classification/delta.pdf}
 % \vspace{-10pt}
-\caption{We divide the ImageNet 2014 localization validation set based on the proportion of the object size in the image. Classifications using feedback crop for images increase with smaller objects. E.g., for those images with object area smaller than 20\%, the top-1 classification accuracy increases significantly by almost 5\%.}
+\caption{We divide the ImageNet 2014 validation set based on the proportion of the object size in the image. Classification accruacy using feedback crop for images increases with smaller objects. E.g., for those images with object area smaller than 20\%, the top-1 classification accuracy increases significantly by almost 5\%.}
 \label{fig:reclassification_delta}
 %\vspace{-10pt}
 \end{center}
@@ -318,7 +318,7 @@ This phenomenon means traditional ConvNet is powerless in hanlding small objects
 {\small (c) Cropped Image} \\
 \end{tabular}
 % \vspace{-10pt}
-\caption{We show two examples in the ImageNet localization validation set, demonstrating how the re-classification works. column (a) shows the original images which ConvNets predict incorrect labels ({\em "Italian greyhound"} and {\em "sunglass"}), column (b) shows the 5 calculated bounding box areas using the top-5 saliency maps, column (c) shows the cropped images obtained from the red box which ConvNets predict the correct labels ({\em "Ibizan hound"} and {\em "mask"}) with high confidences.}
+\caption{We select two examples in the ImageNet 2014 validation set to demonstrate the re-classification mechanism. column (a) shows the original images which ConvNets predict incorrect labels ({\em "Italian greyhound"} and {\em "sunglass"}), column (b) shows the 5 calculated bounding box areas using the top-5 saliency maps, column (c) shows the cropped images obtained from the red box which ConvNets predict the correct labels ({\em "Ibizan hound"} and {\em "mask"}) with high confidences.}
 
 \label{fig:reclassification_examples}
 % \vspace{-30pt}
