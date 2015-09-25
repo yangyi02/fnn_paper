@@ -224,7 +224,7 @@ We show that our feedback method significant outperforms the baseline method (er
 \centering
 \small
 % Localization Errors of Different Feedback ConvNets
-\begin{tabular}{c|c|c}
+\begin{tabular}{|c|c|c|}
 \hline
                                       & Weakly Supervised             & Supervised              \\ \hline
 Model                                 & Localization Error (\%)       & Localization Error (\%) \\ \hline
@@ -279,7 +279,7 @@ guess of a set of most probable object classes, we then identify the salient obj
   }
 \end{center}
 
-Two exemplar images from ImageNet 2014 validation dataset are shown in Figure~\ref{fig:reclassification_examples}. All these images are wrongly classified as {\em "Italian greyhound"} and {\em "sunglass"} respectively after feedforward. As after feedback, the network determines potential salient ROIs and ``reconsider'' these salient regions as input, and make correct classifications, e.g., {\em "Ibizan hound"} and {\em "mask"} with high confidence scores. These two examples thoroughly illustrate how ``looking and thinking twice'' improves classification tasks. 
+Two exemplar images from ImageNet 2014 validation dataset are shown in Figure~\ref{fig:reclassification_examples}. All these images are wrongly classified as {\em ``Italian greyhound"} and {\em ``sunglass"} respectively after feedforward. As after feedback, the network determines potential salient ROIs and ``reconsider'' these salient regions as input, and make correct classifications, e.g., {\em ``Ibizan hound"} and {\em ``mask"} with high confidence scores. These two examples thoroughly illustrate how ``looking and thinking twice'' improves classification tasks. 
 
 \textbf{Classification Accuracy:} We test our classification results on ImageNet 2014 validation set, which contains $\sim50,000$ images with each image associated with one label. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop~\footnote{Model from Caffe Model Zoo}. After the re-classification, the top 5 classification errors drops by $1.29\%$, and, moreover, top 1 error improves even more $1.79\%$. These results suggest that correct estimations of bounding boxes by a glance can provide more accurate classifications.
 
@@ -318,7 +318,7 @@ $5\%$. This suggests traditional ConvNet is powerless in recognzing small object
 {\small (c) Cropped Image} \\
 \end{tabular}
 % \vspace{-10pt}
-\caption{We select two examples in the ImageNet 2014 validation set to demonstrate the re-classification mechanism. column (a) shows the original images which ConvNets predict incorrect labels ({\em "Italian greyhound"} and {\em "sunglass"}), column (b) shows the 5 calculated bounding box areas using the top-5 saliency maps, column (c) shows the cropped images obtained from the red box which ConvNets predict the correct labels ({\em "Ibizan hound"} and {\em "mask"}) with high confidences.}
+\caption{We select two examples in the ImageNet 2014 validation set to demonstrate the re-classification mechanism. column (a) shows the original images which ConvNets predict incorrect labels ({\em ``Italian greyhound"} and {\em ``sunglass"}), column (b) shows the 5 calculated bounding box areas using the top-5 saliency maps, column (c) shows the cropped images obtained from the red box which ConvNets predict the correct labels ({\em ``Ibizan hound"} and {\em ``mask"}) with high confidences.}
 
 \label{fig:reclassification_examples}
 % \vspace{-30pt}
