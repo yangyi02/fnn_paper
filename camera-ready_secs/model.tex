@@ -80,7 +80,7 @@ We use the gradient ascent algorithm to update the hidden variables through all 
 \mathbf{z}_{t+1} = \mathbf{z}_t + \alpha \cdot (\frac{\partial s_k}{\partial \mathbf{z}} |_{\mathbf{z}_t} - \lambda)
 \end{aligned}
 \end{equation}
-where $\frac{\partial \lambda \|\mathbf{z}\|_1}{\partial z_i} = \lambda$ since we require $0 \leq z^l_(i,j,c) \leq 1$.
+where $\frac{\partial \lambda \|\mathbf{z}\|_1}{\partial z_i} = \lambda$ since we require $0 \leq z^l_{i,j,c} \leq 1$.
 
 The initialization of feedback layer status $z$ is set to be the corresponding ReLU activation after the first feedforward pass and truncate $z$ when the updated values are either larger than 1 or smaller than 0 during inference.
 
