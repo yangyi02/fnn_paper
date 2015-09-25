@@ -281,11 +281,6 @@ of most probable object classes, we then identify the salient object regions fro
 
 Note that when cropping image patches, we use the original image with full resolution ({\em i.e.} $375*500$). This gives the cropped patch enough resolution for recognizing objects in details. Figure~\ref{fig:reclassification_examples} shows two exemplar images from ImageNet 2014 validation dataset. Both images are incorrectly classified as {\em ``Italian greyhound"} and {\em ``sunglass"} respectively. After feedback, the network determines potential salient ROIs, ``reconsider'' these salient regions as input and make correct classifications, e.g., {\em ``Ibizan hound"} and {\em ``mask"} with high confidence scores. These two examples thoroughly illustrate how ``looking and thinking twice'' improves classification tasks. 
 
-\textbf{Classification Accuracy:} We test our classification results on ImageNet 2014 validation set, which contains $\sim50,000$ images with each image associated with one label. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop~\footnote{Model from Caffe Model Zoo}. After the re-classification, the top 5 classification errors drops by $1.29\%$, and, moreover, top 1 error improves even more $1.79\%$. These results suggest that correct estimations of bounding boxes by a glance can provide more accurate classifications.
-
-\textbf{Ablative Study:} To further understand how ``Look and Think Twice'' improves the classification task, we divide the ImageNet 2014 validation set based on the proportion of the object size in the image. Figure~\ref{fig:reclassification_delta} shows the ablative study. We find that with feedbacks, classification errors drop significantly for images with smaller objects. For example, for objects of less than $20\%$ area of images, the top-1 classification error drops with almost
-$5\%$. This suggests traditional ConvNet is powerless in recognzing small objects with cluttered backgrounds, especially when the image is resized to a fixed resolution ({\em i.e.} $224*224$). Our algorithm, on contrary, could focus the network's attention onto the salient areas, extracting image patches with enough resolutions on the potential objects.
-
 \setlength{\tabcolsep}{2pt}
 \begin{figure}[htb]
 \begin{center}
@@ -297,6 +292,11 @@ $5\%$. This suggests traditional ConvNet is powerless in recognzing small object
 %\vspace{-10pt}
 \end{center}
 \end{figure}
+
+\textbf{Classification Accuracy:} We test our classification results on ImageNet 2014 validation set, which contains $\sim50,000$ images with each image associated with one label. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop~\footnote{Model from Caffe Model Zoo}. After the re-classification, the top 5 classification errors drops by $1.29\%$, and, moreover, top 1 error improves even more $1.79\%$. These results suggest that correct estimations of bounding boxes by a glance can provide more accurate classifications.
+
+\textbf{Ablative Study:} To further understand how ``Look and Think Twice'' improves the classification task, we divide the ImageNet 2014 validation set based on the proportion of the object size in the image. Figure~\ref{fig:reclassification_delta} shows the ablative study. We find that with feedbacks, classification errors drop significantly for images with smaller objects. For example, for objects of less than $20\%$ area of images, the top-1 classification error drops with almost
+$5\%$. This suggests traditional ConvNet is powerless in recognzing small objects with cluttered backgrounds, especially when the image is resized to a fixed resolution ({\em i.e.} $224*224$). Our algorithm, on contrary, could focus the network's attention onto the salient areas, extracting image patches with enough resolutions on the potential objects.
 
 \setlength{\tabcolsep}{0.5pt}
 \begin{figure}[htb]
@@ -319,7 +319,6 @@ $5\%$. This suggests traditional ConvNet is powerless in recognzing small object
 \end{tabular}
 % \vspace{-10pt}
 \caption{We select two examples in the ImageNet 2014 validation set to demonstrate the re-classification mechanism. column (a) shows the original images which ConvNets predict incorrect labels ({\em ``Italian greyhound"} and {\em ``sunglass"}), column (b) shows the 5 calculated bounding box areas using the top-5 saliency maps, column (c) shows the cropped images obtained from the red box which ConvNets predict the correct labels ({\em ``Ibizan hound"} and {\em ``mask"}) with high confidences.}
-
 \label{fig:reclassification_examples}
 % \vspace{-30pt}
 \end{center}
