@@ -264,9 +264,7 @@ GoogleNet Feedback & \textbf{30.49} & \textbf{10.46} \\ \hline
 \end{table}
 
 Given the weakly supervised attention boxes, the image labels are {\em re-classified} using zoomed-in image patches cropped around the bounding boxes. We call such method {\em ``Look and Think Twice''}, which mimics the human visual recognition process that human may focus to recognize objects in a complicated image after a first time glimpse. We apply this strategy to the image classification. By looking at the full image first in a coarse scale, our model obtains an initial
-guess of a set of most probable object classes, we then identify the salient object regions from the predicted top-ranked labels using the feedback neural nets, and re-classify those regions.
-
-Below are the \textbf{Implementation Details}:
+guess of a set of most probable object classes, we then identify the salient object regions from the predicted top-ranked labels using the feedback neural nets, and re-classify those regions. Below are the implementation details:
 \begin{center}
   \fbox{
     \parbox{0.95\linewidth}{
@@ -280,6 +278,8 @@ Below are the \textbf{Implementation Details}:
     }
   }
 \end{center}
+
+Two exemplar images from ImageNet 2014 validation dataset are shown in Figure~\ref{fig:reclassification_examples}. All these images are wrongly classified as {\em "Italian greyhound"} and {\em "sunglass"} respectively after feedforward. As after feedback, the network determines potential salient ROIs and ``reconsider'' these salient regions as input, and make correct classifications, e.g., {\em "Ibizan hound"} and {\em "mask"} with high confidence scores. These two examples thoroughly illustrate how ``looking and thinking twice'' improves classification tasks. 
 
 \textbf{Classification Accuracy:} We test our classification results on ImageNet 2014 validation set, which contains $\sim50,000$ images with each image associated with one label. Table~\ref{tab:reclassification_error} shows the classification results using a pre-trained GoogleNet on the original full image and on the image patch based on feedback crop~\footnote{Model from Caffe Model Zoo}. After the re-classification, the top 5 classification errors drops by $1.29\%$, and, moreover, top 1 error improves even more $1.79\%$. These results suggest that correct estimations of bounding boxes by a glance can provide more accurate classifications.
 
