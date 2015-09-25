@@ -263,7 +263,8 @@ GoogleNet Feedback & \textbf{30.49} & \textbf{10.46} \\ \hline
 \label{tab:reclassification_error}
 \end{table}
 
-Given the weakly supervised attention boxes, the image labels are {\em re-classified} using zoomed-in image patches cropped around the bounding boxes. We call such method {\em ``Look and Think Twice''}, which mimics the human visual recognition process that human may focus to recognize objects in a complicated image after a first time glimpse. We apply this strategy to the image classification. By looking at the full image first in a coarse scale, our model obtains an initial guess of a set of most probable object classes, we then identify the salient object regions from the predicted top-ranked labels using the feedback neural nets, and re-classify those regions. Below are the implementation details:
+Given the weakly supervised attention boxes, the image labels are {\em re-classified} using zoomed-in image patches cropped around the bounding boxes. We call such method {\em ``Look and Think Twice''}, which mimics the human visual recognition process that human may focus to recognize objects in a complicated image after a first time glimpse. We apply this strategy to the image classification. By looking at the full image first in a coarse scale, our model obtains an initial guess of a set
+of most probable object classes, we then identify the salient object regions from the predicted top-ranked labels using the feedback neural nets, and re-classify those regions. Below are the implementation details on ImageNet 2014 classification:
 \begin{center}
   \fbox{
     \parbox{0.95\linewidth}{
